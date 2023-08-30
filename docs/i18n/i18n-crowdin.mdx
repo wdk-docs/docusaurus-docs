@@ -342,7 +342,7 @@ Simple JSX fragments using simple string props like `<Username name="Sebastien"/
 
 #### MDX 解决方案 {#mdx-solutions}
 
-We recommend extracting the complex embedded JSX code as separate standalone components. We also added an `mdx-code-block` escape hatch syntax:
+我们建议将复杂的嵌入式 JSX 代码提取为单独的独立组件。我们还添加了一个`mdx-code-block`的逃生舱口语法:
 
 `````text
 # How to deploy Docusaurus
@@ -374,11 +374,11 @@ import TabItem from '@theme/TabItem';
 ````
 `````
 
-This will:
+这将:
 
-- be interpreted by Crowdin as code blocks (and not mess-up with the markup on download)
-- be interpreted by Docusaurus as regular JSX (as if it was not wrapped by any code block)
-- unfortunately opt-out of MDX tooling (IDE syntax highlighting, Prettier...)
+- 被 Crowdin 解释为代码块(而不是与下载时的标记混淆)
+- 被 Docusaurus 解释为常规的 JSX(就好像它没有被任何代码块包装一样)
+- 不幸的是，选择退出 MDX 工具(IDE 语法高亮，更漂亮…)
 
 ### 文档版本管理 {#docs-versioning}
 

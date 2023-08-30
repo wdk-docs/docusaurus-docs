@@ -1,24 +1,26 @@
 ---
-sidebar_label: Static site generation
-description: Docusaurus statically renders your React code into HTML, allowing faster load speed and better SEO.
+sidebar_label: 静态站点生成
+description: Docusaurus静态地将你的React代码渲染成HTML，允许更快的加载速度和更好的SEO。
 ---
 
 # 静态站点生成 (SSG)
 
-In [architecture](architecture.mdx), we mentioned that the theme is run in Webpack. But beware: that doesn't mean it always has access to browser globals! The theme is built twice:
+在[体系结构](architecture.mdx)中，我们提到主题是在 Webpack 中运行的。
+但要注意:这并不意味着它总是可以访问浏览器全局变量!主题构建了两次:
 
-- During **server-side rendering**, the theme is compiled in a sandbox called [React DOM Server](https://reactjs.org/docs/react-dom-server.html). You can see this as a "headless browser", where there is no `window` or `document`, only React. SSR produces static HTML pages.
-- During **client-side rendering**, the theme is compiled to JavaScript that gets eventually executed in the browser, so it has access to browser variables.
+- 在服务器端渲染期间，主题在一个名为[React DOM Server](https://reactjs.org/docs/react-dom-server.html)的沙盒中编译。
+  你可以把它看作是一个`无头浏览器`，其中没有`window` 或 `document`，只有 React。SSR 生成静态 HTML 页面。
+- 在**客户端呈现**期间，主题被编译成最终在浏览器中执行的 JavaScript，因此它可以访问浏览器变量。
 
 :::info SSR or SSG?
 
-_Server-side rendering_ and _static site generation_ can be different concepts, but we use them interchangeably.
+*服务器端渲染*和*静态站点生成*可以是不同的概念，但我们可以互换使用它们。
 
-Strictly speaking, Docusaurus is a static site generator, because there's no server-side runtime—we statically render to HTML files that are deployed on a CDN, instead of dynamically pre-rendering on each request. This differs from the working model of [Next.js](https://nextjs.org/).
+严格地说，Docusaurus 是一个静态站点生成器，因为没有服务器端运行时—我们静态地呈现到部署在 CDN 上的 HTML 文件，而不是在每个请求上动态地预呈现。这与[Next.js](https://nextjs.org/)的工作模型不同。
 
 :::
 
-Therefore, while you probably know not to access Node globals like `process` ([or can we?](#node-env)) or the `'fs'` module, you can't freely access browser globals either.
+因此，虽然你可能知道不能访问 Node 全局变量，比如`process`(或者可以吗?)(#node-env))或`'fs'`模块，但你也不能自由访问浏览器全局变量。
 
 ```jsx
 import React from "react";
@@ -28,20 +30,20 @@ export default function WhereAmI() {
 }
 ```
 
-This looks like idiomatic React, but if you run `docusaurus build`, you will get an error:
+这看起来像习惯的 React，但如果你运行`docusaurus build`，你会得到一个错误:
 
 ```
 ReferenceError: window is not defined
 ```
 
-This is because during server-side rendering, the Docusaurus app isn't actually run in browser, and it doesn't know what `window` is.
+这是因为在服务器端渲染期间，Docusaurus 应用程序实际上并不是在浏览器中运行的，而且它不知道什么是`window`。
 
 ```mdx-code-block
 <details id="node-env">
 <summary>What about <code>process.env.NODE_ENV</code>?</summary>
 ```
 
-One exception to the "no Node globals" rule is `process.env.NODE_ENV`. In fact, you can use it in React, because Webpack injects this variable as a global:
+`无节点全局变量`规则的一个例外是`process.env.NODE_ENV`。事实上，你可以在 React 中使用它，因为 Webpack 将这个变量作为全局变量注入:
 
 ```jsx
 import React from "react";
@@ -55,7 +57,7 @@ export default function expensiveComp() {
 }
 ```
 
-During Webpack build, the `process.env.NODE_ENV` will be replaced with the value, either `'development'` or `'production'`. You will then get different build results after dead code elimination:
+在 Webpack 构建过程中，`process.env.NODE_ENV`将被替换为`'development'` 或 `'production'`。在消除死代码后，您将获得不同的构建结果:
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -102,7 +104,7 @@ export default function expensiveComp() {
 </details>
 ```
 
-## Understanding SSR {#understanding-ssr}
+## 理解 SSR {#understanding-ssr}
 
 React is not just a dynamic UI runtime—it's also a templating engine. Because Docusaurus sites mostly contain static contents, it should be able to work without any JavaScript (which React runs in), but only plain HTML/CSS. And that's what server-side rendering offers: statically rendering your React code into HTML, without any dynamic content. An HTML file has no concept of client state (it's purely markup), hence it shouldn't rely on browser APIs.
 
@@ -112,15 +114,15 @@ In CSR-only apps, all DOM elements are generated on client side with React, and 
 
 Note that Docusaurus is ultimately a single-page application, so static site generation is only an optimization (_progressive enhancement_, as it's called), but our functionality does not fully depend on those HTML files. This is contrary to site generators like [Jekyll](https://jekyllrb.com/) and [Docusaurus v1](https://v1.docusaurus.io/), where all files are statically transformed to markup, and interactiveness is added through external JavaScript linked with `<script>` tags. If you inspect the build output, you will still see JS assets under `build/assets/js`, which are, really, the core of Docusaurus.
 
-## Escape hatches {#escape-hatches}
+## 逃避的退路 {#escape-hatches}
 
-If you want to render any dynamic content on your screen that relies on the browser API to be functional at all, for example:
+如果你想在屏幕上呈现任何依赖于浏览器 API 的动态内容，例如:
 
-- Our [live codeblock](../guides/markdown-features/markdown-features-code-blocks.mdx#interactive-code-editor), which runs in the browser's JS runtime
-- Our [themed image](../guides/markdown-features/markdown-features-assets.mdx#themed-images) that detects the user's color scheme to display different images
-- The JSON viewer of our debug panel which uses the `window` global for styling
+- 我们的[live codeblock](./guides/markdown-features/markdown-features-code-blocks.mdx#interactive-code-editor)，它运行在浏览器的 JS 运行时中
+- 我们的[主题图像](../guides/markdown-features/markdown-features-assets.mdx#theme -images)检测用户的配色方案以显示不同的图像
+- 调试面板的 JSON 查看器，它使用`window`全局样式
 
-You may need to escape from SSR since static HTML can't display anything useful without knowing the client state.
+您可能需要避开 SSR，因为静态 HTML 在不知道客户端状态的情况下无法显示任何有用的内容。
 
 :::caution
 

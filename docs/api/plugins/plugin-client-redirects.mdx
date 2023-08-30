@@ -5,46 +5,46 @@ slug: /api/plugins/@docusaurus/plugin-client-redirects
 
 # 📦 plugin-client-redirects
 
-import APITable from '@site/src/components/APITable';
+import APITable from "@site/src/components/APITable";
 
-Docusaurus Plugin to generate **client-side redirects**.
+Docusaurus 插件生成**客户端重定向**。
 
-This plugin will write additional HTML pages to your static site that redirect the user to your existing Docusaurus pages with JavaScript.
+这个插件将编写额外的 HTML 页面到您的静态站点，将用户重定向到您现有的 Docusaurus 页面与 JavaScript。
 
-:::caution production only
+:::caution 只生产
 
-This plugin is always inactive in development and **only active in production** because it works on the build output.
+这个插件在开发中总是不活跃的，**只有在生产中才活跃**，因为它在构建输出中工作。
 
 :::
 
 :::caution
 
-It is better to use server-side redirects whenever possible.
+最好尽可能使用服务器端重定向。
 
-Before using this plugin, you should look if your hosting provider doesn't offer this feature.
+在使用这个插件之前，你应该看看你的主机提供商是否提供这个功能。
 
 :::
 
-## Installation {#installation}
+## 安装 {#installation}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-client-redirects
 ```
 
-## Configuration {#configuration}
+## 配置 {#configuration}
 
-Accepted fields:
+接受字段:
 
 ```mdx-code-block
 <APITable>
 ```
 
-| Option | Type | Default | Description |
-| --- | --- | --- | --- |
-| `fromExtensions` | `string[]` | `[]` | The extensions to be removed from the route after redirecting. |
-| `toExtensions` | `string[]` | `[]` | The extensions to be appended to the route after redirecting. |
-| `redirects` | <code><a href="#RedirectRule">RedirectRule</a>[]</code> | `[]` | The list of redirect rules. |
-| `createRedirects` | <code><a href="#CreateRedirectsFn">CreateRedirectsFn</a></code> | `undefined` | A callback to create a redirect rule. Docusaurus query this callback against every path it has created, and use its return value to output more paths. |
+| 选项              | 类型                                                            | 默认的      | 描述                                                                                              |
+| ----------------- | --------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------- |
+| `fromExtensions`  | `string[]`                                                      | `[]`        | 重定向后要从路由中删除的扩展名。                                                                  |
+| `toExtensions`    | `string[]`                                                      | `[]`        | 重定向后要附加到路由的扩展名。                                                                    |
+| `redirects`       | <code><a href="#RedirectRule">RedirectRule</a>[]</code>         | `[]`        | 重定向规则列表。                                                                                  |
+| `createRedirects` | <code><a href="#CreateRedirectsFn">CreateRedirectsFn</a></code> | `undefined` | 创建重定向规则的回调。Docusaurus 针对它创建的每个路径查询这个回调，并使用它的返回值输出更多路径。 |
 
 ```mdx-code-block
 </APITable>
@@ -52,7 +52,7 @@ Accepted fields:
 
 :::note
 
-This plugin will also read the [`siteConfig.onDuplicateRoutes`](../docusaurus.config.js.mdx#onDuplicateRoutes) config to adjust its logging level when multiple files will be emitted to the same location.
+这个插件还将读取[`siteConfig.onDuplicateRoutes`](../docusaurus.config.js.mdx#onDuplicateRoutes)配置，以在多个文件将被发送到同一位置时调整其日志级别。
 
 :::
 
@@ -69,9 +69,12 @@ type RedirectRule = {
 
 :::note
 
-The idea of "from" and "to" is central in this plugin. "From" means a path that you want to _create_, i.e. an extra HTML file that will be written; "to" means a path to want to redirect _to_, usually a route that Docusaurus already knows about.
+`from`和`to`的概念是这个插件的核心。
+"From"意味着你想要*创建*的路径，即一个额外的 HTML 文件将被写入;
+"to"表示想要重定向*的*路径，通常是 Docusaurus 已经知道的路径。
 
-This is why you can have multiple "from" for the same "to": we will create multiple HTML files that all redirect to the same destination. On the other hand, one "from" can never have more than one "to": the written HTML file needs to have a determinate destination.
+这就是为什么同一个`to`可以有多个`from`:我们将创建多个 HTML 文件，它们都重定向到相同的目的地。
+另一方面，一个`from`永远不能有多个`to`:编写的 HTML 文件需要有一个确定的目的地。
 
 :::
 
@@ -84,37 +87,37 @@ This is why you can have multiple "from" for the same "to": we will create multi
 type CreateRedirectsFn = (path: string) => string[] | string | null | undefined;
 ```
 
-### Example configuration {#ex-config}
+### 示例配置 {#ex-config}
 
-Here's an example configuration:
+下面是一个示例配置:
 
 ```js title="docusaurus.config.js"
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-client-redirects',
+      "@docusaurus/plugin-client-redirects",
       // highlight-start
       {
-        fromExtensions: ['html', 'htm'], // /myPage.html -> /myPage
-        toExtensions: ['exe', 'zip'], // /myAsset -> /myAsset.zip (if latter exists)
+        fromExtensions: ["html", "htm"], // /myPage.html -> /myPage
+        toExtensions: ["exe", "zip"], // /myAsset -> /myAsset.zip (if latter exists)
         redirects: [
           // /docs/oldDoc -> /docs/newDoc
           {
-            to: '/docs/newDoc',
-            from: '/docs/oldDoc',
+            to: "/docs/newDoc",
+            from: "/docs/oldDoc",
           },
           // Redirect from multiple old paths to the new path
           {
-            to: '/docs/newDoc2',
-            from: ['/docs/oldDocFrom2019', '/docs/legacyDocFrom2016'],
+            to: "/docs/newDoc2",
+            from: ["/docs/oldDocFrom2019", "/docs/legacyDocFrom2016"],
           },
         ],
         createRedirects(existingPath) {
-          if (existingPath.includes('/community')) {
+          if (existingPath.includes("/community")) {
             // Redirect from /docs/team/X to /community/X and /docs/support/X to /community/X
             return [
-              existingPath.replace('/community', '/docs/team'),
-              existingPath.replace('/community', '/docs/support'),
+              existingPath.replace("/community", "/docs/team"),
+              existingPath.replace("/community", "/docs/support"),
             ];
           }
           return undefined; // Return a falsy value: no redirect created

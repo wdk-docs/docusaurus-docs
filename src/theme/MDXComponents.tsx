@@ -5,14 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import MDXComponents from '@theme-original/MDXComponents';
-import Code from '@theme/MDXComponents/Code';
-import Highlight from '@site/src/components/Highlight';
-import TweetQuote from '@site/src/components/TweetQuote';
+import MDXComponents from "@theme-original/MDXComponents";
+import Code from "@theme/MDXComponents/Code";
+import Highlight from "@site/src/components/Highlight";
+import TweetQuote from "@site/src/components/TweetQuote";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 export default {
   ...MDXComponents,
   Code,
   Highlight,
   TweetQuote,
+  Tabs,
+  TabItem,
 };

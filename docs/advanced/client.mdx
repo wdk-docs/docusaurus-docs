@@ -1,18 +1,19 @@
 ---
-description: How the Docusaurus client is structured
+description: Docusaurus客户端是如何构建的
 ---
 
 # 客户端架构
 
-## Theme aliases {#theme-aliases}
+## 主题的别名 {#theme-aliases}
 
-A theme works by exporting a set of components, e.g. `Navbar`, `Layout`, `Footer`, to render the data passed down from plugins. Docusaurus and users use these components by importing them using the `@theme` webpack alias:
+主题通过导出一组组件来工作，例如:`Navbar`, `Layout`, `Footer`，渲染从插件传递下来的数据。
+Docusaurus 和用户通过使用`@theme` webpack 别名导入这些组件来使用它们:
 
 ```js
 import Navbar from "@theme/Navbar";
 ```
 
-The alias `@theme` can refer to a few directories, in the following priority:
+别名`@theme`可以引用几个目录，优先级如下:
 
 1. A user's `website/src/theme` directory, which is a special directory that has the higher precedence.
 2. A Docusaurus theme package's `theme` directory.
@@ -76,7 +77,7 @@ The components in this "stack" are pushed in the order of `preset plugins > pres
 
 `@theme-init/*` always points to the bottommost component—usually, this comes from the theme or plugin that first provides this component. Individual plugins / themes trying to enhance code block can safely use `@theme-init/CodeBlock` to get its basic version. Site creators should generally not use this because you likely want to enhance the _topmost_ instead of the _bottommost_ component. It's also possible that the `@theme-init/CodeBlock` alias does not exist at all—Docusaurus only creates it when it points to a different one from `@theme-original/CodeBlock`, i.e. when it's provided by more than one theme. We don't waste aliases!
 
-## Client modules {#client-modules}
+## 客户端模块 {#client-modules}
 
 Client modules are part of your site's bundle, just like theme components. However, they are usually side-effect-ful. Client modules are anything that can be `import`ed by Webpack—CSS, JS, etc. JS scripts usually work on the global context, like registering event listeners, creating global variables...
 
@@ -113,18 +114,18 @@ CSS stylesheets imported as client modules are [global](../styling-layout.mdx#gl
 }
 ```
 
-### Client module lifecycles {#client-module-lifecycles}
+### 客户端模块生命周期 {#client-module-lifecycles}
 
-Besides introducing side-effects, client modules can optionally export two lifecycle functions: `onRouteUpdate` and `onRouteDidUpdate`.
+除了引入副作用，客户端模块还可以选择导出两个生命周期函数:`onRouteUpdate`和`onroutediduupdate`。
 
-Because Docusaurus builds a single-page application, `script` tags will only be executed the first time the page loads, but will not re-execute on page transitions. These lifecycles are useful if you have some imperative JS logic that should execute every time a new page has loaded, e.g., to manipulate DOM elements, to send analytics data, etc.
+因为 Docusaurus 构建的是单页面应用程序，所以`script`标签只会在页面第一次加载时执行，而不会在页面转换时重新执行。这些生命周期是有用的，如果你有一些命令式的 JS 逻辑，应该在每次加载新页面时执行，例如，操作 DOM 元素，发送分析数据等。
 
-For every route transition, there will be several important timings:
+对于每个路线转换，将有几个重要的时间安排:
 
-1. The user clicks a link, which causes the router to change its current location.
-2. Docusaurus preloads the next route's assets, while keeping displaying the current page's content.
-3. The next route's assets have loaded.
-4. The new location's route component gets rendered to DOM.
+1. 用户单击链接，导致路由器改变其当前位置。
+2. Docusaurus 预加载下一个路由的资源，同时保持显示当前页面的内容。
+3. 下一条路由的资源已经加载完毕。
+4. 新位置的路由组件被渲染到 DOM。
 
 `onRouteUpdate` will be called at event (2), and `onRouteDidUpdate` will be called at (4). They both receive the current location and the previous location (which can be `null`, if this is the first screen).
 
@@ -171,10 +172,10 @@ const module: ClientModule = {
 export default module;
 ```
 
-Both lifecycles will fire on first render, but they will not fire on server-side, so you can safely access browser globals in them.
+这两个生命周期都将在第一次渲染时触发，但不会在服务器端触发，因此您可以安全地在其中访问浏览器全局变量。
 
 :::tip Prefer using React
 
-Client module lifecycles are purely imperative, and you can't use React hooks or access React contexts within them. If your operations are state-driven or involve complicated DOM manipulations, you should consider [swizzling components](../swizzling.mdx) instead.
+客户端模块的生命周期是完全命令式的，你不能在其中使用 React 钩子或访问 React 上下文。如果您的操作是状态驱动的或涉及复杂的 DOM 操作，则应该考虑使用[搅拌组件](../swizzling.mdx)。
 
 :::

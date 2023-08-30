@@ -24,9 +24,9 @@ import ShowcaseTooltip from "./_components/ShowcaseTooltip";
 
 import styles from "./styles.module.css";
 
-const TITLE = translate({ message: "Docusaurus Site Showcase" });
+const TITLE = translate({ message: "Docusaurus Site 展示" });
 const DESCRIPTION = translate({
-  message: "List of websites people are building with Docusaurus",
+  message: "人们用Docusaurus建立的网站列表",
 });
 const SUBMIT_URL = "https://github.com/facebook/docusaurus/discussions/7826";
 
@@ -108,7 +108,7 @@ function ShowcaseHeader() {
       <Heading as="h1">{TITLE}</Heading>
       <p>{DESCRIPTION}</p>
       <Link className="button button--primary" to={SUBMIT_URL}>
-        <Translate id="showcase.header.button">🙏 Please add your site</Translate>
+        <Translate id="showcase.header.button">🙏 请添加您的站点</Translate>
       </Link>
     </section>
   );
@@ -123,7 +123,7 @@ function useSiteCountPlural() {
         {
           id: "showcase.filters.resultCount",
           description:
-            'Pluralized label for the number of sites found on the showcase. Use as much plural forms (separated by "|") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)',
+            "在展示台上发现的网站数量的复数标签。使用尽可能多的复数形式(以`|`分隔)，因为你的语言支持(参见https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)",
           message: "1 site|{sitesCount} sites",
         },
         { sitesCount }
@@ -139,7 +139,7 @@ function ShowcaseFilters() {
       <div className={clsx("margin-bottom--sm", styles.filterCheckbox)}>
         <div>
           <Heading as="h2">
-            <Translate id="showcase.filters.title">Filters</Translate>
+            <Translate id="showcase.filters.title">过滤器</Translate>
           </Heading>
           <span>{siteCountPlural(filteredUsers.length)}</span>
         </div>
@@ -246,7 +246,7 @@ function ShowcaseCards() {
             <div className="container">
               <div className={clsx("margin-bottom--md", styles.showcaseFavoriteHeader)}>
                 <Heading as="h2">
-                  <Translate id="showcase.favoritesList.title">Our favorites</Translate>
+                  <Translate id="showcase.favoritesList.title">我们的最爱</Translate>
                 </Heading>
                 <FavoriteIcon svgClass={styles.svgIconFavorite} />
                 <SearchBar />

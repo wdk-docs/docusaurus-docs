@@ -28,7 +28,7 @@ Docusaurus 站点是静态呈现的，它通常可以在没有 JavaScript 的情
 
 以下参数需要在`docusaurus.config.js`中优化路由并从正确的位置提供文件:
 
-| Name      | Description                                                                                             |
+| 名字      | 描述                                                                                                    |
 | --------- | ------------------------------------------------------------------------------------------------------- |
 | `url`     | 您网站的 URL。对于部署在`https://my-org.com/my-project/`的站点，`url`是`https://my-org.com/`。          |
 | `baseUrl` | 项目的基本 URL，带尾斜杠。对于部署在`https://my-org.com/my-project/`的站点，`baseUrl`是`/my-project/`。 |
@@ -220,41 +220,42 @@ repo           # git root
 
 ## 部署到 GitHub 页面 {#deploying-to-github-pages}
 
-Docusaurus provides an easy way to publish to [GitHub Pages](https://pages.github.com/), which comes free with every GitHub repository.
+Docusaurus 提供了一种简单的方法来发布到[GitHub Pages](https://pages.github.com/)，每个 GitHub 存储库都免费提供。
 
 ### 概述 {#github-pages-overview}
 
-Usually, there are two repositories (at least two branches) involved in a publishing process: the branch containing the source files, and the branch containing the build output to be served with GitHub Pages. In the following tutorial, they will be referred to as **"source"** and **"deployment"**, respectively.
+通常，在发布过程中涉及两个存储库(至少两个分支):包含源文件的分支，以及包含与 GitHub Pages 一起提供的构建输出的分支。在下面的教程中，它们将分别被称为**"source"** and **"deployment"**。
 
-Each GitHub repository is associated with a GitHub Pages service. If the deployment repository is called `my-org/my-project` (where `my-org` is the organization name or username), the deployed site will appear at `https://my-org.github.io/my-project/`. If the deployment repository is called `my-org/my-org.github.io` (the _organization GitHub Pages repo_), the site will appear at `https://my-org.github.io/`.
+每个 GitHub 存储库都与一个 GitHub Pages 服务相关联。如果部署存储库名为`my-org/my-project`(其中`my-org`是组织名称或用户名)，则部署的站点将显示为`https://my-org.github.io/my-project/`。如果部署存储库名为`my-org/my-org.github.io`(_organization GitHub Pages repo_)，该站点将出现在`https://my-org.github.io/`。
 
 :::info
 
-In case you want to use your custom domain for GitHub Pages, create a `CNAME` file in the `static` directory. Anything within the `static` directory will be copied to the root of the `build` directory for deployment. When using a custom domain, you should be able to move back from `baseUrl: '/projectName/'` to `baseUrl: '/'`, and also set your `url` to your custom domain.
+如果你想使用 GitHub 页面的自定义域名，在`static`目录下创建一个`CNAME`文件。`static`目录中的任何内容都将被复制到`build`目录的根目录中进行部署。
+当使用自定义域时，您应该能够从`baseUrl: '/projectName/'`移回`baseUrl: '/'`，并将您的`url`设置为自定义域。
 
-You may refer to GitHub Pages' documentation [User, Organization, and Project Pages](https://help.github.com/en/articles/user-organization-and-project-pages) for more details.
+您可以参考 GitHub Pages 的文档[用户、组织和项目页面](https://help.github.com/en/articles/user-organization-and-project-pages)了解更多细节。
 
 :::
 
-GitHub Pages picks up deploy-ready files (the output from `docusaurus build`) from the default branch (`master` / `main`, usually) or the `gh-pages` branch, and either from the root or the `/docs` folder. You can configure that through `Settings > Pages` in your repository. This branch will be called the "deployment branch".
+GitHub Pages 从默认分支(`master` / `main`，通常)或`gh-pages`分支，以及从根或`/docs`文件夹中获取部署准备文件(`docusaurus build`的输出)。您可以通过存储库中的`Settings > Pages`进行配置。这个分支将被称为"deployment branch"。
 
-We provide a `docusaurus deploy` command that helps you deploy your site from the source branch to the deployment branch in one command: clone, build, and commit.
+我们提供了一个`docusaurus deploy`命令，它可以帮助您通过一个命令将站点从源分支部署到部署分支:克隆、构建和提交。
 
-### `docusaurus.config.js` settings {#docusaurusconfigjs-settings}
+### `docusaurus.config.js` 设置 {#docusaurusconfigjs-settings}
 
-First, modify your `docusaurus.config.js` and add the following params:
+首先，修改你的`docusaurus.config.js`，并添加以下参数:
 
-| Name               | Description                                                                                                                                                                                                                      |
-| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `organizationName` | The GitHub user or organization that owns the deployment repository.                                                                                                                                                             |
-| `projectName`      | The name of the deployment repository.                                                                                                                                                                                           |
-| `deploymentBranch` | The name of the deployment branch. It defaults to `'gh-pages'` for non-organization GitHub Pages repos (`projectName` not ending in `.github.io`). Otherwise, it needs to be explicit as a config field or environment variable. |
+| 名字               | 描述                                                                                                                                              |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `organizationName` | 拥有部署存储库的 GitHub 用户或组织。                                                                                                              |
+| `projectName`      | 部署存储库的名称。                                                                                                                                |
+| `deploymentBranch` | 部署分支的名称。对于非组织 GitHub Pages repos (`projectName`不以`.github.io`结尾)，默认为`'gh-pages'`。否则，它需要显式地作为配置字段或环境变量。 |
 
-These fields also have their environment variable counterparts which have a higher priority: `ORGANIZATION_NAME`, `PROJECT_NAME`, and `DEPLOYMENT_BRANCH`.
+这些字段也有它们的环境变量对应，它们具有更高的优先级:`ORGANIZATION_NAME`， `PROJECT_NAME`和`DEPLOYMENT_BRANCH`。
 
 :::caution
 
-GitHub Pages adds a trailing slash to Docusaurus URLs by default. It is recommended to set a `trailingSlash` config (`true` or `false`, not `undefined`).
+GitHub Pages 默认为 Docusaurus url 添加尾斜杠。建议设置一个`trailingSlash`配置(`true`或`false`，而不是`undefined`)。
 
 :::
 
@@ -276,7 +277,7 @@ module.exports = {
 
 :::warning
 
-By default, GitHub Pages runs published files through [Jekyll](https://jekyllrb.com/). Since Jekyll will discard any files that begin with `_`, it is recommended that you disable Jekyll by adding an empty file named `.nojekyll` file to your `static` directory.
+默认情况下，GitHub Pages 通过[Jekyll](https://jekyllrb.com/)运行发布的文件。由于 Jekyll 将丢弃任何以`_`开头的文件，建议您通过在您的`static`目录中添加一个名为`.nojekyll`的空文件来禁用 Jekyll。
 
 :::
 
@@ -291,16 +292,16 @@ By default, GitHub Pages runs published files through [Jekyll](https://jekyllrb.
 | `GIT_USER_NAME`  | The `git config user.name` value to use when pushing to the deployment repo                                                                                                                                                               |
 | `GIT_USER_EMAIL` | The `git config user.email` value to use when pushing to the deployment repo                                                                                                                                                              |
 
-GitHub enterprise installations should work in the same manner as github.com; you only need to set the organization's GitHub Enterprise host as an environment variable:
+GitHub 企业安装应该以与 github.com 相同的方式工作;你只需要将组织的 GitHub 企业主机设置为环境变量:
 
-| Name          | Description                                     |
-| ------------- | ----------------------------------------------- |
-| `GITHUB_HOST` | The domain name of your GitHub enterprise site. |
-| `GITHUB_PORT` | The port of your GitHub enterprise site.        |
+| 名字          | 描述                         |
+| ------------- | ---------------------------- |
+| `GITHUB_HOST` | 您的 GitHub 企业网站的域名。 |
+| `GITHUB_PORT` | GitHub 企业站点的端口。      |
 
 ### 部署 {#deploy}
 
-Finally, to deploy your site to GitHub Pages, run:
+最后，要将您的站点部署到 GitHub Pages，请运行:
 
 ```mdx-code-block
 <Tabs>
@@ -336,47 +337,49 @@ cmd /C 'set "GIT_USER=<GITHUB_USERNAME>" && yarn deploy'
 
 :::caution
 
-Beginning in August 2021, GitHub requires every command-line sign-in to use the **personal access token** instead of the password. When GitHub prompts for your password, enter the PAT instead. See the [GitHub documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) for more information.
+从 2021 年 8 月开始，GitHub 要求每次命令行登录都使用**个人访问令牌**而不是密码。
+当 GitHub 提示输入密码时，请输入 PAT。
+请参阅[GitHub 文档](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)了解更多信息。
 
-Alternatively, you can use SSH (`USE_SSH=true`) to log in.
+或者，您可以使用 SSH (`USE_SSH=true`)登录。
 
 :::
 
 ### 使用 GitHub Actions 触发部署 {#triggering-deployment-with-github-actions}
 
-[GitHub Actions](https://help.github.com/en/actions) allow you to automate, customize, and execute your software development workflows right in your repository.
+[GitHub Actions](https://help.github.com/en/actions)允许您在存储库中自动，自定义和执行软件开发工作流。
 
-The workflow examples below assume your website source resides in the `main` branch of your repository (the _source branch_ is `main`), and your [publishing source](https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site) is configured for the `gh-pages` branch (the _deployment branch_ is `gh-pages`).
+下面的工作流示例假设您的网站源代码位于存储库的`主`分支中(*源分支*为`main`)，并且您的[发布源](https://help.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)配置为`gh-pages`分支(*部署分支*为`gh-pages`)。
 
-Our goal is that:
+我们的目标是:
 
-1. When a new pull request is made to `main`, there's an action that ensures the site builds successfully, without actually deploying. This job will be called `test-deploy`.
-2. When a pull request is merged to the `main` branch or someone pushes to the `main` branch directly, it will be built and deployed to the `gh-pages` branch. After that, the new build output will be served on the GitHub Pages site. This job will be called `deploy`.
+1. 当向`main`发出新的 pull 请求时，有一个动作可以确保站点构建成功，而无需实际部署。这个作业将被称为`测试-部署`。
+2. 当一个 pull 请求被合并到`main`分支或者有人直接推送到`main`分支时，它将被构建并部署到`gh-pages`分支。
+   之后，新的构建输出将在 GitHub Pages 站点上提供。这个作业将被称为`部署`。
 
-Here are two approaches to deploying your docs with GitHub Actions. Based on the location of your deployment branch (`gh-pages`), choose the relevant tab below:
+这里有两种使用 GitHub Actions 部署文档的方法。根据部署分支的位置(`gh-pages`)，选择下面的相关选项卡:
 
-- Source repo and deployment repo are the **same** repository.
-- The deployment repo is a **remote** repository, different from the source.
+- 源代码库和部署库是**同**一个存储库。
+- 部署 repo 是一个与源代码不同的**远程**存储库。
 
 ```mdx-code-block
 <Tabs>
 <TabItem value="same" label="Same">
 ```
 
-While you can have both jobs defined in the same workflow file, the original `deploy` workflow will always be listed as skipped in the PR check suite status, which is not indicative of the actual status and provides no value to the review process. We therefore propose to manage them as separate workflows instead.
-
-We will use a popular third-party deployment action: [peaceiris/actions-gh-pages](https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus).
+虽然您可以在相同的工作流文件中定义两个作业，但原始的`deploy`工作流将始终在 PR 检查套件状态中被列为跳过，这并不能指示实际状态，也没有为审查过程提供任何价值。因此，我们建议将它们作为单独的工作流来管理。
+我们将使用一个流行的第三方部署操作:[peaceiris/actions-gh-pages](https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus)。
 
 <details>
-<summary>GitHub action files</summary>
+<summary>GitHub 操作文件</summary>
 
-Add these two workflow files:
+添加这两个工作流文件:
 
-:::warning Tweak the parameters for your setup
+:::warning 为您的设置调整参数
 
-These files assume you are using Yarn. If you use npm, change `cache: yarn`, `yarn install --frozen-lockfile`, `yarn build` to `cache: npm`, `npm ci`, `npm run build` accordingly.
+这些文件假定您正在使用 Yarn。如果你使用 npm，把`cache: yarn`， `yarn install——frozen-lockfile`， `yarn build`改成`cache: npm`， `npm ci`， `npm run build`。
 
-If your Docusaurus project is not at the root of your repo, you may need to configure a [default working directory](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-set-the-default-shell-and-working-directory), and adjust the paths accordingly.
+如果你的 Docusaurus 项目不在你的 repo 的根目录下，你可能需要配置一个[默认工作目录](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-set-the-default-shell-and-working-directory)，并相应地调整路径。
 
 :::
 
@@ -460,29 +463,29 @@ jobs:
 <TabItem value="remote" label="Remote">
 ```
 
-A cross-repo publish is more difficult to set up because you need to push to another repo with permission checks. We will be using SSH to do the authentication.
+跨仓库发布更难设置，因为你需要通过权限检查将其推送到另一个仓库。我们将使用 SSH 进行身份验证。
 
-1. Generate a new [SSH key](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent). Since this SSH key will be used in CI, make sure to not enter any passphrase.
-2. By default, your public key should have been created in `~/.ssh/id_rsa.pub`; otherwise, use the name you've provided in the previous step to add your key to [GitHub deploy keys](https://developer.github.com/v3/guides/managing-deploy-keys/).
-3. Copy the key to clipboard with `pbcopy < ~/.ssh/id_rsa.pub` and paste it as a [deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) in the deployment repository. Copy the file content if the command line doesn't work for you. Check the box for `Allow write access` before saving your deployment key.
-4. You'll need your private key as a [GitHub secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets) to allow Docusaurus to run the deployment for you.
-5. Copy your private key with `pbcopy < ~/.ssh/id_rsa` and paste a GitHub secret with the name `GH_PAGES_DEPLOY` on your source repository. Copy the file content if the command line doesn't work for you. Save your secret.
-6. Create your [documentation workflow file](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#creating-a-workflow-file) in `.github/workflows/`. In this example it's `deploy.yml`.
+1. 生成新的[SSH 密钥](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)。由于此 SSH 密钥将在 CI 中使用，因此请确保不输入任何密码短语。
+2. 默认情况下，您的公钥应该在`~/.ssh/id_rsa.pub`中创建;否则，使用您在上一步中提供的名称将密钥添加到[GitHub deploy keys](https://developer.github.com/v3/guides/managing-deploy-keys/)。
+3. 使用`pbcopy < ~/.ssh/id_rsa.pub`将密钥复制到剪贴板，并将其作为[部署密钥](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys)粘贴到部署存储库中。如果命令行不适合您，则复制文件内容。在保存部署密钥之前，选中`Allow write access`框。
+4. 你需要你的私钥作为[GitHub secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets)来允许 Docusaurus 为你运行部署。
+5. 使用`pbcopy < ~/.ssh/id_rsa`复制您的私钥，并将名称为`GH_PAGES_DEPLOY`的 GitHub 秘密粘贴到源存储库上。如果命令行不适合您，则复制文件内容。保存你的秘密。
+6. 在`.github/workflows/`中创建您的[文档工作流文件](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#creating-a-workflow-file)。在本例中，它是`deploy.yml`。
 
-At this point, you should have:
+在这一点上，你应该有:
 
-- the source repo with the GitHub workflow set with the private SSH key as the GitHub Secret, and
-- your deployment repo set with the public SSH key in GitHub Deploy Keys.
+- 包含 GitHub 工作流集的源 repo，并将 SSH 私钥作为 GitHub Secret
+- 使用 GitHub Deploy Keys 中的公共 SSH 密钥设置部署库。
 
 <details>
 
-<summary>GitHub action file</summary>
+<summary>GitHub 操作文件</summary>
 
 :::warning
 
-Please make sure that you replace `actions@github.com` with your GitHub email and `gh-actions` with your name.
+请确保将`actions@github.com`替换为您的 GitHub 电子邮件地址，`gh-actions`替换为您的姓名。
 
-This file assumes you are using Yarn. If you use npm, change `cache: yarn`, `yarn install --frozen-lockfile`, `yarn build` to `cache: npm`, `npm ci`, `npm run build` accordingly.
+该文件假定您正在使用 Yarn。如果你使用 npm，把`cache: yarn`， `yarn install——frozen-lockfile`， `yarn build`改成`cache: npm`， `npm ci`， `npm run build`。
 
 :::
 
@@ -543,18 +546,20 @@ jobs:
 
 <details>
 
-<summary>Site not deployed properly?</summary>
+<summary>站点没有正确部署?</summary>
 
-After pushing to main, if you don't see your site published at the desired location (for example, it says "There isn't a GitHub Pages site here", or it's showing your repo's README.md file), try the following:
+推到主后，如果你没有看到你的网站发布在所需的位置(例如，它说"There isn't a GitHub Pages site here"，或者它显示你的 repo 的 README。Md 文件)，尝试以下操作:
 
-- Wait about three minutes and refresh. It may take a few minutes for GitHub pages to pick up the new files.
-- Check your repo's landing page for a little green tick next to the last commit's title, indicating the CI has passed. If you see a cross, it means the build or deployment failed, and you should check the log for more debugging information.
-- Click on the tick and make sure you see a "Deploy to GitHub Pages" workflow. Names like "pages build and deployment / deploy" are GitHub's default workflows, indicating your custom deployment workflow failed to be triggered at all. Make sure the YAML files are placed under the `.github/workflows` folder, and that the trigger condition is set correctly (e.g., if your default branch is "master" instead of "main", you need to change the `on.push` property).
-- Under your repo's Settings > Pages, make sure the "Source" (which is the source for the _deployment_ files, not "source" as in our terminology) is set to "gh-pages" + "/ (root)", since we are using `gh-pages` as the deployment branch.
+- 等待大约三分钟，刷新。GitHub 页面接收新文件可能需要几分钟。
+- 检查你的 repo 登陆页面，在最后一次提交的标题旁边有一个绿色的小勾号，表示 CI 已经通过。如果看到叉号，则表示构建或部署失败，您应该检查日志以获取更多调试信息。
+- 点击勾号，确保你看到一个"Deploy to GitHub Pages"的工作流程。
+  像"pages build and deployment / deploy"这样的名称是 GitHub 的默认工作流，表明您的自定义部署工作流根本没有被触发。
+  确保 YAML 文件被放置在`.github/workflows`文件夹下，并且触发条件设置正确(例如，如果你的默认分支是`master`而不是`main`，你需要更改`on.push`属性)。
+- 在 repo 的`Settings > Pages`下，确保`Source`(这是*deployment*文件的源，而不是我们术语中的`source`)被设置为"gh-pages" + "/ (root)"，因为我们使用的是`gh-pages`作为部署分支。
 
-If you are using a custom domain:
+如果您使用自定义域:
 
-- Verify that you have the correct DNS records set up if you're using a custom domain. See [GitHub pages documentation on configuring custom domains](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/about-custom-domains-and-github-pages). Also, please be aware that it may take up to 24 hours for DNS changes to propagate through the internet.
+- 如果您使用的是自定义域，请验证设置了正确的 DNS 记录。参见[配置自定义域的 GitHub 页面文档](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/about-custom-domains-and-github-pages)。此外，请注意，DNS 更改可能需要长达 24 小时才能通过互联网传播。
 
 </details>
 

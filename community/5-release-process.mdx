@@ -1,23 +1,23 @@
-# Release process
+# 发布过程
 
-Let's see how Docusaurus handles **versioning, releases and breaking changes**.
+让我们看看 Docusaurus 是如何处理**版本控制、发布和重大变更的**。
 
 :::info
 
-This topic is particularly important for highly customized sites that may have difficulties to upgrade.
+这个主题对于可能难以升级的高度定制的站点尤其重要。
 
 :::
 
-## Semantic versioning {#semantic-versioning}
+## 语义版本控制 {#semantic-versioning}
 
-Docusaurus versioning is based on the `major.minor.patch` scheme and respects [Semantic Versioning](https://semver.org/).
+Docusaurus 的版本控制基于`major.minor.patch` 方案，并尊重[语义版本控制](https://semver.org/)。
 
-Respecting Semantic Versioning is important for multiple reasons:
+尊重语义版本控制很重要，原因有很多:
 
-- It **guarantees simple minor version upgrades**, as long as you only use the [public API](/community/release-process#public-api-surface)
-- It follows front-end ecosystem conventions
-- A new major version is an opportunity to thoroughly document breaking changes
-- A new major/minor version is an opportunity to communicate new features through a blog post
+- 它保证了简单的小版本升级，只要你只使用[公共 API](/community/release-process#public-api-surface)
+- 它遵循前端生态系统惯例
+- 新的主版本是一个彻底记录破坏性更改的机会
+- 一个新的主要/次要版本是一个通过博客文章交流新特性的机会
 
 :::note
 
@@ -27,7 +27,7 @@ Releasing Docusaurus 2.0 took a very long time. From now on, Docusaurus will **r
 
 :::
 
-### Major versions {#major-versions}
+### 主要版本 {#major-versions}
 
 The `major` version number is incremented on **every breaking change**.
 
@@ -42,7 +42,7 @@ Read our [public API surface](#public-api-surface) section to clearly understand
 
 :::
 
-### Minor versions {#minor-versions}
+### 小版本 {#minor-versions}
 
 The `minor` version number is incremented on every significant retro-compatible change.
 
@@ -57,7 +57,7 @@ If you only use our [public API surface](#public-api-surface), you should be abl
 
 :::
 
-### Patch versions {#patch-versions}
+### 补丁版本 {#patch-versions}
 
 The `patch` version number is incremented on bugfixes releases.
 
@@ -65,7 +65,7 @@ Whenever a new patch version is released, we publish:
 
 - an exhaustive changelog entry
 
-## Versions {#versions}
+## 版本 {#versions}
 
 ```mdx-code-block
 import {
@@ -76,18 +76,21 @@ import {
 } from "@site/src/components/Versions";
 ```
 
-The Docusaurus team is usually working on 2 major versions at the same time:
+Docusaurus 团队通常同时开发两个主要版本:
 
-- **Docusaurus <StableMajorVersion/>**: the **stable** version, on the <StableMajorBranchLink/> branch
-- **Docusaurus <NextMajorVersion/>**: the **next** version, on the <NextMajorBranchLink/> branch
+- **Docusaurus <StableMajorVersion/>**: **稳定**版本， 在<StableMajorBranchLink/>分支上
+- **Docusaurus <NextMajorVersion/>**: **下一个**版本， 在<NextMajorBranchLink/>分支上
 
 :::note
 
-The <StableMajorBranchLink/> branch is created just before releasing the first v<StableMajorVersion/> release candidate.
+<StableMajorBranchLink />
+分支是在发布第一个v
+<StableMajorVersion />
+候选版本之前创建的。
 
 :::
 
-### Stable version {#stable-version}
+### 稳定的版本 {#stable-version}
 
 The stable version (v<StableMajorVersion/>, on <StableMajorBranchLink/>) is recommended for most Docusaurus users.
 
@@ -101,7 +104,7 @@ It is recommended to upgrade within that time frame to the new stable version.
 
 :::
 
-### Next version {#next-version}
+### 下一个版本 {#next-version}
 
 The next version (v<NextMajorVersion/>, on <NextMajorBranchLink/>) is the version the Docusaurus team is currently working on.
 
@@ -129,7 +132,7 @@ At the `beta` and `rc` (release candidate) phases, we avoid introducing major br
 
 :::
 
-## Public API surface {#public-api-surface}
+## 公共 API 接口 {#public-api-surface}
 
 Docusaurus commits to respecting Semantic Versioning. This means that whenever changes occur in Docusaurus public APIs and break backward compatibility, we will increment the `major` version number.
 
@@ -141,45 +144,45 @@ Docusaurus guarantees public API retro-compatibility across `minor` versions. Un
 
 We will outline what accounts as the public API surface.
 
-### Core public API {#core-public-api}
+### 核心公共 API {#core-public-api}
 
-✅ Our public API includes:
+✅ 我们的公共 API 包括:
 
-- Docusaurus config
-- Docusaurus client APIs
+- Docusaurus 配置
+- Docusaurus 客户端 APIs
 - Docusaurus CLI
-- Preset options
-- Plugin options
-- Plugin lifecycle APIs
-- Theme config
-- Core plugins route component props
-- `@docusaurus/types` TypeScript types
-  - We still retain the freedom to make types stricter (which may break type-checking).
+- Preset 选项
+- Plugin 选项
+- Plugin 生命周期 APIs
+- Theme 配置
+- 核心插件路由组件道具
+- `@docusaurus/types` TypeScript 类型
+  - 我们仍然保留了使类型更严格的自由(这可能会破坏类型检查)。
 
 :::tip
 
-For non-theme APIs, any documented API is considered public (and will be stable); any undocumented API is considered internal.
+对于非主题 API，任何有文档的 API 都被认为是公开的(并且将是稳定的);任何未记录的 API 都被认为是内部的。
 
 :::
 
-An API being "stable" means if you increment the patch or minor version of your Docusaurus installation without any other change, running `docusaurus start` or `docusaurus build` should not throw an error.
+API 是`稳定的`意味着如果你在没有任何其他更改的情况下增加了 Docusaurus 安装的补丁或小版本，运行`Docusaurus start`或`Docusaurus build`应该不会抛出错误。
 
-### Theming public API {#theming-public-api}
+### 主题化公共 API {#theming-public-api}
 
-Docusaurus has a very flexible theming system:
+Docusaurus 有一个非常灵活的主题系统:
 
-- You can use custom CSS
-- You can [swizzle](/docs/swizzling) any React theme component
+- 您可以使用自定义 CSS
+- 你可以[swizzle](/docs/swizzling)任何 React 主题组件
 
-This system also implicitly creates a very large API surface. To be able to move fast and improve Docusaurus, we can't guarantee retro-compatibility.
+该系统还隐式地创建了一个非常大的 API 界面。为了能够快速移动并改进 Docusaurus，我们不能保证向后兼容。
 
-✅ Our public theming API includes:
+✅ 我们的公共主题 API 包括:
 
-- [Theme class names](/docs/styling-layout#theme-class-names)
-- [Infima](/docs/styling-layout#styling-your-site-with-infima) class names and CSS variables
-- React components that are [safe to swizzle](/docs/swizzling#what-is-safe-to-swizzle)
-- The theme user experience
-- Browser support
+- [主题类名称](/docs/styling-layout#theme-class-names)
+- [Infima](/docs/styling-layout#styling-your-site-with-infima)类名和 CSS 变量
+- React 组件[可以安全搅拌](/docs/swizzling#what-is-safe-to-swizzle)
+- 主题用户体验
+- 浏览器支持
 
 :::tip
 

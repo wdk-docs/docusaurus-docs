@@ -3,6 +3,7 @@
 
 const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
+const defaultLocale = "zh";
 
 /** @type {import('@docusaurus/types').Config} */
 module.exports = async function createConfigAsync() {
@@ -12,15 +13,16 @@ module.exports = async function createConfigAsync() {
     favicon: "img/favicon.ico",
 
     // Set the production url of your site here
-    url: "https://your-docusaurus-test-site.com",
+    url: "https://wdk-docs.github.io",
     // Set the /<baseUrl>/ pathname under which your site is served
     // For GitHub pages deployment, it is often '/<projectName>/'
     baseUrl: "/",
 
     // GitHub pages deployment config.
     // If you aren't using GitHub pages, you don't need these.
-    organizationName: "facebook", // Usually your GitHub org/user name.
-    projectName: "docusaurus", // Usually your repo name.
+    organizationName: "wdk-docs", // Usually your GitHub org/user name.
+    projectName: "docusaurus-docs", // Usually your repo name.
+    trailingSlash: false,
 
     onBrokenLinks: "throw",
     onBrokenMarkdownLinks: "warn",
@@ -117,46 +119,97 @@ module.exports = async function createConfigAsync() {
           style: "dark",
           links: [
             {
-              title: "Docs",
+              title: "学习",
               items: [
                 {
-                  label: "Tutorial",
-                  to: "/docs/intro",
+                  label: "介绍",
+                  to: "docs",
+                },
+                {
+                  label: "安装",
+                  to: "docs/installation",
+                },
+                {
+                  label: "从v1迁移到v2",
+                  to: "docs/migration",
                 },
               ],
             },
             {
-              title: "Community",
+              title: "社区",
               items: [
                 {
                   label: "Stack Overflow",
                   href: "https://stackoverflow.com/questions/tagged/docusaurus",
                 },
                 {
+                  label: "特性请求",
+                  to: "/feature-requests",
+                },
+                {
                   label: "Discord",
                   href: "https://discordapp.com/invite/docusaurus",
                 },
                 {
-                  label: "Twitter",
-                  href: "https://twitter.com/docusaurus",
+                  label: "帮助",
+                  to: "/community/support",
                 },
               ],
             },
             {
-              title: "More",
+              title: "更多的",
               items: [
                 {
-                  label: "Blog",
-                  to: "/blog",
+                  label: "博客",
+                  to: "blog",
+                },
+                {
+                  label: "更新日志",
+                  to: "/changelog",
                 },
                 {
                   label: "GitHub",
                   href: "https://github.com/facebook/docusaurus",
                 },
+                {
+                  label: "推特",
+                  href: "https://twitter.com/docusaurus",
+                },
+                {
+                  html: `
+                <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
+                  <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" width="114" height="51" />
+                </a>
+              `,
+                },
+              ],
+            },
+            {
+              title: "法律",
+              // Please don't remove the privacy and terms, it's a legal
+              // requirement.
+              items: [
+                {
+                  label: "隐私",
+                  href: "https://opensource.facebook.com/legal/privacy/",
+                },
+                {
+                  label: "条款",
+                  href: "https://opensource.facebook.com/legal/terms/",
+                },
+                {
+                  label: "Cookie 策略",
+                  href: "https://opensource.facebook.com/legal/cookie-policy/",
+                },
               ],
             },
           ],
-          copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+          logo: {
+            alt: "Meta开源Logo",
+            src: "/img/meta_opensource_logo_negative.svg",
+            href: "https://opensource.fb.com",
+          },
+          copyright: `Copyright © ${new Date().getFullYear()} 元平台, Inc. 用Docusaurus建造的。`,
         },
         prism: {
           theme: lightCodeTheme,
@@ -190,10 +243,61 @@ module.exports = async function createConfigAsync() {
           disableInDev: true,
         }),
       ],
+      // [
+      //   require.resolve("./src/plugins/changelog/index.js"),
+      //   {
+      //     blogTitle: "Docusaurus 更新日志",
+      //     blogDescription: "让自己随时了解每个版本中的新特性",
+      //     blogSidebarCount: "ALL",
+      //     blogSidebarTitle: "更新日志",
+      //     routeBasePath: "/changelog",
+      //     showReadingTime: false,
+      //     postsPerPage: 20,
+      //     archiveBasePath: null,
+      //     authorsMapPath: "authors.json",
+      //     feedOptions: {
+      //       type: "all",
+      //       title: "Docusaurus 更新日志",
+      //       description: "让自己随时了解每个版本中的新特性",
+      //       copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
+      //       language: defaultLocale,
+      //     },
+      //   },
+      // ],
+      "@docusaurus/theme-mermaid",
+      [
+        "client-redirects",
+        /** @type {import('@docusaurus/plugin-client-redirects').Options} */
+        ({
+          fromExtensions: ["html"],
+          createRedirects(routePath) {
+            // Redirect to /docs from /docs/introduction (now docs root doc)
+            if (routePath === "/docs" || routePath === "/docs/") {
+              return [`${routePath}/introduction`];
+            }
+            return [];
+          },
+          redirects: [
+            {
+              from: ["/docs/support", "/docs/next/support"],
+              to: "/community/support",
+            },
+            {
+              from: ["/docs/team", "/docs/next/team"],
+              to: "/community/team",
+            },
+            {
+              from: ["/docs/resources", "/docs/next/resources"],
+              to: "/community/resources",
+            },
+            // ...dogfoodingRedirects,
+          ],
+        }),
+      ],
     ],
     markdown: {
       mermaid: true,
     },
-    themes: ["@docusaurus/theme-mermaid"],
+    // themes: ["@docusaurus/theme-mermaid"],
   };
 };

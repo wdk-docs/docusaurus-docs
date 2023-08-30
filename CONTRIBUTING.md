@@ -1,19 +1,19 @@
-# Contributing to Docusaurus
+# 对 Docusaurus 有贡献
 
-[Docusaurus](https://docusaurus.io) is our way to hopefully help make open source documentation easier. We currently have [multiple open source projects using it](https://docusaurus.io/showcase), with many more planned. If you're interested in contributing to Docusaurus, hopefully, this document makes the process for contributing clear.
+[Docusaurus](https://docusaurus.io)是我们希望帮助开源文档变得更容易的方式。我们目前有[多个使用它的开源项目](https://docusaurus.io/showcase)，还有更多的计划。如果你有兴趣为 Docusaurus 做贡献，希望这份文档能让贡献的过程变得清晰。
 
-The [Open Source Guides](https://opensource.guide/) website has a collection of resources for individuals, communities, and companies who want to learn how to run and contribute to an open source project. Contributors and people new to open source alike will find the following guides especially useful:
+[开源指南](https://opensource.guide/)网站为想要学习如何运行和贡献开源项目的个人、社区和公司提供了一系列资源。贡献者和刚接触开源的人都会发现以下指南特别有用:
 
-- [How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)
-- [Building Welcoming Communities](https://opensource.guide/building-community/)
+- [如何为开源做出贡献](https://opensource.guide/how-to-contribute/)
+- [建立友好社区](https://opensource.guide/building-community/)
 
 ## 行为准则
 
-Facebook has adopted a Code of Conduct that we expect project participants to adhere to. Please read [the full text](https://code.fb.com/codeofconduct) so that you can understand what actions will and will not be tolerated.
+Facebook 采用了一套行为准则，我们希望项目参与者能够遵守。请阅读[全文](https://code.fb.com/codeofconduct)，以便您了解哪些行为会被容忍，哪些行为不会被容忍。
 
 ## 参与
 
-There are many ways to contribute to Docusaurus, and many of them do not involve writing any code. Here's a few ideas to get started:
+有很多方法可以为 Docusaurus 做出贡献，其中很多都不需要编写任何代码。这里有一些开始的想法:
 
 - Simply start using Docusaurus. Go through the [Getting Started](https://docusaurus.io/docs/installation) guide. Does everything work as expected? If not, we're always looking for improvements. Let us know by [opening an issue](#issues).
 - Look through the [open issues](https://github.com/facebook/docusaurus/issues). Provide workarounds, ask for clarification, or suggest labels. Help [triage issues](#triaging-issues-and-pull-requests).

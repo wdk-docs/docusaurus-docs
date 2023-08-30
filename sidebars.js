@@ -115,7 +115,7 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "先进的指导",
+      label: "高级教程",
       link: { type: "doc", id: "advanced/index" },
       items: ["advanced/architecture", "advanced/plugins", "advanced/routing", "advanced/ssg", "advanced/client"],
     },

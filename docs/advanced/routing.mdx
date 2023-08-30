@@ -1,5 +1,5 @@
 ---
-description: "Docusaurus' routing system follows single-page application conventions: one route, one component."
+description: "Docusaurus的路由系统遵循单页应用惯例:一条路由，一个组件。"
 ---
 
 # 路由
@@ -11,11 +11,12 @@ import {useLocation} from '@docusaurus/router';
 import BrowserWindow from '@site/src/components/BrowserWindow';
 ```
 
-Docusaurus' routing system follows single-page application conventions: one route, one component. In this section, we will begin by talking about routing within the three content plugins (docs, blog, and pages), and then go beyond to talk about the underlying routing system.
+Docusaurus 的路由系统遵循单页应用惯例:一条路由，一个组件。
+在本节中，我们将首先讨论三个内容插件(文档、博客和页面)中的路由，然后进一步讨论底层路由系统。
 
-## Routing in content plugins {#routing-in-content-plugins}
+## 内容插件中的路由 {#routing-in-content-plugins}
 
-Every content plugin provides a `routeBasePath` option. It defines where the plugins append their routes to. By default, the docs plugin puts its routes under `/docs`; the blog plugin, `/blog`; and the pages plugin, `/`. You can think about the route structure like this:
+每个内容插件都提供一个`routeBasePath`选项。它定义了插件将路由附加到哪里。默认情况下，docs 插件把它的路由放在`/docs`下;博客插件`/blog`;和页面插件`/`。你可以这样考虑路由结构:
 
 ```mermaid
 graph LR;
@@ -24,9 +25,9 @@ graph LR;
     C(["/docs/"])
     D(["/blog/"])
     E(["/"])
-    F["All docs <br/>routes"]
-    G["All blog <br/>routes"]
-    H["All pages <br/>routes"]
+    F["所有文档路由"]
+    G["所有博客路由"]
+    H["所有页面路由"]
     A---B;
     B---C;
     B---D;
@@ -36,21 +37,21 @@ graph LR;
     E---H;
 ```
 
-Any route will be matched against this nested route config until a good match is found. For example, when given a route `/docs/configuration`, Docusaurus first enters the `/docs` branch, and then searches among the subroutes created by the docs plugin.
+任何路由都将与这个嵌套的路由配置匹配，直到找到一个好的匹配。例如，当给定一个路由`/docs/configuration`时，Docusaurus 首先进入`/docs`分支，然后在 docs 插件创建的子路由中搜索。
 
-Changing `routeBasePath` can effectively alter your site's route structure. For example, in [Docs-only mode](../guides/docs/docs-introduction.mdx#docs-only-mode), we mentioned that configuring `routeBasePath: '/'` for docs means that all routes that the docs plugin create would not have the `/docs` prefix, yet it doesn't prevent you from having more subroutes like `/blog` created by other plugins.
+更改`routeBasePath`可以有效地改变站点的路由结构。例如，在[docs-only 模式](./guides/docs/docs-introduction.mdx#docs-only-mode)中，我们提到为 docs 配置`routeBasePath: '/'`意味着 docs 插件创建的所有路由都不会有`/docs`前缀，但它并不能阻止其他插件创建更多像`/blog`这样的子路由。
 
-Next, let's look at how the three plugins structure their own "boxes of subroutes".
+接下来，让我们看看这三个插件是如何构建它们自己的`子路由盒子`的。
 
-### Pages routing {#pages-routing}
+### 页面路由 {#pages-routing}
 
-Pages routing are straightforward: the file paths directly map to URLs, without any other way to customize. See the [pages docs](../guides/creating-pages.mdx#routing) for more information.
+页面路由很简单:文件路径直接映射到 URLs，不需要任何其他自定义方式。请参阅[pages 文档](../guides/creating-pages.mdx#routing)了解更多信息。
 
-The component used for Markdown pages is `@theme/MDXPage`. React pages are directly used as the route's component.
+用于 Markdown 页面的组件是`@theme/MDXPage`。React 页面被直接用作路由的组件。
 
-### Blog routing {#blog-routing}
+### 博客路由 {#blog-routing}
 
-The blog creates the following routes:
+该博客创建了以下路由:
 
 - **Posts list pages**: `/`, `/page/2`, `/page/3`...
   - The component is `@theme/BlogListPage`.
@@ -69,7 +70,7 @@ The blog creates the following routes:
   - The route is customizable through the `archiveBasePath` option.
   - The component is `@theme/BlogArchivePage`.
 
-### Docs routing {#docs-routing}
+### 文档路由 {#docs-routing}
 
 The docs is the only plugin that creates **nested routes**. At the top, it registers [**version paths**](../guides/docs/versioning.mdx): `/`, `/next`, `/2.0.0-beta.13`... which provide the version context, including the layout and sidebar. This ensures that when switching between individual docs, the sidebar's state is preserved, and that you can switch between versions through the navbar dropdown while staying on the same doc. The component used is `@theme/DocPage`.
 
@@ -86,7 +87,7 @@ The individual docs are rendered in the remaining space after the navbar, footer
 
 The doc's `slug` front matter customizes the last part of the route, but the base route is always defined by the plugin's `routeBasePath` and the version's `path`.
 
-### File paths and URL paths {#file-paths-and-url-paths}
+### 文件路径和 URL 路径 {#file-paths-and-url-paths}
 
 Throughout the documentation, we always try to be unambiguous about whether we are talking about file paths or URL paths. Content plugins usually map file paths directly to URL paths, for example, `./docs/advanced/routing.md` will become `/docs/advanced/routing`. However, with `slug`, you can make URLs totally decoupled from the file structure.
 
@@ -145,7 +146,7 @@ The following directory structure may help you visualize this file → URL mappi
 
 So much about content plugins. Let's take one step back and talk about how routing works in a Docusaurus app in general.
 
-## Routes become HTML files {#routes-become-html-files}
+## 路由变成 HTML 文件 {#routes-become-html-files}
 
 Because Docusaurus is a server-side rendering framework, all routes generated will be server-side rendered into static HTML files. If you are familiar with the behavior of HTTP servers like [Apache2](https://httpd.apache.org/docs/trunk/getting-started.html), you will understand how this is done: when the browser sends a request to the route `/docs/advanced/routing`, the server interprets that as request for the HTML file `/docs/advanced/routing/index.html`, and returns that.
 
@@ -219,7 +220,7 @@ For example, the emitted HTML would contain links like `<link rel="preload" href
 
 Localized sites have the locale as part of the base URL as well. For example, `https://docusaurus.io/zh-CN/docs/advanced/routing/` has base URL `/zh-CN/`.
 
-## Generating and accessing routes {#generating-and-accessing-routes}
+## 生成和访问路由 {#generating-and-accessing-routes}
 
 The `addRoute` lifecycle action is used to generate routes. It registers a piece of route config to the route tree, giving a route, a component, and props that the component needs. The props and the component are both provided as paths for the bundler to `require`, because as explained in the [architecture overview](architecture.mdx), server and client only communicate through temp files.
 
@@ -261,7 +262,7 @@ export function PageRoute() {
 </BrowserWindow>
 ```
 
-## Escaping from SPA redirects {#escaping-from-spa-redirects}
+## 逃避 SPA 重定向 {#escaping-from-spa-redirects}
 
 Docusaurus builds a [single-page application](https://developer.mozilla.org/en-US/docs/Glossary/SPA), where route transitions are done through the `history.push()` method of React router. This operation is done on the client side. However, the prerequisite for a route transition to happen this way is that the target URL is known to our router. Otherwise, the router catches this path and displays a 404 page instead.
 

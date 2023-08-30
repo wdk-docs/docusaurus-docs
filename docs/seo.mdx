@@ -52,7 +52,7 @@ module.exports = {
 };
 ```
 
-Docusaurus 添加了一些开箱即用的元数据。例如，如果您已经配置了[i18n](./i18n/i18n-引言.mdx)，您将得到一个[`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions)替代链接。
+Docusaurus 添加了一些开箱即用的元数据。例如，如果您已经配置了[i18n](./i18n/i18n-introduction.mdx)，您将得到一个[`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions)替代链接。
 
 要了解更多关于元标签的类型，请访问[MDN 文档](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta)。
 
@@ -110,7 +110,7 @@ keywords: [keywords, describing, the main topics]
 
 :::
 
-对于 JSX 页面，您可以使用 Docusaurus [`<Head>`](Docusaurus -core.mdx# Head)组件。
+对于 JSX 页面，您可以使用 Docusaurus [`<Head>`](docusaurus-core.mdx# Head)组件。
 
 ```jsx title="my-react-page.jsx"
 import React from "react";
@@ -185,7 +185,7 @@ Disallow:
 
 **Important**: `robots.txt`文件**不会**阻止 HTML 页面被索引。
 
-为了防止你的整个 Docusaurus 站点被索引，使用[`noIndex`](./api/ Docusaurus .config.js.mdx#noIndex)站点配置。一些[托管提供商](./deployment.mdx)也可能让你配置一个`X-Robots-Tag: noindex` HTTP 标头(GitHub Pages 不支持这个)。
+为了防止你的整个 Docusaurus 站点被索引，使用[`noIndex`](./api/docusaurus.config.js.mdx#noIndex)站点配置。一些[托管提供商](./deployment.mdx)也可能让你配置一个`X-Robots-Tag: noindex` HTTP 标头(GitHub Pages 不支持这个)。
 
 为了防止单个页面被索引，使用`<meta name="robots" content="noindex">`作为[页面元数据](#single-page-metadata)。阅读更多关于[robots 元标签](https://developers.google.com/search/docs/advanced/robots/robots_meta_tag)。
 

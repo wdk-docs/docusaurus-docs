@@ -1,4 +1,4 @@
-# Canary releases
+# 金丝雀的版本
 
 ```mdx-code-block
 import {
@@ -14,17 +14,17 @@ import {
 <VersionsProvider>
 ```
 
-Docusaurus has a canary releases system.
+Docusaurus 有一个释放金丝雀的系统。
 
-It permits you to **test new unreleased features** as soon as the pull requests are merged on the [next version](./5-release-process.mdx#next-version) of Docusaurus.
+它允许你在合并到 Docusaurus 的[下一个版本](./5-release-process.mdx#next-version)时测试新的未发布的特性。
 
-It is a good way to **give feedback to maintainers**, ensuring the newly implemented feature works as intended.
+这是一个给维护者反馈的好方法，确保新实现的功能按预期工作。
 
 :::note
 
-Using a canary release in production might seem risky, but in practice, it's not.
+在生产环境中使用金丝雀版本似乎有风险，但在实践中却并非如此。
 
-A canary release passes all automated tests and is used in production by the Docusaurus site itself.
+金丝雀版本通过了所有自动化测试，并由 Docusaurus 站点本身在生产环境中使用。
 
 :::
 
@@ -34,7 +34,7 @@ A canary release passes all automated tests and is used in production by the Doc
 
 :::caution
 
-The canary version shown below **may not be up-to-date**. Please go to the [npm page](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions) to find the actual version name.
+下面显示的金丝雀版本可能不是最新的。请到[npm 页面](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions)找到实际的版本名称。
 
 :::
 
@@ -53,7 +53,7 @@ The canary version shown below is directly fetched from npm and **is up-to-date*
 </InsertIfCanaryVersionKnown>
 ```
 
-## Canary npm dist tag
+## 金丝雀 npm dist 标签
 
 For any code-related commit on `main`, the continuous integration will publish a canary release under the `@canary` npm dist tag. It generally takes up to 10 minutes.
 
@@ -74,7 +74,7 @@ Canary versions follow the naming convention `0.0.0-commitNumber`.
 
 :::
 
-## Using a canary release
+## 使用金丝雀释放器
 
 Take the latest version published under the [canary npm dist tag](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions) (<CanaryVersion />).
 
