@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdocusaurus_docs=self.webpackChunkdocusaurus_docs||[]).push([[15],{1430:s=>{s.exports=JSON.parse('{"name":"feature-requests-plugin","id":"default"}')}}]);

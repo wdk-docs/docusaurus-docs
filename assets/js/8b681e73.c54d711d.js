@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocusaurus_docs=self.webpackChunkdocusaurus_docs||[]).push([[10569],{61203:s=>{s.exports=JSON.parse('{"permalink":"/docusaurus-docs/blog/tags/birth","page":1,"postsPerPage":5,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocusaurus_docs=self.webpackChunkdocusaurus_docs||[]).push([[9254],{26232:s=>{s.exports=JSON.parse('{"permalink":"/docusaurus-docs/blog/tags/adoption","page":1,"postsPerPage":5,"totalPages":1,"totalCount":2,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocusaurus_docs=self.webpackChunkdocusaurus_docs||[]).push([[14682],{12039:s=>{s.exports=JSON.parse('{"name":"changelog-plugin","id":"default"}')}}]);

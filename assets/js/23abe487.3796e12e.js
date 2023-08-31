@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocusaurus_docs=self.webpackChunkdocusaurus_docs||[]).push([[19627],{62509:(s,c,e)=>{e.r(c),e.d(c,{default:()=>t});var u=e(85893),n=(e(67294),e(70397)),r=e(84099),o=e(67913);function t(){const{siteConfig:s}=(0,n.Z)();return(0,u.jsxs)(r.Z,{children:[(0,u.jsx)("h2",{children:"Site config"}),(0,u.jsx)(o.Z,{src:s,collapseDepth:3})]})}}}]);
