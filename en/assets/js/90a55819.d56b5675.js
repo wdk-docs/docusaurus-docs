@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocusaurus_docs=self.webpackChunkdocusaurus_docs||[]).push([[15449],{99195:s=>{s.exports=JSON.parse('{"permalink":"/docusaurus-docs/en/blog/tags/recap","page":1,"postsPerPage":5,"totalPages":1,"totalCount":3,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocusaurus_docs=self.webpackChunkdocusaurus_docs||[]).push([[55460],{87317:s=>{s.exports=JSON.parse('{"label":"i18n","permalink":"/docusaurus-docs/en/blog/tags/i-18-n","allTagsPath":"/docusaurus-docs/en/blog/tags","count":1,"unlisted":false}')}}]);

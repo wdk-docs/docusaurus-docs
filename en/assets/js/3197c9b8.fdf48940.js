@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocusaurus_docs=self.webpackChunkdocusaurus_docs||[]).push([[8412],{14295:s=>{s.exports=JSON.parse('{"label":"adoption","permalink":"/docusaurus-docs/en/blog/tags/adoption","allTagsPath":"/docusaurus-docs/en/blog/tags","count":2,"unlisted":false}')}}]);
