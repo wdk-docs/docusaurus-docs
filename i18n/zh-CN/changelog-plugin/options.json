@@ -1,14 +1,14 @@
 {
   "title": {
-    "message": "Docusaurus changelog",
+    "message": "文档龙更新日志",
     "description": "The title for the blog used in SEO"
   },
   "description": {
-    "message": "Keep yourself up-to-date about new features in every release",
+    "message": "让自己随时了解每个版本中的新特性",
     "description": "The description for the blog used in SEO"
   },
   "sidebar.title": {
-    "message": "Changelog",
+    "message": "更新日志",
     "description": "The label for the left sidebar"
   }
 }

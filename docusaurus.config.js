@@ -98,13 +98,13 @@ function getLocalizedConfigValue(/** @type {string} */ key) {
 /** @returns {Promise<import('@docusaurus/types').Config>} */
 module.exports = async function createConfigAsync() {
   return {
-    title: "Docusaurus",
+    title: "文档龙",
     tagline: getLocalizedConfigValue("tagline"),
-    organizationName: "facebook",
-    projectName: "docusaurus",
+    organizationName: "wdk-docs",
+    projectName: "docusaurus-docs",
     baseUrl,
     baseUrlIssueBanner: true,
-    url: "https://docusaurus.io",
+    url: "https://wdk-docs.github.io",
     // Dogfood both settings:
     // - force trailing slashes for deploy previews
     // - avoid trailing slashes in prod
@@ -174,7 +174,7 @@ module.exports = async function createConfigAsync() {
         return result;
       },
     },
-    onBrokenLinks: "throw",
+    onBrokenLinks: "warn", //throw
     onBrokenMarkdownLinks: "warn",
     favicon: "img/docusaurus.ico",
     customFields: {
@@ -414,7 +414,7 @@ module.exports = async function createConfigAsync() {
           },
           gtag: !(isDeployPreview || isBranchDeploy)
             ? {
-                trackingID: ["G-E5CR2Q1NRE", "UA-141789564-1"],
+                trackingID: ["G-GR2MFTJ89C"],
               }
             : undefined,
           sitemap: {
@@ -444,7 +444,7 @@ module.exports = async function createConfigAsync() {
         },
         announcementBar: {
           id: "announcementBar-2", // Increment on change
-          content: `⭐️ If you like Docusaurus, give it a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/docusaurus">Twitter ${TwitterSvg}</a>`,
+          content: `⭐️ 如果你喜欢文档龙, 在<a target="_blank" rel="noopener noreferrer" href="https://github.com/facebook/docusaurus">GitHub</a>上给它打个星在推特上<a target="_blank" rel="noopener noreferrer" href="https://twitter.com/docusaurus">Twitter ${TwitterSvg}</a>关注我们`,
         },
         prism: {
           additionalLanguages: ["java", "latex", "php"],
@@ -464,18 +464,18 @@ module.exports = async function createConfigAsync() {
         },
         image: "img/docusaurus-social-card.jpg",
         // metadata: [{name: 'twitter:card', content: 'summary'}],
-        algolia: {
-          appId: "X1Z85QJPUV",
-          apiKey: "bf7211c161e8205da2f933a02534105a",
-          indexName: "docusaurus-2",
-          replaceSearchResultPathname:
-            isDev || isDeployPreview
-              ? {
-                  from: /^\/docs\/next/g,
-                  to: "/docs",
-                }
-              : undefined,
-        },
+        // algolia: {
+        //   appId: "",
+        //   apiKey: "",
+        //   indexName: "docusaurus-2",
+        //   replaceSearchResultPathname:
+        //     isDev || isDeployPreview
+        //       ? {
+        //           from: /^\/docs\/next/g,
+        //           to: "/docs",
+        //         }
+        //       : undefined,
+        // },
         navbar: {
           hideOnScroll: true,
           title: "Docusaurus",
