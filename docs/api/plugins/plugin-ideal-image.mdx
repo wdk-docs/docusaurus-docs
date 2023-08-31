@@ -5,25 +5,25 @@ slug: /api/plugins/@docusaurus/plugin-ideal-image
 
 # 📦 plugin-ideal-image
 
-import APITable from '@site/src/components/APITable';
+import APITable from "@site/src/components/APITable";
 
-Docusaurus Plugin to generate an almost ideal image (responsive, lazy-loading, and low quality placeholder).
+Docusaurus 插件生成一个几乎理想的图像(响应，延迟加载，低质量占位符)。
 
 :::info
 
-By default, the plugin is **inactive in development** so you could always view full-scale images. If you want to debug the ideal image behavior, you could set the [`disableInDev`](#disableInDev) option to `false`.
+默认情况下，该插件在开发中处于非活动状态，因此您可以随时查看全尺寸图像。如果您想调试理想的图像行为，您可以将[`disableInDev`](#disableInDev)选项设置为`false`。
 
 :::
 
-## Installation {#installation}
+## 安装 {#installation}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-ideal-image
 ```
 
-## Usage {#usage}
+## 使用 {#usage}
 
-This plugin supports the PNG and JPG formats only.
+这个插件只支持 PNG 和 JPG 格式。
 
 ```jsx
 import Image from '@theme/IdealImage';
@@ -38,45 +38,45 @@ import thumbnail from './path/to/img.png';
 
 :::caution
 
-This plugin registers a [Webpack loader](https://webpack.js.org/loaders/) that changes the type of imported/require images:
+这个插件注册了一个[Webpack loader](https://webpack.js.org/loaders/)来改变 imported/require 的图像的类型:
 
-- Before: `string`
-- After: `{preSrc: string, src: import("@theme/IdealImage").SrcImage}`
+- 之前: `string`
+- 之后: `{preSrc: string, src: import("@theme/IdealImage").SrcImage}`
 
 :::
 
-## Configuration {#configuration}
+## 配置 {#configuration}
 
-Accepted fields:
+接受字段:
 
 ```mdx-code-block
 <APITable>
 ```
 
-| Option | Type | Default | Description |
-| --- | --- | --- | --- |
-| `name` | `string` | `ideal-img/[name].[hash:hex:7].[width].[ext]` | Filename template for output files. |
-| `sizes` | `number[]` | _original size_ | Specify all widths you want to use. If a specified size exceeds the original image's width, the latter will be used (i.e. images won't be scaled up). |
-| `size` | `number` | _original size_ | Specify one width you want to use; if the specified size exceeds the original image's width, the latter will be used (i.e. images won't be scaled up) |
-| `min` | `number` |  | As an alternative to manually specifying `sizes`, you can specify `min`, `max` and `steps`, and the sizes will be generated for you. |
-| `max` | `number` |  | See `min` above |
-| `steps` | `number` | `4` | Configure the number of images generated between `min` and `max` (inclusive) |
-| `quality` | `number` | `85` | JPEG compression quality |
-| `disableInDev` | `boolean` | `true` | You can test ideal image behavior in dev mode by setting this to `false`. **Tip**: use [network throttling](https://www.browserstack.com/guide/how-to-perform-network-throttling-in-chrome) in your browser to simulate slow networks. |
+| Option         | 类型       | 默认                                          | 描述                                                                                                                                                                                                                                   |
+| -------------- | ---------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`         | `string`   | `ideal-img/[name].[hash:hex:7].[width].[ext]` | Filename template for output files.                                                                                                                                                                                                    |
+| `sizes`        | `number[]` | _original size_                               | Specify all widths you want to use. If a specified size exceeds the original image's width, the latter will be used (i.e. images won't be scaled up).                                                                                  |
+| `size`         | `number`   | _original size_                               | Specify one width you want to use; if the specified size exceeds the original image's width, the latter will be used (i.e. images won't be scaled up)                                                                                  |
+| `min`          | `number`   |                                               | As an alternative to manually specifying `sizes`, you can specify `min`, `max` and `steps`, and the sizes will be generated for you.                                                                                                   |
+| `max`          | `number`   |                                               | See `min` above                                                                                                                                                                                                                        |
+| `steps`        | `number`   | `4`                                           | Configure the number of images generated between `min` and `max` (inclusive)                                                                                                                                                           |
+| `quality`      | `number`   | `85`                                          | JPEG compression quality                                                                                                                                                                                                               |
+| `disableInDev` | `boolean`  | `true`                                        | You can test ideal image behavior in dev mode by setting this to `false`. **Tip**: use [network throttling](https://www.browserstack.com/guide/how-to-perform-network-throttling-in-chrome) in your browser to simulate slow networks. |
 
 ```mdx-code-block
 </APITable>
 ```
 
-### Example configuration {#ex-config}
+### 示例配置 {#ex-config}
 
-Here's an example configuration:
+下面是一个配置示例:
 
 ```js title="docusaurus.config.js"
 module.exports = {
   plugins: [
     [
-      '@docusaurus/plugin-ideal-image',
+      "@docusaurus/plugin-ideal-image",
       // highlight-start
       {
         quality: 70,

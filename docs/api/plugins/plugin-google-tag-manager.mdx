@@ -5,23 +5,23 @@ slug: /api/plugins/@docusaurus/plugin-google-tag-manager
 
 # 📦 plugin-google-tag-manager
 
-import APITable from '@site/src/components/APITable';
+import APITable from "@site/src/components/APITable";
 
-A plugin for adding [Google Tag Manager (gtm.js)](https://developers.google.com/tag-platform/tag-manager) to a Docusaurus site. Use this plugin in conjunction with the standard [gtag plugin](./plugin-google-gtag.mdx) for in-depth analysis of how users are using your site.
+一个插件，用于添加[谷歌标签管理器(gtm.js)](https://developers.google.com/tag-platform/tag-manager)到 Docusaurus 网站。将此插件与标准的[gtag 插件](./plugin-google-gtag.mdx)结合使用，以深入分析用户如何使用您的网站。
 
 :::tip
 
-You can use [Google's Tag Assistant](https://tagassistant.google.com/) tool to check if tag manager is set up correctly!
+您可以使用[谷歌的标签助理](https://tagassistant.google.com/)工具来检查标签管理器是否设置正确!
 
 :::
 
-:::caution production only
+:::caution 只生产
 
-This plugin is always inactive in development and **only active in production** to avoid polluting the analytics statistics.
+这个插件在开发中总是不活跃的，并且**只在生产中活跃**，以避免污染分析统计。
 
 :::
 
-## Installation {#installation}
+## 安装 {#installation}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-google-tag-manager
@@ -29,35 +29,35 @@ npm install --save @docusaurus/plugin-google-tag-manager
 
 :::tip
 
-If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
+如果你使用预设的`@docusaurus/preset-classic`，你不需要将这个插件作为依赖项安装。
 
-You can configure this plugin through the preset options.
+您可以通过预设选项配置此插件。
 
 :::
 
-## Configuration {#configuration}
+## 配置 {#configuration}
 
-Accepted fields:
+接受字段:
 
 ```mdx-code-block
 <APITable>
 ```
 
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| `containerId` | `string` | **Required** | Your Tag Manager container Id (usually starts with `GTM-`). |
+| 名字          | 类型     | 默认         | 描述                                      |
+| ------------- | -------- | ------------ | ----------------------------------------- |
+| `containerId` | `string` | **Required** | 您的标签管理器容器 Id(通常以`GTM-`开头)。 |
 
 ```mdx-code-block
 </APITable>
 ```
 
-### Example configuration {#ex-config}
+### 示例配置 {#ex-config}
 
-You can configure this plugin through preset options or plugin options.
+您可以通过预设选项或插件选项来配置这个插件。
 
 :::tip
 
-Most Docusaurus users configure this plugin through the preset options.
+大多数 Docusaurus 用户通过预设选项配置这个插件。
 
 :::
 
@@ -66,6 +66,6 @@ Most Docusaurus users configure this plugin through the preset options.
 // Plugin Options: @docusaurus/plugin-google-tag-manager
 
 const config = {
-  containerId: 'GTM-12345',
+  containerId: "GTM-12345",
 };
 ```

@@ -4,22 +4,22 @@ slug: /api/misc/@docusaurus/eslint-plugin/no-untranslated-text
 
 # no-untranslated-text
 
-import APITable from '@site/src/components/APITable';
+import APITable from "@site/src/components/APITable";
 
-Enforce text labels in JSX to be wrapped by translate calls.
+强制 JSX 中的文本标签由翻译调用包装。
 
-When the [i18n feature](../../../i18n/i18n-introduction.mdx) is used, this rule ensures that all labels appearing on the website are translatable, so no string accidentally slips through untranslated.
+当使用[i18n 特性](../../../i18n/i18n-introduction.mdx)时，此规则确保出现在网站上的所有标签都是可翻译的，因此没有字符串意外地漏过未翻译的内容。
 
-## Rule Details {#details}
+## 规则的细节 {#details}
 
-Examples of **incorrect** code for this rule:
+该规则的**错误**代码示例:
 
 ```js
 // Hello World is not translated
 <Component>Hello World</Component>
 ```
 
-Examples of **correct** code for this rule:
+**正确**的代码示例:
 
 ```js
 // Hello World is translated
@@ -28,27 +28,27 @@ Examples of **correct** code for this rule:
 </Component>
 ```
 
-## Rule Configuration {#configuration}
+## 规则配置 {#configuration}
 
-Accepted fields:
+接受字段:
 
 ```mdx-code-block
 <APITable>
 ```
 
-| Option | Type | Default | Description |
-| --- | --- | --- | --- |
-| `ignoredStrings` | `string[]` | `[]` | Text labels that only contain strings in this list will not be reported. |
+| Option           | 类型       | 默认 | 描述                                           |
+| ---------------- | ---------- | ---- | ---------------------------------------------- |
+| `ignoredStrings` | `string[]` | `[]` | 仅包含此列表中的字符串的文本标签将不会被报告。 |
 
 ```mdx-code-block
 </APITable>
 ```
 
-## When Not To Use It {#when-not-to-use}
+## 什么时候不要使用它 {#when-not-to-use}
 
-If you're not using the [i18n feature](../../../i18n/i18n-introduction.mdx), you can disable this rule. You can also disable this rule where the text is not supposed to be translated.
+如果您不使用[i18n 特性](../../../i18n/i18n-introduction.mdx)，则可以禁用此规则。当文本不需要翻译时，也可以禁用此规则。
 
-## Further Reading {#further-reading}
+## 进一步的阅读 {#further-reading}
 
 - https://docusaurus.io/docs/docusaurus-core#translate
 - https://docusaurus.io/docs/docusaurus-core#translate-imperative

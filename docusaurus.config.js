@@ -24,19 +24,14 @@ module.exports = async function createConfigAsync() {
     projectName: "docusaurus-docs", // Usually your repo name.
     trailingSlash: false,
 
-    onBrokenLinks: "throw",
+    onBrokenLinks: "warn",
     onBrokenMarkdownLinks: "warn",
 
-    // Even if you don't use internalization, you can use this field to set useful
-    // metadata like html lang. For example, if your site is Chinese, you may want
-    // to replace "en" with "zh-Hans".
+    // 即使不使用内部化，也可以使用该字段设置有用的元数据，如html lang。例如，如果您的网站是中文的，您可能希望将`en`替换为`zh-Hans`。
     i18n: {
       defaultLocale: "zh",
-      locales: ["zh", "en"],
+      locales: ["zh"],
       localeConfigs: {
-        en: {
-          htmlLang: "en-GB",
-        },
         zh: {
           htmlLang: "zh-CN",
         },
@@ -75,6 +70,7 @@ module.exports = async function createConfigAsync() {
         // Replace with your project's social card
         image: "img/docusaurus-social-card.jpg",
         navbar: {
+          hideOnScroll: true,
           title: "文档龙",
           logo: {
             alt: "",
@@ -96,7 +92,7 @@ module.exports = async function createConfigAsync() {
               sidebarId: "api",
               label: "API",
             },
-            { to: "/blog", label: "日志", position: "left" },
+            { to: "/blog", label: "博客", position: "left" },
             { to: "showcase", label: "案例", position: "left" },
             {
               to: "/community/support",
@@ -106,11 +102,15 @@ module.exports = async function createConfigAsync() {
             },
             {
               type: "localeDropdown",
-              position: "right",
+              position: "left",
             },
             {
               href: "https://github.com/facebook/docusaurus",
               label: "GitHub",
+              position: "right",
+            },
+            {
+              type: "search",
               position: "right",
             },
           ],
@@ -214,6 +214,7 @@ module.exports = async function createConfigAsync() {
         prism: {
           theme: lightCodeTheme,
           darkTheme: darkCodeTheme,
+          defaultLanguage: "javascript",
         },
       }),
     plugins: [
@@ -294,6 +295,7 @@ module.exports = async function createConfigAsync() {
           ],
         }),
       ],
+      (await import("./src/plugins/featureRequests/FeatureRequestsPlugin.mjs")).default,
     ],
     markdown: {
       mermaid: true,

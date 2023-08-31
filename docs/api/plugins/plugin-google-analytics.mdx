@@ -3,29 +3,29 @@ sidebar_position: 6
 slug: /api/plugins/@docusaurus/plugin-google-analytics
 ---
 
-# 📦 plugin-google-analytics
+# 📦 plugin-google-analytics(弃)
 
-import APITable from '@site/src/components/APITable';
+import APITable from "@site/src/components/APITable";
 
-The default [Google Analytics](https://developers.google.com/analytics/devguides/collection/analyticsjs/) plugin. It is a JavaScript library for measuring how users interact with your website **in the production build**. If you are using Google Analytics 4 you might need to consider using [plugin-google-gtag](./plugin-google-gtag.mdx) instead.
+默认的[谷歌分析](https://developers.google.com/analytics/devguides/collection/analyticsjs/)插件。它是一个 JavaScript 库，用于测量用户如何在生产构建中与您的网站进行交互。如果你正在使用 Google Analytics 4，你可能需要考虑使用[plugin-google-gtag](./plugin-google-gtag.mdx)。
 
 :::danger Deprecated
 
-This plugin is **deprecated**, and will become useless on July 1, 2023.
+此插件**已弃用**，并将于 2023 年 7 月 1 日失效。
 
-Google is [moving away from Universal Analytics](https://blog.google/products/marketingplatform/analytics/prepare-for-future-with-google-analytics-4/).
+谷歌正在[远离通用分析](https://blog.google/products/marketingplatform/analytics/prepare-for-future-with-google-analytics-4/)。
 
-If you are still using this plugin with a `UA-*` tracking id, you should create a Google Analytics 4 account as soon as possible, and use [`@docusaurus/plugin-google-gtag`](./plugin-google-gtag.mdx) instead of this plugin. More details [here](https://github.com/facebook/docusaurus/issues/7221).
-
-:::
-
-:::caution production only
-
-This plugin is always inactive in development and **only active in production** to avoid polluting the analytics statistics.
+如果你还在用`UA-*`跟踪 id 使用这个插件，你应该尽快创建一个谷歌分析 4 帐户，并使用[`@docusaurus/plugin-google-gtag`](./plugin-google-gtag.mdx)代替这个插件。更多细节[在这里](https://github.com/facebook/docusaurus/issues/7221)。
 
 :::
 
-## Installation {#installation}
+:::caution 只生产
+
+这个插件在开发中总是不活跃的，并且**只在生产中活跃**，以避免污染分析统计。
+
+:::
+
+## 安装 {#installation}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-google-analytics
@@ -39,24 +39,24 @@ You can configure this plugin through the preset options.
 
 :::
 
-## Configuration {#configuration}
+## 配置 {#configuration}
 
-Accepted fields:
+接受字段:
 
 ```mdx-code-block
 <APITable>
 ```
 
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| `trackingID` | `string` | **Required** | The tracking ID of your analytics service. |
-| `anonymizeIP` | `boolean` | `false` | Whether the IP should be anonymized when sending requests. |
+| 名字          | 类型      | 默认         | 描述                                                       |
+| ------------- | --------- | ------------ | ---------------------------------------------------------- |
+| `trackingID`  | `string`  | **Required** | The tracking ID of your analytics service.                 |
+| `anonymizeIP` | `boolean` | `false`      | Whether the IP should be anonymized when sending requests. |
 
 ```mdx-code-block
 </APITable>
 ```
 
-### Example configuration {#ex-config}
+### 示例配置 {#ex-config}
 
 You can configure this plugin through preset options or plugin options.
 
@@ -71,7 +71,7 @@ Most Docusaurus users configure this plugin through the preset options.
 // Plugin Options: @docusaurus/plugin-google-analytics
 
 const config = {
-  trackingID: 'UA-141789564-1',
+  trackingID: "UA-141789564-1",
   anonymizeIP: true,
 };
 ```

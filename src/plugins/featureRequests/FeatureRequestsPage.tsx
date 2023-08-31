@@ -5,22 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {useEffect} from 'react';
-import clsx from 'clsx';
-import {useColorMode} from '@docusaurus/theme-common';
-import Layout from '@theme/Layout';
+import React, { useEffect } from "react";
+import clsx from "clsx";
+import { useColorMode } from "@docusaurus/theme-common";
+import Layout from "@theme/Layout";
 
-import cannyScript from './cannyScript';
-import styles from './styles.module.css';
+import cannyScript from "./cannyScript";
+import styles from "./styles.module.css";
 
-const BOARD_TOKEN = '054e0e53-d951-b14c-7e74-9eb8f9ed2f91';
+const BOARD_TOKEN = "054e0e53-d951-b14c-7e74-9eb8f9ed2f91";
 
 function useCannyTheme() {
-  const {colorMode} = useColorMode();
-  return colorMode === 'light' ? 'light' : 'dark';
+  const { colorMode } = useColorMode();
+  return colorMode === "light" ? "light" : "dark";
 }
 
-function CannyWidget({basePath}: {basePath: string}) {
+function CannyWidget({ basePath }: { basePath: string }) {
   useEffect(() => {
     cannyScript();
   }, []);
@@ -28,8 +28,8 @@ function CannyWidget({basePath}: {basePath: string}) {
   const theme = useCannyTheme();
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const {Canny} = window as any;
-    Canny('render', {
+    const { Canny } = window as any;
+    Canny("render", {
       boardToken: BOARD_TOKEN,
       basePath,
       theme,
@@ -38,19 +38,15 @@ function CannyWidget({basePath}: {basePath: string}) {
   return (
     <main
       key={theme} // widget needs a full reset: unable to update the theme
-      className={clsx('container', 'margin-vert--lg', styles.main)}
+      className={clsx("container", "margin-vert--lg", styles.main)}
       data-canny
     />
   );
 }
 
-export default function FeatureRequests({
-  basePath,
-}: {
-  basePath: string;
-}): JSX.Element {
+export default function FeatureRequests({ basePath }: { basePath: string }): JSX.Element {
   return (
-    <Layout title="Feedback" description="Docusaurus 2 Feature Requests page">
+    <Layout title="反馈" description="Docusaurus 2功能请求页面">
       <CannyWidget basePath={basePath} />
     </Layout>
   );

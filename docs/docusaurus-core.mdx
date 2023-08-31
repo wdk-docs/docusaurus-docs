@@ -1,18 +1,18 @@
 ---
-sidebar_label: Client API
+sidebar_label: 客户端 API
 ---
 
 # 文档龙客户端接口
 
-Docusaurus provides some APIs on the clients that can be helpful to you when building your site.
+Docusaurus 在客户端上提供了一些 api，可以帮助您构建站点。
 
-## Components {#components}
+## 组件 {#components}
 
 ### `<ErrorBoundary />` {#errorboundary}
 
-This component creates a [React error boundary](https://reactjs.org/docs/error-boundaries.html).
+这个组件创建了一个[React 错误边界](https://reactjs.org/docs/error-boundaries.html)。
 
-Use it to wrap components that might throw, and display a fallback when that happens instead of crashing the whole app.
+使用它来包装可能抛出的组件，并在发生这种情况时显示回退，而不是使整个应用程序崩溃。
 
 ```jsx
 import React from "react";
@@ -38,37 +38,37 @@ import ErrorBoundaryTestButton from "@site/src/components/ErrorBoundaryTestButto
 
 :::tip
 
-To see it in action, click here: <ErrorBoundaryTestButton/>
+要查看它的实际效果，请点击这里: <ErrorBoundaryTestButton/>
 
 :::
 
 :::info
 
-Docusaurus uses this component to catch errors within the theme's layout, and also within the entire app.
+Docusaurus 使用这个组件来捕捉主题布局中的错误，以及整个应用程序中的错误。
 
 :::
 
 :::note
 
-This component doesn't catch build-time errors and only protects against client-side render errors that can happen when using stateful React components.
+该组件不捕获构建时错误，只防止使用有状态 React 组件时可能发生的客户端呈现错误。
 
 :::
 
 #### Props {#errorboundary-props}
 
-- `fallback`: an optional render callback returning a JSX element. It will receive an object with 2 attributes: `error`, the error that was caught, and `tryAgain`, a function (`() => void`) callback to reset the error in the component and try rendering it again. If not present, `@theme/Error` will be rendered instead. `@theme/Error` is used for the error boundaries wrapping the site, above the layout.
+- `fallback`: 一个可选的渲染回调，返回一个 JSX 元素。它将接收一个具有 2 个属性的对象:`error`，捕获到的错误，`tryAgain`，一个函数(`()=> void`)回调，用于重置组件中的错误并尝试再次呈现它。如果不存在，`@theme/Error`将被渲染。`@theme/Error`用于在布局上方包装站点的错误边界。
 
 :::caution
 
-The `fallback` prop is a callback, and **not a React functional component**. You can't use React hooks inside this callback.
+`fallback` prop 是一个回调，而不是一个 React 的功能组件。你不能在这个回调中使用 React 钩子。
 
 :::
 
 ### `<Head/>` {#head}
 
-This reusable React component will manage all of your changes to the document head. It takes plain HTML tags and outputs plain HTML tags and is beginner-friendly. It is a wrapper around [React Helmet](https://github.com/nfl/react-helmet).
+这个可重用的 React 组件将管理对文档头部的所有更改。它接受纯 HTML 标记并输出纯 HTML 标记，对初学者很友好。它是一个包装[React 头盔](https://github.com/nfl/react-helmet)。
 
-Usage Example:
+使用的例子:
 
 ```jsx
 import React from "react";
@@ -87,7 +87,7 @@ const MySEO = () => (
 );
 ```
 
-Nested or latter components will override duplicate usages:
+嵌套组件或后期组件将覆盖重复的用法:
 
 ```jsx
 <Parent>
@@ -108,7 +108,7 @@ Nested or latter components will override duplicate usages:
 </Parent>
 ```
 
-Outputs:
+输出:
 
 ```html
 <head>
@@ -119,11 +119,11 @@ Outputs:
 
 ### `<Link/>` {#link}
 
-This component enables linking to internal pages as well as a powerful performance feature called preloading. Preloading is used to prefetch resources so that the resources are fetched by the time the user navigates with this component. We use an `IntersectionObserver` to fetch a low-priority request when the `<Link>` is in the viewport and then use an `onMouseOver` event to trigger a high-priority request when it is likely that a user will navigate to the requested resource.
+该组件支持链接到内部页面以及称为预加载的强大性能特性。预加载用于预取资源，以便在用户使用该组件进行导航时获取资源。当`<Link>`在视口中时，我们使用`IntersectionObserver`来获取低优先级请求，然后使用`onMouseOver`事件来触发高优先级请求，当用户可能会导航到所请求的资源时。
 
-The component is a wrapper around react-router’s `<Link>` component that adds useful enhancements specific to Docusaurus. All props are passed through to react-router’s `<Link>` component.
+该组件是 react-router 的`<Link>`组件的包装器，该组件为 Docusaurus 添加了有用的增强功能。所有的 props 都被传递给 react-router 的`<Link>`组件。
 
-External links also work, and automatically have these props: `target="_blank" rel="noopener noreferrer"`.
+外部链接也可以工作，并自动具有这些属性:`target="_blank" rel="noopener noreferrer"`。
 
 ```jsx
 import React from "react";
@@ -146,7 +146,7 @@ const Page = () => (
 
 #### `to`: string {#to-string}
 
-The target location to navigate to. Example: `/docs/introduction`.
+要导航到的目标位置。例子: `/docs/introduction`.
 
 ```jsx
 <Link to="/courses" />
@@ -154,15 +154,15 @@ The target location to navigate to. Example: `/docs/introduction`.
 
 :::tip
 
-Prefer this component to vanilla `<a>` tags because Docusaurus does a lot of optimizations (e.g. broken path detection, prefetching, applying base URL...) if you use `<Link>`.
+比起普通的`<a>`标签，我更喜欢这个组件，因为如果你使用`<Link>`，Docusaurus 会做很多优化(例如路径检测，预取，应用基础 URL…)。
 
 :::
 
 ### `<Redirect/>` {#redirect}
 
-Rendering a `<Redirect>` will navigate to a new location. The new location will override the current location in the history stack like server-side redirects (HTTP 3xx) do. You can refer to [React Router's Redirect documentation](https://reacttraining.com/react-router/web/api/Redirect) for more info on available props.
+渲染`<Redirect>`将导航到一个新位置。新位置将覆盖历史堆栈中的当前位置，就像服务器端重定向(HTTP 3xx)所做的那样。你可以参考[React Router 的重定向文档](https://reacttraining.com/react-router/web/api/Redirect)了解更多关于可用属性的信息。
 
-Example usage:
+使用示例:
 
 ```jsx
 import React from "react";
@@ -177,26 +177,26 @@ const Home = () => {
 
 :::note
 
-`@docusaurus/router` implements [React Router](https://reacttraining.com/react-router/web/guides/quick-start) and supports its features.
+`@docusaurus/router`实现了[React 路由器](https://reacttraining.com/react-router/web/guides/quick-start)并支持它的特性。
 
 :::
 
 ### `<BrowserOnly/>` {#browseronly}
 
-The `<BrowserOnly>` component permits to render React components only in the browser after the React app has hydrated.
+`<BrowserOnly>`组件只允许在 React 应用完成后在浏览器中渲染 React 组件。
 
 :::tip
 
-Use it for integrating with code that can't run in Node.js, because the `window` or `document` objects are being accessed.
+使用它来集成无法在 Node.js 中运行的代码，因为`window`或`document`对象正在被访问。
 
 :::
 
 #### Props {#browseronly-props}
 
-- `children`: render function prop returning browser-only JSX. Will not be executed in Node.js
-- `fallback` (optional): JSX to render on the server (Node.js) and until React hydration completes.
+- `children`: 渲染函数 prop 返回仅浏览器的 JSX。不会在 Node.js 中执行
+- `fallback` (可选): 在服务器(Node.js)上渲染 JSX，直到 React 的水合作用完成。
 
-#### Example with code {#browseronly-example-code}
+#### 代码示例 {#browseronly-example-code}
 
 ```jsx
 // highlight-start
@@ -212,7 +212,7 @@ const MyComponent = () => {
 };
 ```
 
-#### Example with a library {#browseronly-example-library}
+#### 带有库的示例 {#browseronly-example-library}
 
 ```jsx
 // highlight-start
@@ -235,14 +235,14 @@ const MyComponent = (props) => {
 
 ### `<Interpolate/>` {#interpolate}
 
-A simple interpolation component for text containing dynamic placeholders.
+一个用于包含动态占位符的文本的简单插值组件。
 
-The placeholders will be replaced with the provided dynamic values and JSX elements of your choice (strings, links, styled elements...).
+占位符将被替换为提供的动态值和您选择的 JSX 元素(字符串、链接、样式元素……)。
 
 #### Props {#interpolate-props}
 
-- `children`: text containing interpolation placeholders like `{placeholderName}`
-- `values`: object containing interpolation placeholder values
+- `children`: 包含插值占位符的文本，如`{placeholderName}`
+- `values`: 对象包含插值占位符值
 
 ```jsx
 import React from "react";
@@ -271,26 +271,26 @@ export default function VisitMyWebsiteMessage() {
 
 ### `<Translate/>` {#translate}
 
-When [localizing your site](./i18n/i18n-introduction.mdx), the `<Translate/>` component will allow providing **translation support to React components**, such as your homepage. The `<Translate>` component supports [interpolation](#interpolate).
+当[本地化你的站点](./i18n/i18n-introduction.mdx)时，`<Translate/>`组件将允许为 React 组件提供翻译支持，比如你的主页。`<Translate>`组件支持[interpolation](#interpolate)。
 
-The translation strings will statically extracted from your code with the [`docusaurus write-translations`](./cli.mdx#docusaurus-write-translations-sitedir) CLI and a `code.json` translation file will be created in `website/i18n/[locale]`.
+翻译字符串将使用[`docusaurus write-translations`](./cli.mdx#docusaurus-write-translations-sitedir) CLI 从代码中静态提取，并将在`website/i18n/[locale]`中创建`code.json`翻译文件。
 
 :::note
 
-The `<Translate/>` props **must be hardcoded strings**.
+`<Translate/>` props **必须是硬编码字符串**。
 
-Apart from the `values` prop used for interpolation, it is **not possible to use variables**, or the static extraction wouldn't work.
+除了用于插值的`values`属性外，**不可能使用变量**，否则静态提取将无法工作。
 
 :::
 
 #### Props {#translate-props}
 
-- `children`: untranslated string in the default site locale (can contain [interpolation placeholders](#interpolate))
-- `id`: optional value to be used as the key in JSON translation files
-- `description`: optional text to help the translator
-- `values`: optional object containing interpolation placeholder values
+- `children`: 默认站点区域设置中的未翻译字符串(可以包含[插值占位符](#interpolate))
+- `id`: 可选值，用作 JSON 翻译文件中的键
+- `description`: 可选文本，以帮助翻译
+- `values`: 包含插值占位符值的可选对象
 
-#### Example {#example}
+#### 例子 {#example}
 
 ```jsx title="src/pages/index.js"
 import React from "react";
@@ -322,7 +322,7 @@ export default function Home() {
 
 :::note
 
-You can even omit the children prop and specify a translation string in your `code.json` file manually after running the `docusaurus write-translations` CLI command.
+您甚至可以在运行`docusaurus write-translations` CLI 命令后，省略 children prop 并在`code.json`文件中手动指定翻译字符串。
 
 ```jsx
 <Translate id="homepage.title" />
@@ -332,15 +332,15 @@ You can even omit the children prop and specify a translation string in your `co
 
 :::info
 
-The `<Translate>` component supports interpolation. You can also implement [string pluralization](https://github.com/facebook/docusaurus/pull/i18n/i18n-tutorial.mdx#pluralization) through some custom code and the [`translate` imperative API](#translate-imperative).
+`<Translate>`组件支持插值。你也可以通过一些自定义代码和[`translate`命令式 API](#translate-imperative)实现[字符串复数化](https://github.com/facebook/docusaurus/pull/i18n/i18n-tutorial.mdx#pluralization)。
 
 :::
 
-## Hooks {#hooks}
+## 钩子 {#hooks}
 
 ### `useDocusaurusContext` {#useDocusaurusContext}
 
-React hook to access Docusaurus Context. The context contains the `siteConfig` object from [docusaurus.config.js](api/docusaurus.config.js.mdx) and some additional site metadata.
+React 钩子访问 Docusaurus 上下文。上下文包含来自[docusaurus.config.js](api/docusaurus.config.js.mdx)的`siteConfig`对象和一些额外的站点元数据。
 
 ```ts
 type PluginVersionInformation =
@@ -376,7 +376,7 @@ type DocusaurusContext = {
 };
 ```
 
-Usage example:
+使用的例子:
 
 ```jsx
 import React from "react";
@@ -399,23 +399,23 @@ const MyComponent = () => {
 
 :::note
 
-The `siteConfig` object only contains **serializable values** (values that are preserved after `JSON.stringify()`). Functions, regexes, etc. would be lost on the client side.
+`siteConfig`对象只包含**可序列化的值**(在`JSON.stringify()`之后保留的值)。函数、正则表达式等将在客户端丢失。
 
 :::
 
 ### `useIsBrowser` {#useIsBrowser}
 
-Returns `true` when the React app has successfully hydrated in the browser.
+当 React 应用在浏览器中成功加载时返回 true。
 
 :::caution
 
-Use this hook instead of `typeof windows !== 'undefined'` in React rendering logic.
+在 React 渲染逻辑中使用这个钩子代替`typeof windows !== 'undefined'`。
 
-The first client-side render output (in the browser) **must be exactly the same** as the server-side render output (Node.js). Not following this rule can lead to unexpected hydration behaviors, as described in [The Perils of Rehydration](https://www.joshwcomeau.com/react/the-perils-of-rehydration/).
+第一个客户端呈现输出(在浏览器中)**必须**与服务器端呈现输出(Node.js)完全相同。不遵循这一规则可能会导致意想不到的水合行为，正如[补液的危险](https://www.joshwcomeau.com/react/the-perils-of-rehydration/)所描述的那样。
 
 :::
 
-Usage example:
+使用的例子:
 
 ```jsx
 import React from "react";
@@ -431,20 +431,20 @@ const MyComponent = () => {
 
 ### `useBaseUrl` {#useBaseUrl}
 
-React hook to prepend your site `baseUrl` to a string.
+React 钩子将你的站点`baseUrl`前缀为字符串。
 
 :::caution
 
-**Don't use it for regular links!**
+**不要将它用于常规链接!**
 
-The `/baseUrl/` prefix is automatically added to all **absolute paths** by default:
+默认情况下，`/baseUrl/`前缀会自动添加到所有**绝对路径**:
 
-- Markdown: `[link](/my/path)` will link to `/baseUrl/my/path`
-- React: `<Link to="/my/path/">link</Link>` will link to `/baseUrl/my/path`
+- Markdown: `[link](/my/path)`将链接到 `/baseUrl/my/path`
+- React: `<Link to="/my/path/">link</Link>` 将链接到 `/baseUrl/my/path`
 
 :::
 
-#### Options {#options}
+#### 选项 {#options}
 
 ```ts
 type BaseUrlOptions = {
@@ -453,7 +453,7 @@ type BaseUrlOptions = {
 };
 ```
 
-#### Example usage: {#example-usage}
+#### 使用示例: {#example-usage}
 
 ```jsx
 import React from "react";
@@ -469,9 +469,9 @@ const SomeImage = () => {
 
 :::tip
 
-In most cases, you don't need `useBaseUrl`.
+在大多数情况下，你不需要`useBaseUrl`。
 
-Prefer a `require()` call for [assets](./guides/markdown-features/markdown-features-assets.mdx):
+建议使用 require()调用[assets](./guides/markdown-features/markdown-features-assets.mdx):
 
 ```jsx
 <img src={require("@site/static/img/myImage.png").default} />
@@ -481,9 +481,9 @@ Prefer a `require()` call for [assets](./guides/markdown-features/markdown-featu
 
 ### `useBaseUrlUtils` {#useBaseUrlUtils}
 
-Sometimes `useBaseUrl` is not good enough. This hook return additional utils related to your site's base URL.
+有时`useBaseUrl`不够好。此钩子返回与站点基础 URL 相关的附加 utils。
 
-- `withBaseUrl`: useful if you need to add base URLs to multiple URLs at once.
+- `withBaseUrl`: 如果您需要一次将基本 url 添加到多个 url，则非常有用。
 
 ```jsx
 import React from "react";
@@ -501,13 +501,13 @@ const Component = () => {
 
 ### `useGlobalData` {#useGlobalData}
 
-React hook to access Docusaurus global data created by all the plugins.
+React 钩子来访问 Docusaurus 所有插件创建的全局数据。
 
-Global data is namespaced by plugin name then by plugin ID.
+全局数据由插件名和插件 ID 命名。
 
 :::info
 
-Plugin ID is only useful when a plugin is used multiple times on the same site. Each plugin instance is able to create its own global data.
+插件 ID 仅在插件在同一站点上多次使用时才有用。每个插件实例都能够创建自己的全局数据。
 
 :::
 
@@ -521,7 +521,7 @@ type GlobalData = Record<
 >;
 ```
 
-Usage example:
+使用的例子:
 
 ```jsx
 import React from "react";
@@ -539,23 +539,23 @@ const MyComponent = () => {
 
 :::tip
 
-Inspect your site's global data at `./docusaurus/globalData.json`
+检查您的网站的全局数据在`./docusaurus/globalData.json`
 
 :::
 
 ### `usePluginData` {#usePluginData}
 
-Access global data created by a specific plugin instance.
+访问由特定插件实例创建的全局数据。
 
-This is the most convenient hook to access plugin global data and should be used most of the time.
+这是访问插件全局数据最方便的钩子，应该在大多数情况下使用。
 
-`pluginId` is optional if you don't use multi-instance plugins.
+如果你不使用多实例插件，`pluginId`是可选的。
 
 ```ts
 function usePluginData(pluginName: string, pluginId?: string, options?: { failfast?: boolean });
 ```
 
-Usage example:
+使用的例子:
 
 ```jsx
 import React from "react";
@@ -572,13 +572,13 @@ const MyComponent = () => {
 
 ### `useAllPluginInstancesData` {#useAllPluginInstancesData}
 
-Access global data created by a specific plugin. Given a plugin name, it returns the data of all the plugins instances of that name, by plugin id.
+访问由特定插件创建的全局数据。给定一个插件名称，它根据插件 id 返回该名称的所有插件实例的数据。
 
 ```ts
 function useAllPluginInstancesData(pluginName: string, options?: { failfast?: boolean });
 ```
 
-Usage example:
+使用的例子:
 
 ```jsx
 import React from "react";
@@ -594,13 +594,13 @@ const MyComponent = () => {
 };
 ```
 
-## Functions {#functions}
+## 函数 {#functions}
 
 ### `interpolate` {#interpolate-1}
 
-The imperative counterpart of the [`<Interpolate>`](#interpolate) component.
+[`<Interpolate>`](#interpolate)组件的命令式对应。
 
-#### Signature {#signature}
+#### 签名 {#signature}
 
 ```ts
 // Simple string interpolation
@@ -610,7 +610,7 @@ function interpolate(text: string, values: Record<string, string>): string;
 function interpolate(text: string, values: Record<string, ReactNode>): ReactNode;
 ```
 
-#### Example {#example-1}
+#### 例子 {#example-1}
 
 ```js
 // highlight-next-line
@@ -621,11 +621,11 @@ const message = interpolate("Welcome {firstName}", { firstName: "Sébastien" });
 
 ### `translate` {#translate-imperative}
 
-The imperative counterpart of the [`<Translate>`](#translate) component. Also supporting [placeholders interpolation](#interpolate).
+[`<Translate>`](#translate)组件的命令式对应。也支持[占位符插值](#interpolate)。
 
 :::tip
 
-Use the imperative API for the **rare cases** where a **component cannot be used**, such as:
+在组件不能使用的情况下使用命令式 API，比如:
 
 - the page `title` metadata
 - the `placeholder` props of form inputs
@@ -664,7 +664,7 @@ export default function Home() {
           translate(
             {
               message: "The logo of site {siteName}",
-              // Optional
+              // 可选
               id: "homepage.logo.ariaLabel",
               description: "The home page logo aria label",
             },
@@ -678,15 +678,15 @@ export default function Home() {
 }
 ```
 
-## Modules {#modules}
+## 模块 {#modules}
 
 ### `ExecutionEnvironment` {#executionenvironment}
 
-A module that exposes a few boolean variables to check the current rendering environment.
+一个公开几个布尔变量以检查当前呈现环境的模块。
 
 :::caution
 
-For React rendering logic, use [`useIsBrowser()`](#useIsBrowser) or [`<BrowserOnly>`](#browseronly) instead.
+对于 React 渲染逻辑，使用[`useIsBrowser()`](#useIsBrowser)或[`<BrowserOnly>`](#browseronly)代替。
 
 :::
 
@@ -700,7 +700,7 @@ if (ExecutionEnvironment.canUseDOM) {
 }
 ```
 
-| Field                                             | Description                                                   |
+| Field                                             | 描述                                                          |
 | ------------------------------------------------- | ------------------------------------------------------------- |
 | `ExecutionEnvironment.canUseDOM`                  | `true` if on client/browser, `false` on Node.js/prerendering. |
 | `ExecutionEnvironment.canUseEventListeners`       | `true` if on client and has `window.addEventListener`.        |
@@ -709,7 +709,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 ### `constants` {#constants}
 
-A module exposing useful constants to client-side theme code.
+向客户端主题代码公开有用常量的模块。
 
 ```js
 import { DEFAULT_PLUGIN_ID } from "@docusaurus/constants";

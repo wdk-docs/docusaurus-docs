@@ -1,27 +1,27 @@
-# Plugin Method References
+# 插件方法参考
 
 :::caution
 
-This section is a work in progress. Anchor links or even URLs are not guaranteed to be stable.
+这部分工作还在进行中。锚链接甚至 url 都不能保证是稳定的。
 
 :::
 
-Plugin APIs are shared by themes and plugins—themes are loaded just like plugins.
+插件 APIs 由主题和插件共享-主题就像插件一样加载。
 
-## Plugin module {#plugin-module}
+## 插件模块 {#plugin-module}
 
-Every plugin is imported as a module. The module is expected to have the following members:
+每个插件都是作为模块导入的。该模块预计有以下成员:
 
-- A **default export**: the constructor function for the plugin.
-- **Named exports**: the [static methods](./static-methods.mdx) called before plugins are initialized.
+- **默认导出**: 插件的构造函数。
+- **Named exports**: 在插件初始化之前调用的[静态方法](./static-methods.mdx)。
 
-## Plugin constructor {#plugin-constructor}
+## 插件的构造函数 {#plugin-constructor}
 
-The plugin module's default export is a constructor function with the signature `(context: LoadContext, options: PluginOptions) => Plugin | Promise<Plugin>`.
+插件模块的默认导出是一个签名为`(context: LoadContext, options: PluginOptions) => Plugin | Promise<Plugin>`的构造函数。
 
 ### `context` {#context}
 
-`context` is plugin-agnostic, and the same object will be passed into all plugins used for a Docusaurus website. The `context` object contains the following fields:
+`context`是插件无关的，相同的对象将被传递到 Docusaurus 网站使用的所有插件中。`context`对象包含以下字段:
 
 ```ts
 type LoadContext = {
@@ -35,13 +35,13 @@ type LoadContext = {
 
 ### `options` {#options}
 
-`options` are the [second optional parameter when the plugins are used](../../using-plugins.mdx#configuring-plugins). `options` are plugin-specific and are specified by users when they use them in `docusaurus.config.js`. If there's a [`validateOptions`](./static-methods.mdx#validateOptions) function exported, the `options` will be validated and normalized beforehand.
+`options`是[使用插件时的第二个可选参数](../../using-plugins.mdx# configuration -plugins)。`options`是特定于插件的，由用户在`docusaurus.config.js`中使用它们时指定。如果导出了[`validateOptions`](./static-methods.mdx#validateOptions)函数，`options`将被预先验证和规范化。
 
-Alternatively, if a preset contains the plugin, the preset will then be in charge of passing the correct options into the plugin. It is up to the individual plugin to define what options it takes.
+或者，如果预设包含插件，那么预设将负责将正确的选项传递给插件。这是由各个插件来定义它采用什么选项。
 
-## Example {#example}
+## 例子 {#example}
 
-Here's a mental model for a presumptuous plugin implementation.
+这是一个假定插件实现的心理模型。
 
 ```js
 // A JavaScript function that returns an object.
@@ -54,14 +54,14 @@ async function myPlugin(context, opts) {
     // If you're writing your own local plugin, you will want it to
     // be unique in order not to potentially conflict with imported plugins.
     // A good way will be to add your own project name within.
-    name: 'docusaurus-my-project-cool-plugin',
+    name: "docusaurus-my-project-cool-plugin",
 
     async loadContent() {
       // The loadContent hook is executed after siteConfig and env has been loaded.
       // You can return a JavaScript object that will be passed to contentLoaded hook.
     },
 
-    async contentLoaded({content, actions}) {
+    async contentLoaded({ content, actions }) {
       // The contentLoaded hook is done after loadContent hook is done.
       // `actions` are set of functional API provided by Docusaurus (e.g. addRoute)
     },
@@ -110,19 +110,19 @@ async function myPlugin(context, opts) {
       // Register an extra command to enhance the CLI of Docusaurus
     },
 
-    injectHtmlTags({content}) {
+    injectHtmlTags({ content }) {
       // Inject head and/or body HTML tags.
     },
 
-    async getTranslationFiles({content}) {
+    async getTranslationFiles({ content }) {
       // Return translation files
     },
 
-    translateContent({content, translationFiles}) {
+    translateContent({ content, translationFiles }) {
       // translate the plugin content here
     },
 
-    translateThemeConfig({themeConfig, translationFiles}) {
+    translateThemeConfig({ themeConfig, translationFiles }) {
       // translate the site themeConfig here
     },
 
@@ -132,12 +132,12 @@ async function myPlugin(context, opts) {
   };
 }
 
-myPlugin.validateOptions = ({options, validate}) => {
+myPlugin.validateOptions = ({ options, validate }) => {
   const validatedOptions = validate(myValidationSchema, options);
   return validatedOptions;
 };
 
-myPlugin.validateThemeConfig = ({themeConfig, validate}) => {
+myPlugin.validateThemeConfig = ({ themeConfig, validate }) => {
   const validatedThemeConfig = validate(myValidationSchema, options);
   return validatedThemeConfig;
 };

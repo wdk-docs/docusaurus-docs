@@ -2,15 +2,15 @@
 sidebar_position: 2
 ---
 
-# Extending infrastructure
+# 扩大基础设施
 
-Docusaurus has some infrastructure like hot reloading, CLI, and swizzling, that can be extended by external plugins.
+Docusaurus 有一些基础设施，如热重新加载、CLI 和 swizzling，可以通过外部插件进行扩展。
 
 ## `getPathsToWatch()` {#getPathsToWatch}
 
-Specifies the paths to watch for plugins and themes. The paths are watched by the dev server so that the plugin lifecycles are reloaded when contents in the watched paths change. Note that the plugins and themes modules are initially called with `context` and `options` from Node, which you may use to find the necessary directory information about the site.
+指定要监视插件和主题的路径。这些路径由开发服务器监视，这样当监视路径中的内容发生变化时，插件的生命周期就会重新加载。请注意，插件和主题模块最初是用 Node 中的`context`和`options`来调用的，您可以使用它们来查找有关站点的必要目录信息。
 
-Use this for files that are consumed server-side, because theme files are automatically watched by Webpack dev server.
+将此用于服务器端使用的文件，因为主题文件由 Webpack 开发服务器自动监视。
 
 例子:
 
@@ -31,11 +31,11 @@ module.exports = function (context, options) {
 
 ## `extendCli(cli)` {#extendCli}
 
-Register an extra command to enhance the CLI of Docusaurus. `cli` is a [commander](https://www.npmjs.com/package/commander/v/5.1.0) object.
+注册一个额外的命令来增强 Docusaurus 的 CLI。`cli`是一个[commander](https://www.npmjs.com/package/commander/v/5.1.0)对象。
 
 :::caution
 
-The commander version matters! We use commander v5, and make sure you are referring to the right version documentation for available APIs.
+commander 版本很重要!我们使用 commander v5，并确保您引用了正确的版本文档以获取可用的 api。
 
 :::
 
@@ -61,9 +61,9 @@ module.exports = function (context, options) {
 
 ## `getThemePath()` {#getThemePath}
 
-Returns the path to the directory where the theme components can be found. When your users call `swizzle`, `getThemePath` is called and its returned path is used to find your theme components. Relative paths are resolved against the folder containing the entry point.
+返回主题组件所在目录的路径。当你的用户调用`swizzle`时，`getThemePath`被调用，它返回的路径被用来找到你的主题组件。相对路径是根据包含入口点的文件夹解析的。
 
-For example, your `getThemePath` can be:
+例如，你的`getThemePath`可以是:
 
 ```js title="my-theme/src/index.js"
 const path = require("path");
@@ -82,13 +82,13 @@ module.exports = function (context, options) {
 
 ## `getTypeScriptThemePath()` {#getTypeScriptThemePath}
 
-Similar to `getThemePath()`, it should return the path to the directory where the source code of TypeScript theme components can be found. This path is purely for swizzling TypeScript theme components, and theme components under this path will **not** be resolved by Webpack. Therefore, it is not a replacement for `getThemePath()`. Typically, you can make the path returned by `getTypeScriptThemePath()` be your source directory, and make the path returned by `getThemePath()` be the compiled JavaScript output.
+与`getThemePath()`类似，它应该返回 TypeScript 主题组件源代码所在目录的路径。这个路径纯粹是用来混合 TypeScript 主题组件的，并且这个路径下的主题组件不会被 Webpack 解析。因此，它不能替代`getThemePath()`。通常，你可以让`getTypeScriptThemePath()`返回的路径是你的源目录，让`getThemePath()`返回的路径是编译后的 JavaScript 输出。
 
 :::tip
 
-For TypeScript theme authors: you are strongly advised to make your compiled output as human-readable as possible. Only strip type annotations and don't transpile any syntaxes, because they will be handled by Webpack's Babel loader based on the targeted browser versions.
+对于 TypeScript 主题作者:强烈建议你尽可能让编译后的输出具有人类可读性。只删除类型注释，不要翻译任何语法，因为它们将由 Webpack 的 Babel 加载器根据目标浏览器版本来处理。
 
-You should also format these files with Prettier. Remember—JS files can and will be directly consumed by your users.
+您还应该使用 Prettier 格式化这些文件。记住——js 文件可以而且将会被你的用户直接使用。
 
 :::
 
@@ -116,9 +116,9 @@ module.exports = function (context, options) {
 
 ## `getSwizzleComponentList()` {#getSwizzleComponentList}
 
-**This is a static method, not attached to any plugin instance.**
+**这是一个静态方法，不附加到任何插件实例。**
 
-Returns a list of stable components that are considered safe for swizzling. These components will be swizzlable without `--danger`. All components are considered unstable by default. If an empty array is returned, all components are considered unstable. If `undefined` is returned, all components are considered stable.
+返回被认为可以安全搅拌的稳定组件列表。这些部件将是可搅拌的，没有`--danger`。默认情况下，所有组件都被认为不稳定。如果返回空数组，则认为所有组件都不稳定。如果返回`undefined`，则认为所有组件都是稳定的。
 
 ```js title="my-theme/src/index.js"
 const swizzleAllowedComponents = [

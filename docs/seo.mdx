@@ -14,7 +14,7 @@ Docusaurus 以多种方式支持搜索引擎优化。
 
 ## 全局元数据 {#global-metadata}
 
-通过[网站配置](./configuration.mdx#site-metadata)为整个站点提供全局元属性。元数据将全部呈现在 HTML `<head>`中，使用键值对作为道具的名称和值。`metadata`属性是声明`<meta>`标签的方便快捷方式，但也可以使用`headTags`属性在`<head>`中注入任意标签。
+通过[网站配置](./configuration.mdx#site-metadata)为整个站点提供全局元属性。元数据将全部呈现在 HTML `<head>`中，使用键值对作为属性的名称和值。`metadata`属性是声明`<meta>`标签的方便快捷方式，但也可以使用`headTags`属性在`<head>`中注入任意标签。
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -142,7 +142,7 @@ export default function page() {
 
 :::tip
 
-为了方便，默认的主题`<Layout>`组件接受`title`和`description`作为道具。
+为了方便，默认的主题`<Layout>`组件接受`title`和`description`作为属性。
 
 :::
 

@@ -5,24 +5,24 @@ slug: /api/themes/@docusaurus/theme-live-codeblock
 
 # 📦 theme-live-codeblock
 
-This theme provides a `@theme/CodeBlock` component that is powered by react-live. You can read more on [interactive code editor](../../guides/markdown-features/markdown-features-code-blocks.mdx#interactive-code-editor) documentation.
+这个主题提供了一个由 react-live 驱动的`@theme/CodeBlock`组件。您可以在[交互式代码编辑器](../../guides/markdown-features/markdown-features-code-blocks.mdx#interactive-code-editor)文档中阅读更多信息。
 
 ```bash npm2yarn
 npm install --save @docusaurus/theme-live-codeblock
 ```
 
-### Configuration {#configuration}
+### 配置 {#configuration}
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  plugins: ['@docusaurus/theme-live-codeblock'],
+  plugins: ["@docusaurus/theme-live-codeblock"],
   themeConfig: {
     liveCodeBlock: {
       /**
        * The position of the live playground, above or under the editor
        * Possible values: "top" | "bottom"
        */
-      playgroundPosition: 'bottom',
+      playgroundPosition: "bottom",
     },
   },
 };

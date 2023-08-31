@@ -2,20 +2,20 @@
 sidebar_position: 3
 ---
 
-# I18n lifecycles
+# I18n 生命周期
 
-Plugins use these lifecycles to load i18n-related data.
+插件使用这些生命周期来加载 i18n 相关的数据。
 
 ## `getTranslationFiles({content})` {#getTranslationFiles}
 
-Plugins declare the JSON translation files they want to use.
+插件声明他们想要使用的 JSON 翻译文件。
 
-Returns translation files `{path: string, content: ChromeI18nJSON}`:
+返回翻译文件`{path: string, content: ChromeI18nJSON}`:
 
-- `path`: relative to the plugin localized folder `i18n/[locale]/[pluginName]`. Extension `.json` should be omitted to remain generic.
-- `content`: using the Chrome i18n JSON format.
+- `path`: 相对于插件本地化文件夹`i18n/[locale]/[pluginName]`。扩展`.json`应该被省略以保持通用。
+- `content`: 使用 Chrome i18n JSON 格式。
 
-These files will be written by the [`write-translations` CLI](../../cli.mdx#docusaurus-write-translations-sitedir) to the plugin i18n subfolder, and will be read in the appropriate locale before calling [`translateContent()`](#translateContent) and [`translateThemeConfig()`](#translateThemeConfig)
+这些文件将由[`write-translations` CLI](../../cli.mdx#docusaurus-write-translations-sitedir)写入到插件 i18n 子文件夹中，并将在调用[`translateContent()`](#translateContent)和[`translateThemeConfig()`](#translateThemeConfig)之前在适当的语言环境中读取
 
 例子:
 
@@ -45,11 +45,11 @@ module.exports = function (context, options) {
 
 ## `translateContent({content,translationFiles})` {#translateContent}
 
-Translate the plugin content, using the localized translation files.
+使用本地化的翻译文件翻译插件内容。
 
-Returns the localized plugin content.
+返回本地化的插件内容。
 
-The `contentLoaded()` lifecycle will be called with the localized plugin content returned by `translateContent()`.
+`contentLoaded()`生命周期将使用`translateContent()`返回的本地化插件内容来调用。
 
 例子:
 
@@ -72,9 +72,9 @@ module.exports = function (context, options) {
 
 ## `translateThemeConfig({themeConfig,translationFiles})` {#translateThemeConfig}
 
-Translate the site `themeConfig` labels, using the localized translation files.
+使用本地化的翻译文件翻译站点`themeConfig`标签。
 
-Returns the localized `themeConfig`.
+返回本地化的`themeConfig`。
 
 例子:
 
@@ -97,9 +97,9 @@ module.exports = function (context, options) {
 
 ## `async getDefaultCodeTranslationMessages()` {#getDefaultCodeTranslationMessages}
 
-Themes using the `<Translate>` API can provide default code translation messages.
+使用`<Translate>` API 的主题可以提供默认的代码翻译消息。
 
-It should return messages in `Record<string, string>`, where keys are translation IDs and values are messages (without the description) localized using the site's current locale.
+它应该在`Record<string, string>`中返回消息，其中键是翻译 id，值是使用站点当前语言环境本地化的消息(不含描述)。
 
 例子:
 

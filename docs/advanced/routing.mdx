@@ -39,7 +39,7 @@ graph LR;
 
 任何路由都将与这个嵌套的路由配置匹配，直到找到一个好的匹配。例如，当给定一个路由`/docs/configuration`时，Docusaurus 首先进入`/docs`分支，然后在 docs 插件创建的子路由中搜索。
 
-更改`routeBasePath`可以有效地改变站点的路由结构。例如，在[docs-only 模式](./guides/docs/docs-introduction.mdx#docs-only-mode)中，我们提到为 docs 配置`routeBasePath: '/'`意味着 docs 插件创建的所有路由都不会有`/docs`前缀，但它并不能阻止其他插件创建更多像`/blog`这样的子路由。
+更改`routeBasePath`可以有效地改变站点的路由结构。例如，在[docs-only 模式](../guides/docs/docs-introduction.mdx#docs-only-mode)中，我们提到为 docs 配置`routeBasePath: '/'`意味着 docs 插件创建的所有路由都不会有`/docs`前缀，但它并不能阻止其他插件创建更多像`/blog`这样的子路由。
 
 接下来，让我们看看这三个插件是如何构建它们自己的`子路由盒子`的。
 

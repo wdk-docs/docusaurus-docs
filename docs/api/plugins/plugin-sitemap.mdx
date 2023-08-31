@@ -5,17 +5,17 @@ slug: /api/plugins/@docusaurus/plugin-sitemap
 
 # 📦 plugin-sitemap
 
-import APITable from '@site/src/components/APITable';
+import APITable from "@site/src/components/APITable";
 
-This plugin creates sitemaps for your site so that search engine crawlers can crawl your site more accurately.
+这个插件为您的网站创建站点地图，以便搜索引擎爬行器可以更准确地爬行您的网站。
 
 :::caution production only
 
-This plugin is always inactive in development and **only active in production** because it works on the build output.
+这个插件在开发中总是不活跃的，只有在生产中才活跃，因为它在构建输出中工作。
 
 :::
 
-## Installation {#installation}
+## 安装 {#installation}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-sitemap
@@ -23,26 +23,26 @@ npm install --save @docusaurus/plugin-sitemap
 
 :::tip
 
-If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
+如果你使用预设的`@docusaurus/preset-classic`，你不需要将这个插件作为依赖项安装。
 
-You can configure this plugin through the [preset options](#ex-config-preset).
+你可以通过[预设选项](#ex-config-preset)来配置这个插件。
 
 :::
 
-## Configuration {#configuration}
+## 配置 {#configuration}
 
-Accepted fields:
+接受字段:
 
 ```mdx-code-block
 <APITable>
 ```
 
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| `changefreq` | `string` | `'weekly'` | See [sitemap docs](https://www.sitemaps.org/protocol.html#xmlTagDefinitions) |
-| `priority` | `number` | `0.5` | See [sitemap docs](https://www.sitemaps.org/protocol.html#xmlTagDefinitions) |
-| `ignorePatterns` | `string[]` | `[]` | A list of glob patterns; matching route paths will be filtered from the sitemap. Note that you may need to include the base URL in here. |
-| `filename` | `string` | `sitemap.xml` | The path to the created sitemap file, relative to the output directory. Useful if you have two plugin instances outputting two files. |
+| 名字             | 类型       | 默认          | 描述                                                                                     |
+| ---------------- | ---------- | ------------- | ---------------------------------------------------------------------------------------- |
+| `changefreq`     | `string`   | `'weekly'`    | 参见[sitemap 文档](https://www.sitemaps.org/protocol.html#xmlTagDefinitions)             |
+| `priority`       | `number`   | `0.5`         | 参见[sitemap 文档](https://www.sitemaps.org/protocol.html#xmlTagDefinitions)             |
+| `ignorePatterns` | `string[]` | `[]`          | 全球模式列表;匹配的路由路径将从站点地图中过滤。注意，您可能需要在这里包含基 URL。        |
+| `filename`       | `string`   | `sitemap.xml` | 创建的站点地图文件的路径，相对于输出目录。如果您有两个插件实例输出两个文件，则非常有用。 |
 
 ```mdx-code-block
 </APITable>
@@ -50,20 +50,20 @@ Accepted fields:
 
 :::info
 
-This plugin also respects some site config:
+这个插件也尊重一些站点配置:
 
-- [`noIndex`](../docusaurus.config.js.mdx#noIndex): results in no sitemap generated
-- [`trailingSlash`](../docusaurus.config.js.mdx#trailingSlash): determines if the URLs in the sitemap have trailing slashes
+- [`noIndex`](../docusaurus.config.js.mdx#noIndex): 结果没有生成站点地图
+- [`trailingSlash`](../docusaurus.config.js.mdx#trailingSlash): 确定站点地图中的 url 是否有尾斜杠
 
 :::
 
-### Example configuration {#ex-config}
+### 示例配置 {#ex-config}
 
-You can configure this plugin through preset options or plugin options.
+您可以通过预设选项或插件选项来配置这个插件。
 
 :::tip
 
-Most Docusaurus users configure this plugin through the preset options.
+大多数 Docusaurus 用户通过预设选项配置这个插件。
 
 :::
 
@@ -72,11 +72,11 @@ Most Docusaurus users configure this plugin through the preset options.
 // Plugin Options: @docusaurus/plugin-sitemap
 
 const config = {
-  changefreq: 'weekly',
+  changefreq: "weekly",
   priority: 0.5,
-  ignorePatterns: ['/tags/**'],
-  filename: 'sitemap.xml',
+  ignorePatterns: ["/tags/**"],
+  filename: "sitemap.xml",
 };
 ```
 
-You can find your sitemap at `/sitemap.xml`.
+你可以在`/sitemap.xml`找到你的站点地图。

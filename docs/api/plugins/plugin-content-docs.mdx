@@ -7,9 +7,9 @@ slug: /api/plugins/@docusaurus/plugin-content-docs
 
 import APITable from "@site/src/components/APITable";
 
-Provides the [Docs](../../guides/docs/docs-introduction.mdx) functionality and is the default docs plugin for Docusaurus.
+提供[Docs](../../guides/docs/docs-introduction.mdx)功能，是 Docusaurus 的默认文档插件。
 
-## Installation {#installation}
+## 安装 {#installation}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-content-docs
@@ -17,58 +17,61 @@ npm install --save @docusaurus/plugin-content-docs
 
 :::tip
 
-If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
+如果你使用预设的`@docusaurus/preset-classic`，你不需要将这个插件作为依赖项安装。
 
-You can configure this plugin through the preset options.
+您可以通过预设选项配置此插件。
 
 :::
 
-## Configuration {#configuration}
+## 配置 {#configuration}
 
-Accepted fields:
+接受字段:
 
 ```mdx-code-block
 <APITable>
 ```
 
-| Name                                 | Type                                                                          | Default                                  | Description                                                                                                                                                                                                                                     |
-| ------------------------------------ | ----------------------------------------------------------------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `path`                               | `string`                                                                      | `'docs'`                                 | Path to the docs content directory on the file system, relative to site directory.                                                                                                                                                              |
-| `editUrl`                            | <code>string \| <a href="#EditUrlFunction">EditUrlFunction</a></code>         | `undefined`                              | Base URL to edit your site. The final URL is computed by `editUrl + relativeDocPath`. Using a function allows more nuanced control for each file. Omitting this variable entirely will disable edit links.                                      |
-| `editLocalizedFiles`                 | `boolean`                                                                     | `false`                                  | The edit URL will target the localized file, instead of the original unlocalized file. Ignored when `editUrl` is a function.                                                                                                                    |
-| `editCurrentVersion`                 | `boolean`                                                                     | `false`                                  | The edit URL will always target the current version doc instead of older versions. Ignored when `editUrl` is a function.                                                                                                                        |
-| `routeBasePath`                      | `string`                                                                      | `'docs'`                                 | URL route for the docs section of your site. **DO NOT** include a trailing slash. Use `/` for shipping docs without base path.                                                                                                                  |
-| `tagsBasePath`                       | `string`                                                                      | `'tags'`                                 | URL route for the tags list page of your site. It is prepended to the `routeBasePath`.                                                                                                                                                          |
-| `include`                            | `string[]`                                                                    | `['**/*.{md,mdx}']`                      | Array of glob patterns matching Markdown files to be built, relative to the content path.                                                                                                                                                       |
-| `exclude`                            | `string[]`                                                                    | _See example configuration_              | Array of glob patterns matching Markdown files to be excluded. Serves as refinement based on the `include` option.                                                                                                                              |
-| `sidebarPath`                        | <code>false \| string</code>                                                  | `undefined`                              | Path to sidebar configuration. Use `false` to disable sidebars, or `undefined` to create a fully autogenerated sidebar.                                                                                                                         |
-| `sidebarCollapsible`                 | `boolean`                                                                     | `true`                                   | Whether sidebar categories are collapsible by default. See also [Collapsible categories](/docs/sidebar#collapsible-categories)                                                                                                                  |
-| `sidebarCollapsed`                   | `boolean`                                                                     | `true`                                   | Whether sidebar categories are collapsed by default. See also [Expanded categories by default](/docs/sidebar#expanded-categories-by-default)                                                                                                    |
-| `sidebarItemsGenerator`              | <a href="#SidebarGenerator"><code>SidebarGenerator</code></a>                 | _Omitted_                                | Function used to replace the sidebar items of type `'autogenerated'` with real sidebar items (docs, categories, links...). See also [Customize the sidebar items generator](/docs/sidebar#customize-the-sidebar-items-generator)                |
-| `numberPrefixParser`                 | <code>boolean \|</code> <a href="#PrefixParser"><code>PrefixParser</code></a> | _Omitted_                                | Custom parsing logic to extract number prefixes from file names. Use `false` to disable this behavior and leave the docs untouched, and `true` to use the default parser. See also [Using number prefixes](/docs/sidebar#using-number-prefixes) |
-| `docsRootComponent`                  | `string`                                                                      | `'@theme/DocsRoot'`                      | Parent component of all the docs plugin pages (including all versions). Stays mounted when navigation between docs pages and versions.                                                                                                          |
-| `docVersionRootComponent`            | `string`                                                                      | `'@theme/DocVersionLayout'`              | Parent component of all docs pages of an individual version (doc pages with sidebars, tags pages). Stays mounted when navigation between pages of that specific version.                                                                        |
-| `docRootComponent`                   | `string`                                                                      | `'@theme/DocPage'`                       | Parent component of all doc pages with sidebars (regular docs pages, category generated index pages). Stays mounted when navigation between such pages.                                                                                         |
-| `docItemComponent`                   | `string`                                                                      | `'@theme/DocItem'`                       | Main doc container, with TOC, pagination, etc.                                                                                                                                                                                                  |
-| `docTagsListComponent`               | `string`                                                                      | `'@theme/DocTagsListPage'`               | Root component of the tags list page                                                                                                                                                                                                            |
-| `docTagDocListComponent`             | `string`                                                                      | `'@theme/DocTagDocListPage'`             | Root component of the "docs containing tag X" page.                                                                                                                                                                                             |
-| `docCategoryGeneratedIndexComponent` | `string`                                                                      | `'@theme/DocCategoryGeneratedIndexPage'` | Root component of the generated category index page.                                                                                                                                                                                            |
-| `remarkPlugins`                      | `any[]`                                                                       | `[]`                                     | Remark plugins passed to MDX.                                                                                                                                                                                                                   |
-| `rehypePlugins`                      | `any[]`                                                                       | `[]`                                     | Rehype plugins passed to MDX.                                                                                                                                                                                                                   |
-| `beforeDefaultRemarkPlugins`         | `any[]`                                                                       | `[]`                                     | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins.                                                                                                                                                               |
-| `beforeDefaultRehypePlugins`         | `any[]`                                                                       | `[]`                                     | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins.                                                                                                                                                               |
-| `showLastUpdateAuthor`               | `boolean`                                                                     | `false`                                  | Whether to display the author who last updated the doc.                                                                                                                                                                                         |
-| `showLastUpdateTime`                 | `boolean`                                                                     | `false`                                  | Whether to display the last date the doc was updated.                                                                                                                                                                                           |
-| `breadcrumbs`                        | `boolean`                                                                     | `true`                                   | Enable or disable the breadcrumbs on doc pages.                                                                                                                                                                                                 |
-| `disableVersioning`                  | `boolean`                                                                     | `false`                                  | Explicitly disable versioning even when multiple versions exist. This will make the site only include the current version. Will error if `includeCurrentVersion: false` and `disableVersioning: true`.                                          |
-| `includeCurrentVersion`              | `boolean`                                                                     | `true`                                   | Include the current version of your docs.                                                                                                                                                                                                       |
-| `lastVersion`                        | `string`                                                                      | First version in `versions.json`         | The version navigated to in priority and displayed by default for docs navbar items.                                                                                                                                                            |
-| `onlyIncludeVersions`                | `string[]`                                                                    | All versions available                   | Only include a subset of all available versions.                                                                                                                                                                                                |
-| `versions`                           | <a href="#VersionsConfig"><code>VersionsConfig</code></a>                     | `{}`                                     | Independent customization of each version's properties.                                                                                                                                                                                         |
+| 名字                                 | 类型                                                                          | 默认的                                   | 描述                                                                                                                                           |
+| ------------------------------------ | ----------------------------------------------------------------------------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `path`                               | `string`                                                                      | `'docs'`                                 | 文件系统中 docs 内容目录的路径，相对于站点目录。                                                                                               |
+| `editUrl`                            | <code>string \| <a href="#EditUrlFunction">EditUrlFunction</a></code>         | `undefined`                              | 用于编辑站点的基础 URL。最终的 URL 由`editUrl + relativeDocPath`计算。使用函数可以对每个文件进行更细致的控制。完全省略这个变量将禁用编辑链接。 |
+| `editLocalizedFiles`                 | `boolean`                                                                     | `false`                                  | 编辑 URL 将针对已本地化的文件，而不是原始的未本地化文件。当`editUrl`是函数时忽略。                                                             |
+| `editCurrentVersion`                 | `boolean`                                                                     | `false`                                  | 编辑 URL 将始终针对当前版本文档，而不是旧版本。当`editUrl`是函数时忽略。                                                                       |
+| `routeBasePath`                      | `string`                                                                      | `'docs'`                                 | 网站文档部分的 URL 路由。**不要**包含尾斜杠。对于没有基本路径的 shipping docs 使用`/`。                                                        |
+| `tagsBasePath`                       | `string`                                                                      | `'tags'`                                 | 您网站的标签列表页面的 URL 路由。它被附加到`routeBasePath`。                                                                                   |
+| `include`                            | `string[]`                                                                    | `['**/*.{md,mdx}']`                      | 与要构建的 Markdown 文件相匹配的全局模式数组，相对于内容路径。                                                                                 |
+| `exclude`                            | `string[]`                                                                    | _See example configuration_              | 匹配要排除的降级文件的全局模式数组。作为基于`include`选项的细化。                                                                              |
+| `sidebarPath`                        | <code>false \| string</code>                                                  | `undefined`                              | 到侧栏配置的路径。使用`false`来禁用侧边栏，或使用`undefined`来创建完全自动生成的侧边栏。                                                       |
+| `sidebarCollapsible`                 | `boolean`                                                                     | `true`                                   | 默认情况下，侧栏类别是否可折叠。参见[可折叠的类别](/docs/sidebar#collapsible-categories)                                                       |
+| `sidebarCollapsed`                   | `boolean`                                                                     | `true`                                   | 默认情况下，侧边栏类别是否折叠。参见[默认展开的类别](/docs/sidebar#expanded-categories-by-default)                                             |
+| `sidebarItemsGenerator`              | <a href="#SidebarGenerator"><code>SidebarGenerator</code></a>                 | _Omitted_                                | 函数用于将`'autogenerated'`类型的侧边栏项替换为真正的侧边栏项(文档、类别、链接…)。参见[自定义侧边栏项生成器][sidebar]                          |
+| `numberPrefixParser`                 | <code>boolean \|</code> <a href="#PrefixParser"><code>PrefixParser</code></a> | _Omitted_                                | 自定义解析逻辑从文件名中提取数字前缀。使用`false`来禁用此行为并保持文档不变，使用`true`来使用默认解析器。参见[使用数字前缀][prefixes]          |
+| `docsRootComponent`                  | `string`                                                                      | `'@theme/DocsRoot'`                      | 所有文档插件页面(包括所有版本)的父组件。在文档页面和版本之间导航时保持挂载状态。                                                               |
+| `docVersionRootComponent`            | `string`                                                                      | `'@theme/DocVersionLayout'`              | 单个版本中所有文档页面的父组件(带有侧边栏的文档页面、标签页面)。在该特定版本的页面之间导航时保持挂载状态。                                     |
+| `docRootComponent`                   | `string`                                                                      | `'@theme/DocPage'`                       | 所有带侧边栏的文档页面的父组件(常规文档页面，分类生成的索引页面)。在这些页面之间导航时保持挂载状态。                                           |
+| `docItemComponent`                   | `string`                                                                      | `'@theme/DocItem'`                       | 主文档容器，具有 TOC，分页等。                                                                                                                 |
+| `docTagsListComponent`               | `string`                                                                      | `'@theme/DocTagsListPage'`               | 标签列表页面的根组件                                                                                                                           |
+| `docTagDocListComponent`             | `string`                                                                      | `'@theme/DocTagDocListPage'`             | "docs contains tag X"页面的根组件。                                                                                                            |
+| `docCategoryGeneratedIndexComponent` | `string`                                                                      | `'@theme/DocCategoryGeneratedIndexPage'` | 生成的类别索引页的根组件。                                                                                                                     |
+| `remarkPlugins`                      | `any[]`                                                                       | `[]`                                     | Remark 插件传递给 MDX。                                                                                                                        |
+| `rehypePlugins`                      | `any[]`                                                                       | `[]`                                     | Rehype 插件传递给 MDX。                                                                                                                        |
+| `beforeDefaultRemarkPlugins`         | `any[]`                                                                       | `[]`                                     | 在默认 Docusaurus Remark 插件之前传递给 MDX 的自定义 Remark 插件。                                                                             |
+| `beforeDefaultRehypePlugins`         | `any[]`                                                                       | `[]`                                     | 自定义 Rehype 插件在默认 Docusaurus Rehype 插件之前传递给 MDX。                                                                                |
+| `showLastUpdateAuthor`               | `boolean`                                                                     | `false`                                  | 是否显示最后更新文档的作者。                                                                                                                   |
+| `showLastUpdateTime`                 | `boolean`                                                                     | `false`                                  | 是否显示文档最后更新的日期。                                                                                                                   |
+| `breadcrumbs`                        | `boolean`                                                                     | `true`                                   | 启用或禁用文档页面上的面包屑。                                                                                                                 |
+| `disableVersioning`                  | `boolean`                                                                     | `false`                                  | 即使存在多个版本，也要显式禁用版本控制。这将使网站只包括当前版本。如果`includeCurrentVersion: false`和`disableVersioning: true`将会出错。      |
+| `includeCurrentVersion`              | `boolean`                                                                     | `true`                                   | 包含当前版本的文档。                                                                                                                           |
+| `lastVersion`                        | `string`                                                                      | First version in `versions.json`         | 文档导航栏项导航到的优先级和默认显示的版本。                                                                                                   |
+| `onlyIncludeVersions`                | `string[]`                                                                    | All versions available                   | 只包含所有可用版本的子集。                                                                                                                     |
+| `versions`                           | <a href="#VersionsConfig"><code>VersionsConfig</code></a>                     | `{}`                                     | 独立定制每个版本的属性。                                                                                                                       |
 
 ```mdx-code-block
 </APITable>
 ```
+
+[sidebar]: /docs/sidebar#customize-the-sidebar-items-generator
+[prefixes]: /docs/sidebar#using-number-prefixes
 
 ### Types {#types}
 
@@ -165,13 +168,13 @@ type VersionConfig = {
 type VersionsConfig = { [versionName: string]: VersionConfig };
 ```
 
-### Example configuration {#ex-config}
+### 示例配置 {#ex-config}
 
-You can configure this plugin through preset options or plugin options.
+您可以通过预设选项或插件选项来配置这个插件。
 
 :::tip
 
-Most Docusaurus users configure this plugin through the preset options.
+大多数 Docusaurus 用户通过预设选项配置这个插件。
 
 :::
 
@@ -254,23 +257,23 @@ const config = {
 };
 ```
 
-## Markdown front matter {#markdown-front-matter}
+## Markdown 元数据 {#markdown-front-matter}
 
-Markdown documents can use the following Markdown [front matter](../../guides/markdown-features/markdown-features-intro.mdx#front-matter) metadata fields, enclosed by a line `---` on either side.
+Markdown 文档可以使用以下 Markdown [元数据](../../guides/markdown-features/markdown-features-intro.mdx#front-matter)元数据字段，在两边用一行`---`括起来。
 
-Accepted fields:
+接受字段:
 
 ```mdx-code-block
 <APITable>
 ```
 
-| Name                     | Type                        | Default                                              | Description                                                                                                                                                                                                                       |
+| 名字                     | 类型                        | 默认                                                 | 描述                                                                                                                                                                                                                              |
 | ------------------------ | --------------------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `id`                     | `string`                    | file path (including folders, without the extension) | A unique document ID.                                                                                                                                                                                                             |
 | `title`                  | `string`                    | Markdown title or `id`                               | The text title of your document. Used for the page metadata and as a fallback value in multiple places (sidebar, next/previous buttons...). Automatically added at the top of your doc if it does not contain any Markdown title. |
 | `pagination_label`       | `string`                    | `sidebar_label` or `title`                           | The text used in the document next/previous buttons for this document.                                                                                                                                                            |
 | `sidebar_label`          | `string`                    | `title`                                              | The text shown in the document sidebar for this document.                                                                                                                                                                         |
-| `sidebar_position`       | `number`                    | Default ordering                                     | Controls the position of a doc inside the generated sidebar slice when using `autogenerated` sidebar items. See also [Autogenerated sidebar metadata](/docs/sidebar#autogenerated-sidebar-metadata).                              |
+| `sidebar_position`       | `number`                    | 默认 ordering                                        | Controls the position of a doc inside the generated sidebar slice when using `autogenerated` sidebar items. See also [Autogenerated sidebar metadata](/docs/sidebar#autogenerated-sidebar-metadata).                              |
 | `sidebar_class_name`     | `string`                    | `undefined`                                          | Gives the corresponding sidebar label a special class name when using autogenerated sidebars.                                                                                                                                     |
 | `sidebar_custom_props`   | `object`                    | `undefined`                                          | Assign [custom props](../../guides/docs/sidebar/index.mdx#passing-custom-props) to the sidebar item referencing this doc                                                                                                          |
 | `displayed_sidebar`      | `string`                    | `undefined`                                          | Force the display of a given sidebar when browsing the current document. Read the [multiple sidebars guide](../../guides/docs/sidebar/multiple-sidebars.mdx) for details.                                                         |
@@ -333,16 +336,16 @@ My Document Markdown content
 
 ## i18n {#i18n}
 
-Read the [i18n introduction](../../i18n/i18n-introduction.mdx) first.
+首先阅读[i18n 介绍](../../i18n/i18n-introduction.mdx)。
 
-### Translation files location {#translation-files-location}
+### 翻译文件位置 {#translation-files-location}
 
-- **Base path**: `website/i18n/[locale]/docusaurus-plugin-content-docs`
-- **Multi-instance path**: `website/i18n/[locale]/docusaurus-plugin-content-docs-[pluginId]`
-- **JSON files**: extracted with [`docusaurus write-translations`](../../cli.mdx#docusaurus-write-translations-sitedir)
-- **Markdown files**: `website/i18n/[locale]/docusaurus-plugin-content-docs/[versionName]`
+- **基本路径**: `website/i18n/[locale]/docusaurus-plugin-content-docs`
+- **多实例路径**: `website/i18n/[locale]/docusaurus-plugin-content-docs-[pluginId]`
+- **JSON 文件**: 提取自[`docusaurus write-translations`](../../cli.mdx#docusaurus-write-translations-sitedir)
+- **Markdown 文件**: `website/i18n/[locale]/docusaurus-plugin-content-docs/[versionName]`
 
-### Example file-system structure {#example-file-system-structure}
+### 示例文件系统结构 {#example-file-system-structure}
 
 ```bash
 website/i18n/[locale]/docusaurus-plugin-content-docs
