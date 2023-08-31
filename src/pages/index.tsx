@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
+import React from "react";
 import clsx from "clsx";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 import Link from "@docusaurus/Link";
@@ -25,7 +25,6 @@ import HackerNewsIcon from "@site/src/components/HackerNewsIcon";
 import styles from "./styles.module.css";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import Heading from "@theme/Heading";
-import React from "react";
 
 function HeroBanner() {
   return (
@@ -45,18 +44,18 @@ function HeroBanner() {
             dangerouslySetInnerHTML={{
               __html: translate({
                 id: "homepage.hero.title",
-                message: "快速构建<b>优化的</b>网站<b>，专注于你的<b>内容</b>",
-                description: "首页英雄标题，可以包含简单的html标签",
+                message: "Build <b>optimized</b> websites <b>quickly</b>, focus on your <b>content</b>",
+                description: "Home page hero title, can contain simple html tags",
               }),
             }}
           />
         </Heading>
         <div className={styles.indexCtas}>
           <Link className="button button--primary" to="/docs">
-            <Translate>开始</Translate>
+            <Translate>Get Started</Translate>
           </Link>
           <Link className="button button--info" to="https://docusaurus.new">
-            <Translate>尝试演示</Translate>
+            <Translate>Try a Demo</Translate>
           </Link>
           <span className={styles.indexCtasGitHubButtonWrapper}>
             <iframe
@@ -86,12 +85,12 @@ function MigrationAnnouncement() {
             ),
             migrationGuideLink: (
               <Link to="/docs/migration">
-                <Translate>V1到v2的迁移指南</Translate>
+                <Translate>v1 to v2 migration guide</Translate>
               </Link>
             ),
           }}
         >
-          {`来自{docusaurusV1Link}? 查看我们的 {migrationGuideLink}.`}
+          {`Coming from {docusaurusV1Link}? Check out our {migrationGuideLink}.`}
         </Translate>
       </div>
     </div>
@@ -106,7 +105,7 @@ function TweetsSection() {
     <div className={clsx(styles.section, styles.sectionAlt)}>
       <div className="container">
         <Heading as="h2" className={clsx("margin-bottom--lg", "text--center")}>
-          <Translate>受到许多工程师的喜爱</Translate>
+          <Translate>Loved by many engineers</Translate>
         </Heading>
         <div className={clsx("row", styles.tweetsSection)}>
           {tweetColumns.map((tweetItems, i) => (
@@ -156,7 +155,7 @@ function VideoContainer() {
       <div className="row">
         <div className="col">
           <Heading as="h2">
-            <Translate>请在介绍视频中查看</Translate>
+            <Translate>Check it out in the intro video</Translate>
           </Heading>
           <div className="video-container">
             <LiteYouTubeEmbed
@@ -201,7 +200,7 @@ function FeaturesContainer() {
   return (
     <div className="container text--center">
       <Heading as="h2">
-        <Translate>主要特点</Translate>
+        <Translate>Main features</Translate>
       </Heading>
       <div className="row margin-bottom--lg">
         {firstRow.map((feature, idx) => (
@@ -238,17 +237,17 @@ function TopBanner() {
       <div className={styles.topBannerTitle}>
         {"🎉\xa0"}
         <Link to="/blog/2022/08/01/announcing-docusaurus-2.0" className={styles.topBannerTitleText}>
-          <Translate id="homepage.banner.launch.2.0">{"Docusaurus\xa02.0 来\xa0了!️"}</Translate>
+          <Translate id="homepage.banner.launch.2.0">{"Docusaurus\xa02.0 is\xa0out!️"}</Translate>
         </Link>
         {"\xa0🥳"}
       </div>
       <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}>
         <div style={{ flex: 1, whiteSpace: "nowrap" }}>
           <div className={styles.topBannerDescription}>
-            我们开始{" "}
+            We are on{" "}
             <b>
-              <Link to="https://www.producthunt.com/posts/docusaurus-2-0">ProductHunt</Link> 和{" "}
-              <Link to="https://news.ycombinator.com/item?id=32303052">Hacker News</Link> 今天!
+              <Link to="https://www.producthunt.com/posts/docusaurus-2-0">ProductHunt</Link> and{" "}
+              <Link to="https://news.ycombinator.com/item?id=32303052">Hacker News</Link> today!
             </b>
           </div>
         </div>

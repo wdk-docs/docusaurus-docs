@@ -1,0 +1,537 @@
+---
+id: tutorial
+description: This tutorial will walk you through the basics of the Docusaurus i18n system.
+slug: /i18n/tutorial
+---
+
+# i18n - 教程
+
+```mdx-code-block
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+```
+
+本教程将带您了解**Docusaurus i18n 系统**的基础知识。
+
+我们将**法语**翻译添加到**新初始化的英文 Docusaurus 网站**。
+
+初始化一个新的网站`npx create-docusaurus@latest website classic`(像[这个](https://github.com/facebook/docusaurus/tree/main/examples/classic))。
+
+## 配置您的站点 {#configure-your-site}
+
+修改`docusaurus.config.js`以添加对法语的 i18n 支持。
+
+### 网站配置 {#site-configuration}
+
+使用[site i18n 配置](./../api/docusaurus.config.js.mdx#i18n)来声明 i18n 区域设置:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "fr", "fa"],
+    localeConfigs: {
+      en: {
+        htmlLang: "en-GB",
+      },
+      // You can omit a locale (e.g. fr) if you don't need to override the defaults
+      fa: {
+        direction: "rtl",
+      },
+    },
+  },
+};
+```
+
+语言环境名称用于翻译文件的位置，以及翻译后的语言环境的基础 URL。在构建所有区域设置时，只有默认区域设置的名称会在基 URL 中被省略。
+
+Docusaurus 使用语言环境名称来提供**合理的默认值**:`<html lang="...">`属性、区域标签、日历格式等。您可以使用`localeConfigs`自定义这些默认值。
+
+### 主题配置 {#theme-configuration}
+
+添加一个`localeDropdown`类型的导航栏项，以便用户可以选择他们想要的区域设置:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: "localeDropdown",
+          position: "left",
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+:::tip
+
+您可以传递一个查询参数，当用户使用下拉菜单更改区域设置时，该参数将追加到 URL (如。 `queryString: '?persistLocale=true'`).
+
+这对于在服务器上实现自动区域设置检测非常有用。例如，您可以使用该参数在 cookie 中存储用户的首选区域设置。
+
+:::
+
+### 启动您的网站 {#start-your-site}
+
+在开发模式下启动本地化的站点，使用您选择的区域设置:
+
+```bash npm2yarn
+npm run start -- --locale fr
+```
+
+您的网站可通过[`http://localhost:3000/fr/`](http://localhost:3000/fr/)访问。
+
+我们还没有提供任何翻译，所以这个网站基本上是未翻译的。
+
+:::tip
+
+Docusaurus 为通用主题标签提供默认翻译，例如分页的“Next”和“Previous”。
+
+请帮助我们完成这些**[默认翻译](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-translations/locales)**.
+
+:::
+
+:::caution
+
+每个语言环境都是一个**独立的单页应用程序**:不可能同时在所有语言环境中启动 Docusaurus 站点。
+
+:::
+
+## 翻译你的网站 {#translate-your-site}
+
+法语地区的所有翻译数据都存储在`website/i18n/fr`中。
+每个插件都在相应的文件夹下提供自己的翻译内容，而`code.json`文件定义了 React 代码中使用的所有文本标签。
+
+:::note
+
+复制文件后，用`npm run start -- --locale fr`重新启动你的站点。在编辑现有文件时，热加载效果会更好。
+
+:::
+
+### 翻译你的 React 代码 {#translate-your-react-code}
+
+对于你自己编写的任何 React 代码:React 页面，React 组件等，你将使用[**翻译 api**](../docusaurus-core.mdx#translate).
+
+找到 React 代码中所有对用户可见的文本标签，并用翻译 api 标记它们。有两种 api:
+
+- `<Translate>`组件将字符串包装为 JSX 元素;
+- `translate()`回调函数接受一条消息并返回一个字符串。
+
+使用更符合上下文语义的那个。例如，`<Translate>`可以用作 React 的子元素，而对于期望字符串的 props，可以使用回调。
+
+:::caution
+
+JSX 元素是一个*对象*，而不是字符串。在需要字符串的上下文中使用它(例如[`<option>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option)的子对象)将[将其强制转换为字符串](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/toString)，它返回' ' `"[object Object]"`。
+虽然我们鼓励您使用`<Translate>`作为 JSX 的子元素，但只有在元素形式真正起作用时才使用它。
+
+:::
+
+```mdx-code-block
+<Tabs>
+<TabItem value="Before">
+```
+
+```jsx title="src/pages/index.js"
+import React from "react";
+import Layout from "@theme/Layout";
+import Link from "@docusaurus/Link";
+
+export default function Home() {
+  return (
+    <Layout>
+      {/* highlight-next-line */}
+      <h1>Welcome to my website</h1>
+      <main>
+        {/* highlight-start */}
+        You can also visit my
+        <Link to="https://docusaurus.io/blog">blog</Link>
+        {/* highlight-end */}
+        <img
+          src="/img/home.png"
+          // highlight-next-line
+          alt="Home icon"
+        />
+      </main>
+    </Layout>
+  );
+}
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="After">
+```
+
+```jsx title="src/pages/index.js"
+import React from "react";
+import Layout from "@theme/Layout";
+import Link from "@docusaurus/Link";
+
+// highlight-next-line
+import Translate, { translate } from "@docusaurus/Translate";
+
+export default function Home() {
+  return (
+    <Layout>
+      <h1>
+        {/* highlight-next-line */}
+        <Translate>Welcome to my website</Translate>
+      </h1>
+      <main>
+        {/* highlight-start */}
+        <Translate
+          id="homepage.visitMyBlog"
+          description="The homepage message to ask the user to visit my blog"
+          values={{
+            blogLink: (
+              <Link to="https://docusaurus.io/blog">
+                <Translate id="homepage.visitMyBlog.linkLabel" description="The label for the link to my blog">
+                  blog
+                </Translate>
+              </Link>
+            ),
+          }}
+        >
+          {"You can also visit my {blogLink}"}
+        </Translate>
+        {/* highlight-end */}
+
+        <img
+          src="/img/home.png"
+          alt={
+            // highlight-start
+            translate({
+              message: "Home icon",
+              description: "The homepage icon alt message",
+            })
+            // highlight-end
+          }
+        />
+      </main>
+    </Layout>
+  );
+}
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
+
+:::info
+
+Docusaurus 提供了一个非常小和轻量级的翻译运行时，并且只支持基本的[占位符插值](../docusaurus-core.mdx#interpolate)，使用[ICU 消息格式](https://formatjs.io/docs/core-concepts/icu-syntax/)的一个子集。
+
+大多数文档网站通常是静态的，不需要高级的 i18n 功能(**复数**，**性别**等)。对于更高级的用例，可以使用像[react-intl](https://www.npmjs.com/package/react-intl)这样的库。
+
+:::
+
+`docusaurus write-translations`命令将静态分析站点中使用的所有 React 代码文件，提取对这些 api 的调用，并将它们聚合到`code.json` 文件中。
+翻译文件将存储为从 id 到翻译消息对象的映射(包括翻译后的标签和标签的描述)。
+在调用翻译 API (`<Translate>`或`translate()`)时，您需要指定默认的未翻译消息或 ID，以便 Docusaurus 正确地将每个翻译条目与 API 调用关联起来。
+
+:::caution 文本标签必须是静态的
+
+`docusaurus write-translations`命令只对代码进行静态分析。
+它实际上并不运行您的站点。因此，动态消息不能被提取，因为消息是一个表达式，而不是字符串:
+
+```jsx
+const items = [
+  {id: 1, title: 'Hello'},
+  {id: 2, title: 'World'},
+];
+
+function ItemsList() {
+  return (
+    <ul>
+      {/* DON'T DO THIS: doesn't work with the write-translations command */}
+      {items.map((item) => (
+        <li key={item.id}>
+          <Translate>{item.title}</Translate>
+        </li>
+      ))}
+    <ul>
+  );
+}
+```
+
+这在运行时仍能正常运行。然而，在未来，我们可能会提供一种“无运行时”机制，允许通过 Babel 转换将翻译直接内联到 React 代码中，而不是在运行时调用 api。因此，为了保证将来的安全，您应该始终选择静态可分析的消息。例如，我们可以将上面的代码重构为:
+
+```jsx
+const items = [
+  {id: 1, title: <Translate>Hello</Translate>},
+  {id: 2, title: <Translate>World</Translate>},
+];
+
+function ItemsList() {
+  return (
+    <ul>
+      {/* The titles are now already translated when rendering! */}
+      {items.map((item) => (
+        <li key={item.id}>{item.title}</li>
+      ))}
+    <ul>
+  );
+}
+```
+
+你可以把对翻译 api 的调用看作是纯粹的*标记*，它告诉 Docusaurus“这里有一个文本标签，要用翻译后的消息替换”。
+
+:::
+
+#### 多元化的案例 {#pluralization}
+
+当你运行`write-translations`时，你会注意到一些标签是复数形式的:
+
+```json title="i18n/en/code.json"
+{
+  // ...
+  "theme.blog.post.plurals": "One post|{count} posts"
+  // ...
+}
+```
+
+每种语言都有一个[可能的复数类别](https://unicode-org.github.io/cldr-staging/charts/37/supplemental/language_plural_rules.html)列表。
+Docusaurus 会按照`["zero", "one", "two", "few", "many", "other"]`的顺序排列它们。
+例如，由于英语(`en`)有两种复数形式(“one”和“other”)，翻译消息有两个由管道(`|`)分隔的标签。
+对于有三种复数形式(“one”，“few”和“many”)的波兰语(`pl`)，您将按该顺序提供三个标签，并由管道连接。
+
+你也可以将自己代码中的信息复数化:
+
+```jsx
+import {translate} from '@docusaurus/Translate';
+import {usePluralForm} from '@docusaurus/theme-common';
+
+function ItemsList({items}) {
+  // `usePluralForm` will provide the plural selector for the current locale
+  const {selectMessage} = usePluralForm();
+  // Select the appropriate pluralized label based on `items.length`
+  const message = selectMessage(
+    items.length,
+    translate(
+      {message: 'One item|{count} items'},
+      {count: items.length},
+    ),
+  );
+  return (
+    <>
+      <h2>{message}</h2>
+      <ul>{items.map((item) => <li key={item.id}>{item.title}</li>)}<ul>
+    </>
+  );
+}
+```
+
+:::note
+
+Docusaurus 使用[`Intl.PluralRules`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules)来解析和选择复数形式。
+为`selectMessage`的工作提供正确数量和顺序的复数形式是很重要的。
+:::
+
+### 翻译插件数据 {#translate-plugin-data}
+
+JSON 翻译文件用于散布在代码中的所有内容:
+
+- React 代码，包括上面标记的翻译后的标签
+- 主题配置中的导航栏和页脚标签
+- 文档侧边栏类别标签在 `sidebars.js` 中
+- 插件选项中的博客侧边栏标题
+- ...
+
+运行[write-translations](../cli.mdx#docusaurus-write-translations-sitedir) 命令:
+
+```bash npm2yarn
+npm run write-translations -- --locale fr
+```
+
+它将提取并初始化需要翻译的 JSON 翻译文件。
+根目录下的`code.json`文件包含从源代码中提取的所有翻译 API 调用，这些调用可以是由您编写的，也可以是由主题提供的，其中一些可能已经默认翻译了。
+
+```json title="i18n/fr/code.json"
+{
+  // No ID for the <Translate> component: the default message is used as ID
+  "Welcome to my website": {
+    "message": "Welcome to my website"
+  },
+  "home.visitMyBlog": {
+    "message": "You can also visit my {blog}",
+    "description": "The homepage message to ask the user to visit my blog"
+  },
+  "homepage.visitMyBlog.linkLabel": {
+    "message": "Blog",
+    "description": "The label for the link to my blog"
+  },
+  "Home icon": {
+    "message": "Home icon",
+    "description": "The homepage icon alt message"
+  }
+}
+```
+
+插件和主题也将编写自己的 JSON 翻译文件，例如:
+
+```json title="i18n/fr/docusaurus-theme-classic/navbar.json"
+{
+  "title": {
+    "message": "My Site",
+    "description": "The title in the navbar"
+  },
+  "item.label.Docs": {
+    "message": "Docs",
+    "description": "Navbar item with label Docs"
+  },
+  "item.label.Blog": {
+    "message": "Blog",
+    "description": "Navbar item with label Blog"
+  },
+  "item.label.GitHub": {
+    "message": "GitHub",
+    "description": "Navbar item with label GitHub"
+  }
+}
+```
+
+翻译`i18n/fr`JSON 文件中的`message`属性，你的网站布局和主页现在应该被翻译了。
+
+### 翻译 Markdown 文件 {#translate-markdown-files}
+
+官方 Docusaurus 内容插件广泛使用 Markdown/MDX 文件，并允许您翻译它们。
+
+#### 翻译文档 {#translate-the-docs}
+
+将你的 docs Markdown 文件从`docs/`复制到`i18n/fr/docusaurus-plugin-content-docs/current`，并翻译它们:
+
+```bash
+mkdir -p i18n/fr/docusaurus-plugin-content-docs/current
+cp -r docs/** i18n/fr/docusaurus-plugin-content-docs/current
+```
+
+:::info
+
+注意`docusaurus-plugin-content-docs`插件总是将其内容按版本划分。
+`./docs`文件夹中的数据将在`current`子文件夹和`current.json`文件中进行翻译。
+请参阅[文档版本控制指南](../guides/docs/versioning.mdx#terminology)了解有关"current"含义的更多信息。
+
+:::
+
+#### 翻译博客 {#translate-the-blog}
+
+复制你的博客 Markdown 文件到`i18n/fr/docusaurus-plugin-content-blog`，并翻译它们:
+
+```bash
+mkdir -p i18n/fr/docusaurus-plugin-content-blog
+cp -r blog/** i18n/fr/docusaurus-plugin-content-blog
+```
+
+#### 翻译页面 {#translate-the-pages}
+
+复制你的页面 Markdown 文件到`i18n/fr/docusaurus-plugin-content-pages`，并翻译它们:
+
+```bash
+mkdir -p i18n/fr/docusaurus-plugin-content-pages
+cp -r src/pages/**.md i18n/fr/docusaurus-plugin-content-pages
+cp -r src/pages/**.mdx i18n/fr/docusaurus-plugin-content-pages
+```
+
+:::caution
+
+我们只复制`.md` 和 `.mdx`文件，因为 React 页面已经通过 JSON 翻译文件进行了翻译。
+
+:::
+
+:::tip 使用明确的标题 id
+
+默认情况下，Markdown 标题`### Hello World` 将生成一个 ID`hello-world`。
+其他文档可以用`[link](#hello-world)`”链接它。
+然而，翻译后，标题变成了`### Bonjour le Monde`，ID 为`bonjour-le-monde`。
+
+生成的 id 并不总是适合本地化的网站，因为它需要你本地化所有的锚链接:
+
+```diff
+- [link](#hello-world).
++ [link](#bonjour-le-monde)
+```
+
+对于本地化的站点，建议使用**[显式标题 id](../guides/markdown-features/markdown-features-toc.mdx#explicit-ids)**。
+
+:::
+
+## 部署您的站点 {#deploy-your-site}
+
+您可以选择将站点部署在**单个域**或使用**多个(子)域**。
+
+### 单极部署 {#single-domain-deployment}
+
+运行以下命令:
+
+```bash npm2yarn
+npm run build
+```
+
+Docusaurus 将为每个地区构建一个单页应用程序:
+
+- `website/build`: 默认为英语语言
+- `website/build/fr`: 法语版
+
+现在，您可以将“build”文件夹[部署](../deployment.mdx)到您选择的静态托管解决方案。
+
+:::note
+
+Docusaurus v2 网站使用了这种策略:
+
+- [`https://docusaurus.io`](https://docusaurus.io)
+- [`https://docusaurus.io/fr`](https://docusaurus.io/fr)
+
+:::
+
+:::tip
+
+静态主机提供商通常按照约定将`/unknown/url`重定向到`/404.html`，总是显示一个**英文 404 页面**。
+
+**本地化您的 404 页面**配置您的主机重定向`/fr/*` 道 `/fr/404.html`。
+
+这并不总是可能的，并且取决于您的主机:GitHub Pages 不能这样做，[netflix](https://docs.netlify.com/routing/redirects/redirect-options/#custom-404-page-handling)可以。
+
+:::
+
+### 多域部署 {#multi-domain-deployment}
+
+您还可以为单一区域设置构建站点:
+
+```bash npm2yarn
+npm run build -- --locale fr
+```
+
+Docusaurus 不会添加`/fr/` URL 前缀。
+
+关于你的[静态主机提供商](../deployment.mdx):
+
+- 为每个区域设置创建一个部署
+- 使用`--locale`选项配置适当的构建命令
+- 为每个部署配置您选择的(子)域
+
+:::caution
+
+这种策略**不可能**与 GitHub 页面，因为它只可能**有一个单一的部署**。
+
+:::
+
+### 混合动力 {#hybrid}
+
+可以让一些区域使用子路径，而其他区域使用子域。
+
+也可以将每个区域设置部署为单独的子域，在 CDN 级别将子域组装在单个统一域中:
+
+- 将您的站点部署为`fr.docusaurus.io`
+- 配置一个 CDN 从“docusaurus.io/fr”提供它。
+
+## 管理翻译 {#managing-translations}
+
+Docusaurus 并不关心您如何管理翻译:它所需要的只是在构建过程中所有翻译文件(JSON、Markdown 或其他数据文件)在文件系统中可用。然而，作为站点创建者，您需要考虑如何管理翻译，以便您的翻译贡献者能够很好地合作。
+
+我们将分享两种常见的翻译协作策略:[**使用 git**](./i18n-git.mdx)和[**使用 Crowdin**](./i18n-crowdin.mdx)。

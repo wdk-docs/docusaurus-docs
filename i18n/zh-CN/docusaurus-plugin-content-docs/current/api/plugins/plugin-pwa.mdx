@@ -1,0 +1,297 @@
+---
+sidebar_position: 9
+slug: /api/plugins/@docusaurus/plugin-pwa
+---
+
+# 📦 plugin-pwa
+
+Docusaurus 插件添加 PWA 支持使用[Workbox](https://developers.google.com/web/tools/workbox)。这个插件只在生产环境中生成一个 [Service Worker](https://developers.google.com/web/fundamentals/primers/service-workers)，并允许你创建完全符合 pwa 的文档站点，支持离线和安装。
+
+## 安装 {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-pwa
+```
+
+## 配置 {#configuration}
+
+创建一个[PWA 清单](https://web.dev/add-manifest/)在`./static/manifest.json`。
+
+使用最小的 PWA 配置修改`docusaurus.config.js`，如下所示:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      "@docusaurus/plugin-pwa",
+      {
+        debug: true,
+        offlineModeActivationStrategies: ["appInstalled", "standalone", "queryString"],
+        pwaHead: [
+          {
+            tagName: "link",
+            rel: "icon",
+            href: "/img/docusaurus.png",
+          },
+          {
+            tagName: "link",
+            rel: "manifest",
+            href: "/manifest.json", // your PWA manifest
+          },
+          {
+            tagName: "meta",
+            name: "theme-color",
+            content: "rgb(37, 194, 160)",
+          },
+        ],
+      },
+    ],
+  ],
+};
+```
+
+## 渐进式 Web 应用 {#progressive-web-app}
+
+安装 service worker 并不足以使您的应用程序成为 PWA。你需要至少包括一个[Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest)，并在`<head>` ([Options > pwaHead](#pwaHead))中有正确的标签。
+
+部署完成后，您可以使用[Lighthouse](https://developers.google.com/web/tools/lighthouse)在站点上运行审计。
+
+有关您的站点成为 PWA 所需条件的更详尽的列表，请参阅[PWA Checklist](https://developers.google.com/web/progressive-web-apps/checklist)。
+
+## 应用安装支持 {#app-installation-support}
+
+如果你的浏览器支持它，你应该能够将 Docusaurus 站点作为应用程序安装。
+
+![安装过程的屏幕记录。浏览器的地址栏中会出现一个按钮，点击后会显示一个对话框，询问`安装此应用程序?`点击`安装`按钮后，在操作系统中打开一个新的应用程序，打开Docusaurus主页。](/img/pwa_install.gif)
+
+:::note
+
+应用程序安装需要 HTTPS 协议和有效的清单。
+
+:::
+
+## 离线模式 (precaching) {#offline-mode-precaching}
+
+我们允许用户离线浏览 Docusaurus 网站，通过使用 service-worker 说教。
+
+[workbox-precaching](https://developers.google.com/web/tools/workbox/modules/workbox-precaching)页面解释了这个想法:
+
+> service worker 的一个特性是能够在 service worker 安装时将一组文件保存到缓存中。这通常被称为`说教`，因为你在使用 service worker 之前缓存内容。
+>
+> 这样做的主要原因是，它使开发人员可以控制缓存，这意味着他们可以决定何时和多长时间的文件缓存，并提供给浏览器，而不需要通过网络，这意味着它可以用来创建离线工作的 web 应用程序。
+>
+> Workbox 通过简化 API 和确保资源被高效下载，省去了大量繁重的说教工作。
+
+默认情况下，当站点作为应用程序安装时，离线模式是启用的。详细信息请参见`offlineModeActivationStrategies`选项。
+
+在站点被预传之后，service worker 将为以后的访问提供缓存的响应。当新的构建与新的 service worker 一起部署时，新的 service worker 将开始安装，并最终进入等待状态。在此等待状态中，将显示一个重新加载弹出窗口，并要求用户重新加载页面以获取新内容。直到用户清空了应用缓存或者点击了弹出窗口上的`重新加载`按钮，service worker 才会继续提供旧的内容。
+
+:::caution
+
+离线模式/预传需要提前下载站点的所有静态资产，并且会消耗不必要的带宽。对所有类型的站点都激活它可能不是一个好主意。
+
+:::
+
+## 选项 {#options}
+
+### `debug` {#debug}
+
+- Type: `boolean`
+- Default: `false`
+
+打开调试模式:
+
+- Workbox logs
+- Additional Docusaurus logs
+- Unoptimized SW file output
+- Source maps
+
+### `offlineModeActivationStrategies` {#offlinemodeactivationstrategies}
+
+- Type: `('appInstalled' | 'mobile' | 'saveData'| 'queryString' | 'always')[]`
+- Default: `['appInstalled', 'queryString', 'standalone']`
+
+开启离线模式的策略:
+
+- `appInstalled`: 激活用户已安装的网站作为一个应用程序(不是 100%可靠)
+- `standalone`: 为独立运行应用程序的用户激活(通常情况下，一旦安装了 PWA)
+- `queryString`: 如果 queryString 包含`offlineMode=true`则激活(方便 PWA 调试)
+- `mobile`: 移动用户激活 (`width <= 996px`)
+- `saveData`: 使用`navigator.connection.saveData === true`激活用户
+- `always`: 对所有用户激活
+
+:::caution
+
+请谨慎使用:有些用户可能不喜欢被迫使用离线模式。
+
+:::
+
+:::danger
+
+无法检测页面是否以可靠的方式呈现为 PWA。
+
+`appinstalled`事件已[从规范中删除](https://github.com/w3c/manifest/pull/836)，而[`navigator.getInstalledRelatedApps()`](https://web.dev/get-installed-related-apps/) API 仅支持最近的 Chrome 版本，并且需要在 manifest 中声明`related_applications`。
+
+['独立'策略](https://petelepage.com/blog/2019/07/is-my-pwa-installed/)是一个很好的后备激活离线模式(至少在运行已安装的应用程序时)。
+
+:::
+
+### `injectManifestConfig` {#injectmanifestconfig}
+
+[Workbox options](https://developer.chrome.com/docs/workbox/reference/workbox-build/#type-InjectManifestOptions)传递给`Workbox.injectmanifest()`。这使您可以控制哪些资产将被预传，哪些资产可以离线使用。
+
+- Type: `InjectManifestOptions`
+- Default: `{}`
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      "@docusaurus/plugin-pwa",
+      {
+        injectManifestConfig: {
+          manifestTransforms: [
+            //...
+          ],
+          modifyURLPrefix: {
+            //...
+          },
+          // We already add regular static assets (HTML, images...) to be available offline
+          // You can add more files according to your needs
+          globPatterns: ["**/*.{pdf,docx,xlsx}"],
+          // ...
+        },
+      },
+    ],
+  ],
+};
+```
+
+### `pwaHead` {#pwahead}
+
+- Type: `({ tagName: string; [attributeName: string]: string })[]`
+- Default: `[]`
+
+包含`tagName`和用于注入`<head>`标签的属性的键值对的对象数组。从技术上讲，您可以通过它注入任何头部标签，但它最适合用于使您的站点符合 PWA 的标签。这里有一个标签列表，使你的应用程序完全兼容:
+
+```js
+module.exports = {
+  plugins: [
+    [
+      "@docusaurus/plugin-pwa",
+      {
+        pwaHead: [
+          {
+            tagName: "link",
+            rel: "icon",
+            href: "/img/docusaurus.png",
+          },
+          {
+            tagName: "link",
+            rel: "manifest",
+            href: "/manifest.json",
+          },
+          {
+            tagName: "meta",
+            name: "theme-color",
+            content: "rgb(37, 194, 160)",
+          },
+          {
+            tagName: "meta",
+            name: "apple-mobile-web-app-capable",
+            content: "yes",
+          },
+          {
+            tagName: "meta",
+            name: "apple-mobile-web-app-status-bar-style",
+            content: "#000",
+          },
+          {
+            tagName: "link",
+            rel: "apple-touch-icon",
+            href: "/img/docusaurus.png",
+          },
+          {
+            tagName: "link",
+            rel: "mask-icon",
+            href: "/img/docusaurus.svg",
+            color: "rgb(37, 194, 160)",
+          },
+          {
+            tagName: "meta",
+            name: "msapplication-TileImage",
+            content: "/img/docusaurus.png",
+          },
+          {
+            tagName: "meta",
+            name: "msapplication-TileColor",
+            content: "#000",
+          },
+        ],
+      },
+    ],
+  ],
+};
+```
+
+### `swCustom` {#swcustom}
+
+- Type: `string | undefined`
+- Default: `undefined`
+
+用于其他工作框规则。在这里，你可以做 service worker 能做的任何事情，并充分利用工作盒库的强大功能。代码是经过编译的，因此您可以在这里使用现代 ES6+语法。
+
+例如，要从外部路由缓存文件:
+
+```js
+import { registerRoute } from "workbox-routing";
+import { StaleWhileRevalidate } from "workbox-strategies";
+
+// default fn export receiving some useful params
+export default function swCustom(params) {
+  const {
+    debug, // :boolean
+    offlineMode, // :boolean
+  } = params;
+
+  // Cache responses from external resources
+  registerRoute((context) => {
+    return [/graph\.facebook\.com\/.*\/picture/, /netlify\.com\/img/, /avatars1\.githubusercontent/].some((regex) =>
+      context.url.href.match(regex)
+    );
+  }, new StaleWhileRevalidate());
+}
+```
+
+该模块应该有一个`default`函数导出，并接收一些参数。
+
+### `swRegister` {#swregister}
+
+- Type: `string | false`
+- Default: `'docusaurus-plugin-pwa/src/registerSW.js'`
+
+在 Docusaurus 应用程序之前添加一个条目，以便在应用程序运行之前进行注册。默认的`registerSW.js`文件足以进行简单的注册。
+
+传递`false`将完全禁用注册。
+
+## Manifest 例子 {#manifest-example}
+
+Docusaurus 遗址清单可以作为一种灵感:
+
+```mdx-code-block
+import CodeBlock from '@theme/CodeBlock';
+
+<CodeBlock className="language-json">
+  {JSON.stringify(require("@site/static/manifest.json"),null,2)}
+</CodeBlock>
+```
+
+## 自定义重新加载弹出 {#customizing-reload-popup}
+
+`@theme/PwaReloadPopup`组件是在一个新的 service worker 等待安装时呈现的，我们建议重新加载给用户。你可以[swizzle](../../swizzling.mdx)这个组件并实现你自己的 UI。它将接收一个`onReload`回调作为属性，它应该在`reload`按钮被点击时被调用。这将告诉 service worker 安装等待的 service worker 并重新加载页面。
+
+默认主题包括重载弹出窗口的实现，并使用[Infima Alerts](https://infima.dev/docs/components/alert)。
+
+![重装过程的屏幕记录。窗口的右下角会显示一个警告框，提示`新内容可用`。点击`刷新`按钮后，页面主标题由`简介`变为`PWA:)`。](/img/pwa_reload.gif)
+
+您的组件可以呈现`null`，但不建议这样做:用户将无法获得最新的内容。

@@ -1,45 +1,45 @@
 ---
-description: 通过创建自己的主题组件来定制站点的外观
+description: Customize your site's appearance through creating your own theme components
 ---
 
-# 搅拌
+# Swizzling
 
-在本节中，我们将介绍如何在 Docusaurus 中定制布局。
+In this section, we will introduce how customization of layout is done in Docusaurus.
 
 > Déja vu...?
 
-这一节类似于[样式和布局](./styling-layout.mdx)，但这一次，我们将自定义 React 组件本身，而不是它们的样子。我们将讨论 Docusaurus 中的一个核心概念:**swizzling**，它允许**更深层次的站点自定义**。
+This section is similar to [Styling and Layout](./styling-layout.mdx), but this time, we will customize React components themselves, rather than what they look like. We will talk about a central concept in Docusaurus: **swizzling**, which allows **deeper site customizations**.
 
-在实践中，swizzling 允许**用你自己的实现**交换主题组件，它有两种模式:
+In practice, swizzling permits to **swap a theme component with your own implementation**, and it comes in 2 patterns:
 
-- [**弹出**](#ejecting): 创建原始主题组件的**副本**，您可以完全**自定义**
-- [**包装**](#wrapping): 在原始主题组件周围创建一个包装器，您可以**增强**
+- [**Ejecting**](#ejecting): creates a **copy** of the original theme component, which you can fully **customize**
+- [**Wrapping**](#wrapping): creates a **wrapper** around the original theme component, which you can **enhance**
 
 <details>
 
-<summary>为什么叫swizzling?</summary>
+<summary>Why is it called swizzling?</summary>
 
-**这个名字来源于 Objective-C 和 Swift-UI**: [method swizzling](https://pspdfkit.com/blog/2019/swizzling-in-swift/)是改变现有选择器(方法)实现的过程。
+**The name comes from Objective-C and Swift-UI**: [method swizzling](https://pspdfkit.com/blog/2019/swizzling-in-swift/) is the process of changing the implementation of an existing selector (method).
 
-**对于 Docusaurus，组件混合意味着提供一个替代组件，该组件优先于主题提供的组件。**
+**For Docusaurus, component swizzling means providing an alternative component that takes precedence over the component provided by the theme.**
 
-你可以把它想象成 React 组件的[Monkey patch](https://en.wikipedia.org/wiki/Monkey_patch)，使你能够覆盖默认实现。盖茨比有一个类似的概念，叫做[主题阴影](https://www.gatsbyjs.com/docs/how-to/plugins-and-themes/shadowing/)。
+You can think of it as [Monkey Patching](https://en.wikipedia.org/wiki/Monkey_patch) for React components, enabling you to override the default implementation. Gatsby has a similar concept called [theme shadowing](https://www.gatsbyjs.com/docs/how-to/plugins-and-themes/shadowing/).
 
-为了更深入地理解这一点，您必须了解[主题组件是如何解析的](./advanced/client.mdx#theme-aliases)。
+To gain a deeper understanding of this, you have to understand [how theme components are resolved](./advanced/client.mdx#theme-aliases).
 
 </details>
 
-## Swizzling 过程
+## Swizzling Process
 
-### 概述
+### Overview
 
-Docusaurus 提供了一个方便的**交互式 CLI**来混合组件。一般只需要记住以下命令:
+Docusaurus provides a convenient **interactive CLI** to swizzle components. You generally only need to remember the following command:
 
 ```bash npm2yarn
 npm run swizzle
 ```
 
-它将在你的`src/theme`目录下生成一个新组件，看起来应该像下面这个例子:
+It will generate a new component in your `src/theme` directory, which should look like this example:
 
 ```mdx-code-block
 <Tabs>
@@ -47,7 +47,7 @@ npm run swizzle
 ```
 
 ```jsx title="src/theme/SomeComponent.js"
-import React from "react";
+import React from 'react';
 
 export default function SomeComponent(props) {
   // You can fully customize this implementation
@@ -67,8 +67,8 @@ export default function SomeComponent(props) {
 ```
 
 ```jsx title="src/theme/SomeComponent.js"
-import React from "react";
-import SomeComponent from "@theme-original/SomeComponent";
+import React from 'react';
+import SomeComponent from '@theme-original/SomeComponent';
 
 export default function SomeComponentWrapper(props) {
   // You can enhance the original component,
@@ -86,52 +86,52 @@ export default function SomeComponentWrapper(props) {
 </Tabs>
 ```
 
-要获得 swizzle 可用的所有主题和组件的概述，请运行:
+To get an overview of all the themes and components available to swizzle, run:
 
 ```bash npm2yarn
 npm run swizzle -- --list
 ```
 
-使用`--help`查看所有可用的 CLI 选项，或参考[swizzle CLI 文档](./cli.mdx#docusaurus-swizzle)。
+Use `--help` to see all available CLI options, or refer to the reference [swizzle CLI documentation](./cli.mdx#docusaurus-swizzle).
 
 :::note
 
-在搅拌组件后，**重新启动**开发服务器，以便 Docusaurus 了解新组件。
+After swizzling a component, **restart your dev server** in order for Docusaurus to know about the new component.
 
 :::
 
-:::warning 我更喜欢安全起见
+:::warning Prefer staying on the safe side
 
-一定要了解[**哪些组件可以安全搅拌**](#what-is-safe-to-swizzle)。有些组件是主题的内部实现细节。
+Be sure to understand [which components are **safe to swizzle**](#what-is-safe-to-swizzle). Some components are **internal implementation details** of a theme.
 
 :::
 
 :::info
 
-`docusaurus swizzle`只是一种自动的方法来帮助你搅拌组件。你也可以手动创建`src/theme/SomeComponent.js`文件，Docusaurus 会[解析](./advanced/client.mdx#theme-aliases)。这个命令背后没有内在的魔法!
+`docusaurus swizzle` is only an automated way to help you swizzle the component. You can also create the `src/theme/SomeComponent.js` file manually, and Docusaurus will [resolve it](./advanced/client.mdx#theme-aliases). There's no internal magic behind this command!
 
 :::
 
 ### Ejecting {#ejecting}
 
-弹出主题组件是创建原始主题组件副本的过程，您可以对其进行完全的自定义和覆盖。
+Ejecting a theme component is the process of **creating a copy** of the original theme component, which you can **fully customize and override**.
 
-要弹出主题组件，可以交互式地使用 swizzle CLI，或者使用`--eject`选项:
+To eject a theme component, use the swizzle CLI interactively, or with the `--eject` option:
 
 ```bash npm2yarn
 npm run swizzle [theme name] [component name] -- --eject
 ```
 
-一个例子:
+An example:
 
 ```bash npm2yarn
 npm run swizzle @docusaurus/theme-classic Footer -- --eject
 ```
 
-这将把当前`<Footer />`组件的实现复制到你网站的`src/theme`目录。Docusaurus 现在将使用这个`<Footer />`组件副本而不是原始的。现在可以完全重新实现`<Footer />`组件了。
+This will copy the current `<Footer />` component's implementation to your site's `src/theme` directory. Docusaurus will now use this `<Footer>` component copy instead of the original one. You are now free to completely re-implement the `<Footer>` component.
 
 ```jsx title="src/theme/Footer/index.js"
-import React from "react";
+import React from 'react';
 
 export default function Footer(props) {
   return (
@@ -145,39 +145,39 @@ export default function Footer(props) {
 
 :::caution
 
-弹出一个[**不安全的**](#what-is-safe-to-swizzle)组件有时会导致复制大量的内部代码，现在你必须自己维护这些代码。这可能会使 Docusaurus 升级变得更加困难，因为如果收到的属性或使用的内部主题 api 发生了变化，则需要迁移自定义。
+Ejecting an [**unsafe**](#what-is-safe-to-swizzle) component can sometimes lead to copying a large amount of internal code, which you now have to maintain yourself. It can make Docusaurus upgrades more difficult, as you will need to migrate your customizations if the props received or internal theme APIs used have changed.
 
-**尽可能使用[wrapped](#wrapped)**: 需要维护的代码量更少。
+**Prefer [wrapping](#wrapping) whenever possible**: the amount of code to maintain is smaller.
 
 :::
 
 :::tip Re-swizzling
 
-要在 Docusaurus 升级后保持被弹出的组件是最新的，请重新运行 `eject` 命令并将更改与`git diff`进行比较。还建议在文件的顶部写一个简短的注释，解释所做的更改，以便在重新弹出后更容易地重新应用更改。
+To keep ejected components up-to-date after a Docusaurus upgrade, re-run the eject command and compare the changes with `git diff`. You are also recommended to write a brief comment at the top of the file explaining what changes you have made, so that you could more easily re-apply your changes after re-ejection.
 
 :::
 
-### 包装 {#wrapping}
+### Wrapping {#wrapping}
 
-包装主题组件是在原始主题组件周围创建包装器的过程，您可以对其进行增强。
+Wrapping a theme component is the process of **creating a wrapper** around the original theme component, which you can **enhance**.
 
-要包装主题组件，可以交互式地使用 swizzle CLI，或者使用`--wrap`选项:
+To wrap a theme component, use the swizzle CLI interactively, or with the `--wrap` option:
 
 ```bash npm2yarn
 npm run swizzle [theme name] [component name] -- --wrap
 ```
 
-一个例子:
+An example:
 
 ```bash npm2yarn
 npm run swizzle @docusaurus/theme-classic Footer -- --wrap
 ```
 
-这将在站点的`src/theme`目录下创建一个包装器。Docusaurus 现在将使用`<FooterWrapper>`组件而不是原来的组件。现在可以围绕原始组件添加自定义。
+This will create a wrapper in your site's `src/theme` directory. Docusaurus will now use the `<FooterWrapper>` component instead of the original one. You can now add customizations around the original component.
 
 ```jsx title="src/theme/Footer/index.js"
-import React from "react";
-import Footer from "@theme-original/Footer";
+import React from 'react';
+import Footer from '@theme-original/Footer';
 
 export default function FooterWrapper(props) {
   return (
@@ -193,21 +193,20 @@ export default function FooterWrapper(props) {
 ```
 
 <details>
-  <summary>这个<code>@theme-original</code>是什么?</summary>
+  <summary>What is this <code>@theme-original</code> thing?</summary>
 
-Docusaurus 使用[主题别名](./advanced/client.mdx#theme-aliases)来解析要使用的主题组件。新创建的包装器使用`@theme/SomeComponent`别名。`@theme-original/SomeComponent`允许导入包装器隐藏的原始组件，而不会在包装器导入自身时创建无限导入循环。
+Docusaurus uses [theme aliases](./advanced/client.mdx#theme-aliases) to resolve the theme components to use. The newly created wrapper takes the `@theme/SomeComponent` alias. `@theme-original/SomeComponent` permits to import original component that the wrapper shadows without creating an infinite import loop where the wrapper imports itself.
 
 </details>
 
 :::tip
 
-包装主题是在现有主题周围添加额外组件的好方法，而无需[弹出](#ejection)它。
-例如，你可以很容易地在每篇博客文章下添加一个自定义评论系统:
+Wrapping a theme is a great way to **add extra components around existing one** without [ejecting](#ejecting) it. For example, you can easily add a custom comment system under each blog post:
 
 ```jsx title="src/theme/BlogPostItem.js"
-import React from "react";
-import BlogPostItem from "@theme-original/BlogPostItem";
-import MyCustomCommentSystem from "@site/src/MyCustomCommentSystem";
+import React from 'react';
+import BlogPostItem from '@theme-original/BlogPostItem';
+import MyCustomCommentSystem from '@site/src/MyCustomCommentSystem';
 
 export default function BlogPostItemWrapper(props) {
   return (
@@ -221,56 +220,55 @@ export default function BlogPostItemWrapper(props) {
 
 :::
 
-## 什么是安全的搅拌? {#what-is-safe-to-swizzle}
+## What is safe to swizzle? {#what-is-safe-to-swizzle}
 
-> 权力越大，责任越大
+> With great power comes great responsibility
 
-一些主题组件是主题的内部实现细节。Docusaurus 可以让你搅拌它们，但这可能有风险。
+Some theme components are **internal implementation details** of a theme. Docusaurus allows you to swizzle them, but it **might be risky**.
 
 <details>
 
-<summary>为什么有风险?</summary>
+<summary>Why is it risky?</summary>
 
-主题作者(包括我们)可能需要随时更新他们的主题:更改组件属性、名称、文件系统位置、类型……例如，考虑一个组件，它接收了两个属性`name`和`age`，但在重构之后，它现在接收了一个带有上述两个属性的`person`属性。你的组件，仍然需要这两个属性，将渲染为`undefined`。
+Theme authors (including us) might have to update their theme over time: changing the component props, name, file system location, types... For example, consider a component that receives two props `name` and `age`, but after a refactor, it now receives a `person` prop with the above two properties. Your component, which still expects these two props, will render `undefined` instead.
 
-此外，内部组件可能会消失。如果一个组件被命名为`Sidebar`，后来它被重命名为`DocSidebar`，那么你的 swizzzed 组件将被完全忽略。
+Moreover, internal components may simply disappear. If a component is called `Sidebar` and it's later renamed to `DocSidebar`, your swizzled component will be completely ignored.
 
-**标记为不安全的主题组件可能在主题次要版本之间以向后不兼容的方式更改。**
-升级主题(或 Docusaurus)时，您的自定义可能**行为出乎意料**，甚至可能**破坏您的网站**。
+**Theme components marked as unsafe may change in a backward-incompatible way between theme minor versions.** When upgrading a theme (or Docusaurus), your customizations might **behave unexpectedly**, and can even **break your site**.
 
 </details>
 
-对于每个主题组件，swizzle CLI 将显示由主题作者声明的 3 个不同的安全级别:
+For each theme component, the swizzle CLI will indicate **3 different levels of safety** declared by theme authors:
 
-- **Safe**: 这个组件是安全的，它的公共 API 被认为是稳定的，在主题**主版本**中不应该发生破坏性的变化
-- **Unsafe**: 该组件是一个主题实现细节，不安全，并且可能在**主题小版本**中发生破坏性更改
-- **Forbidden**: swizzle CLI 将阻止您对该组件进行搅拌，因为它根本不是为搅拌而设计的
+- **Safe**: this component is safe to be swizzled, its public API is considered stable, and no breaking changes should happen within a theme **major version**
+- **Unsafe**: this component is a theme implementation detail, not safe to be swizzled, and breaking changes might happen within a theme **minor version**
+- **Forbidden**: the swizzle CLI will prevent you from swizzling this component, because it is not designed to be swizzled at all
 
 :::note
 
-有些组件可以安全包装，但不能安全弹出。
+Some components might be safe to wrap, but not safe to eject.
 
 :::
 
 :::info
 
-不要太**害怕使用不安全的组件**:只要记住**可能会发生破坏性的更改**，并且您可能需要在小版本升级时手动升级您的自定义。
+Don't be too **afraid to swizzle unsafe components**: just keep in mind that **breaking changes** might happen, and you might need to upgrade your customizations manually on minor version upgrades.
 
 :::
 
-:::note 报告您的用例
+:::note Report your use-case
 
-如果你有一个**强大的用例搅拌一个不安全的组件**，请[**在这里**](https://github.com/facebook/docusaurus/discussions/5468)报告，我们将共同努力找到一个解决方案，使其安全。
+If you have a **strong use-case for swizzling an unsafe component**, please [**report it here**](https://github.com/facebook/docusaurus/discussions/5468) and we will work together to find a solution to make it safe.
 
 :::
 
-## 我应该搅拌哪个组件? {#which-component-should-i-swizzle}
+## Which component should I swizzle? {#which-component-should-i-swizzle}
 
-为了达到预期的效果，您应该准确地搅拌哪个组件并不总是很清楚。`@docusaurus/theme-classic`提供了大多数主题组件，大约有[100 个组件](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme)!
+It is not always clear which component you should swizzle exactly to achieve the desired result. `@docusaurus/theme-classic`, which provides most of the theme components, has about [100 components](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme)!
 
 :::tip
 
-打印所有`@docusaurus/theme-classic`组件的概述:
+To print an overview of all the `@docusaurus/theme-classic` components:
 
 ```bash npm2yarn
 npm run swizzle @docusaurus/theme-classic -- --list
@@ -278,54 +276,53 @@ npm run swizzle @docusaurus/theme-classic -- --list
 
 :::
 
-您可以按照以下步骤找到要搅拌的适当组件:
+You can follow these steps to locate the appropriate component to swizzle:
 
-1. **组件描述.** 有些组件提供简短的描述，这是找到正确组件的好方法。
-2. **组件名称.** 官方主题组件在语义上命名，因此您应该能够从名称推断其功能。swizzle CLI 允许您输入组件名称的一部分，以缩小可用选项的范围。例如，如果你运行`yarn swizzle @docusaurus/theme-classic`，然后输入`Doc`，只会列出与 Doc 相关的组件。
-3. **从更高级的组件开始.** 组件形成一个树，其中一些组件导入其他组件。每条路由都将与该路由将呈现的一个顶级组件相关联(它们中的大多数列在[内容插件中的路由](./advanced/routing.mdx#routing-in-content-plugins)中)。例如，所有的博客文章页面都有`@theme/BlogPostPage`作为最上面的组件。您可以从混合这个组件开始，然后沿着组件树向下查找呈现您所要的内容的组件。不要忘记在找到正确的文件后通过删除文件来清除其余的文件，这样就不会维护太多的组件。
-4. **阅读[主题源代码](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme)** 并明智地使用搜索.
+1. **Component description.** Some components provide a short description, which is a good way to find the right one.
+2. **Component name.** Official theme components are semantically named, so you should be able to infer its function from the name. The swizzle CLI allows you to enter part of a component name to narrow down the available choices. For example, if you run `yarn swizzle @docusaurus/theme-classic`, and enter `Doc`, only the docs-related components will be listed.
+3. **Start with a higher-level component.** Components form a tree with some components importing others. Every route will be associated with one top-level component that the route will render (most of them listed in [Routing in content plugins](./advanced/routing.mdx#routing-in-content-plugins)). For example, all blog post pages have `@theme/BlogPostPage` as the topmost component. You can start with swizzling this component, and then go down the component tree to locate the component that renders just what you are targeting. Don't forget to unswizzle the rest by deleting the files after you've found the correct one, so you don't maintain too many components.
+4. **Read the [theme source code](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-classic/src/theme)** and use search wisely.
 
-:::tip 只是问问!
+:::tip Just ask!
 
-如果你仍然不知道应该混合哪个组件来达到预期的效果，你可以在我们的[支持渠道](/community/support)中寻求帮助。
+If you still have no idea which component to swizzle to achieve the desired effect, you can reach out for help in one of our [support channels](/community/support).
 
-我们也想更好地了解你最花哨的定制用例，所以请[**报告他们**](https://github.com/facebook/docusaurus/discussions/5468)。
+We also want to understand better your fanciest customization use-cases, so please [**report them**](https://github.com/facebook/docusaurus/discussions/5468).
 
 :::
 
-## 我需要搅拌吗? {#do-i-need-to-swizzle}
+## Do I need to swizzle? {#do-i-need-to-swizzle}
 
-Swizzling 最终意味着你必须维护一些与 Docusaurus 内部 api 交互的额外 React 代码。如果可以，在定制您的网站时考虑以下选择:
+Swizzling ultimately means you have to maintain some additional React code that interact with Docusaurus internal APIs. If you can, think about the following alternatives when customizing your site:
 
-1. **使用 CSS.** CSS 规则和选择器通常可以帮助您实现相当程度的自定义。参考[样式和布局](./styling-layout.mdx)了解更多细节。
-2. **使用翻译.** 这可能听起来令人惊讶，但翻译最终只是自定义文本标签的一种方式。例如，如果你网站的默认语言是`en`，你仍然可以运行`yarn write-translations -l en`并编辑发出的`code.json`。请参阅[i18n 教程](./i18n/i18n-tutorial.mdx)了解更多细节。
+1. **Use CSS.** CSS rules and selectors can often help you achieve a decent degree of customization. Refer to [styling and layout](./styling-layout.mdx) for more details.
+2. **Use translations.** It may sound surprising, but translations are ultimately just a way to customize the text labels. For example, if your site's default language is `en`, you can still run `yarn write-translations -l en` and edit the `code.json` emitted. Refer to the [i18n tutorial](./i18n/i18n-tutorial.mdx) for more details.
 
 :::tip
 
-**越小越好.** 如果混合是不可避免的，最好只混合相关的部分，自己维护尽可能少的代码。混合一个小组件通常意味着在升级过程中**破坏更改**的风险更小。
+**The smaller, the better.** If swizzling is inevitable, prefer to swizzle only the relevant part and maintain as little code on your own as possible. Swizzling a small component often means less risk of **breaking changes** during upgrade.
 
-与[ejecting](#ejecting)相比，[Wrapping](#wrapping)也是一个安全得多的选择。
+[Wrapping](#wrapping) is also a far safer alternative to [ejecting](#ejecting).
 
 :::
 
-## 用`<Root>`包装你的站点 {#wrapper-your-site-with-root}
+## Wrapping your site with `<Root>` {#wrapper-your-site-with-root}
 
-`<Root>`组件呈现在 React 树的**最顶层**，在主题`<Layout>`之上，并且**永远不会卸载**。
-它是添加不应该跨导航(用户身份验证状态、购物车状态……)重新初始化的有状态逻辑的理想场所。
+The `<Root>` component is rendered at the **very top** of the React tree, above the theme `<Layout>`, and **never unmounts**. It is the perfect place to add stateful logic that should not be re-initialized across navigations (user authentication status, shopping cart state...).
 
-**手动**在`src/theme/Root.js`创建一个文件:
+Swizzle it **manually** by creating a file at `src/theme/Root.js`:
 
 ```js title="src/theme/Root.js"
-import React from "react";
+import React from 'react';
 
 // Default implementation, that you can customize
-export default function Root({ children }) {
+export default function Root({children}) {
   return <>{children}</>;
 }
 ```
 
 :::tip
 
-使用这个组件来呈现 React 上下文提供程序。
+Use this component to render React Context providers.
 
 :::

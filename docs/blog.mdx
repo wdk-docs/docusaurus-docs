@@ -2,20 +2,20 @@
 description: Deploy a full-featured blog in no time with Docusaurus.
 ---
 
-# 博客
+# Blog
 
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-博客特性使您能够立即部署功能齐全的博客。
+The blog feature enables you to deploy a full-featured blog in no time.
 
 :::info
 
-查看[博客插件 API 参考文档](./api/plugins/plugin-content-blog.mdx)以获取详尽的选项列表。
+Check the [Blog Plugin API Reference documentation](./api/plugins/plugin-content-blog.mdx) for an exhaustive list of options.
 
 :::
 
-## 初始设置 {#initial-setup}
+## Initial setup {#initial-setup}
 
 To set up your site's blog, start by creating a `blog` directory.
 
@@ -29,14 +29,14 @@ module.exports = {
       items: [
         // ...
         // highlight-next-line
-        { to: "blog", label: "Blog", position: "left" }, // or position: 'right'
+        {to: 'blog', label: 'Blog', position: 'left'}, // or position: 'right'
       ],
     },
   },
 };
 ```
 
-## 添加文章 {#adding-posts}
+## Adding posts {#adding-posts}
 
 To publish in the blog, create a Markdown file within the blog directory.
 
@@ -72,7 +72,7 @@ A whole bunch of exploration to follow.
 
 The [front matter](./guides/markdown-features/markdown-features-intro.mdx#front-matter) is useful to add more metadata to your blog post, for example, author information, but Docusaurus will be able to infer all necessary metadata without the front matter. For all possible fields, see [the API documentation](api/plugins/plugin-content-blog.mdx#markdown-front-matter).
 
-## 博客列表 {#blog-list}
+## Blog list {#blog-list}
 
 The blog's index page (by default, it is at `/blog`) is the _blog list page_, where all blog posts are collectively displayed.
 
@@ -112,13 +112,13 @@ module.exports = {
   // ...
   presets: [
     [
-      "@docusaurus/preset-classic",
+      '@docusaurus/preset-classic',
       {
         blog: {
           // highlight-start
-          blogTitle: "Docusaurus blog!",
-          blogDescription: "A Docusaurus powered blog!",
-          postsPerPage: "ALL",
+          blogTitle: 'Docusaurus blog!',
+          blogDescription: 'A Docusaurus powered blog!',
+          postsPerPage: 'ALL',
           // highlight-end
         },
       },
@@ -127,7 +127,7 @@ module.exports = {
 };
 ```
 
-## 博客侧边栏 {#blog-sidebar}
+## Blog sidebar {#blog-sidebar}
 
 The blog sidebar displays recent blog posts. The default number of items shown is 5, but you can customize with the `blogSidebarCount` option in the plugin configuration. By setting `blogSidebarCount: 0`, the sidebar will be completely disabled, with the container removed as well. This will increase the width of the main container. Specially, if you have set `blogSidebarCount: 'ALL'`, _all_ posts will be displayed.
 
@@ -137,12 +137,12 @@ You can also alter the sidebar heading text with the `blogSidebarTitle` option. 
 module.exports = {
   presets: [
     [
-      "@docusaurus/preset-classic",
+      '@docusaurus/preset-classic',
       {
         blog: {
           // highlight-start
-          blogSidebarTitle: "All posts",
-          blogSidebarCount: "ALL",
+          blogSidebarTitle: 'All posts',
+          blogSidebarCount: 'ALL',
           // highlight-end
         },
       },
@@ -151,23 +151,23 @@ module.exports = {
 };
 ```
 
-## 博客发布日期 {#blog-post-date}
+## Blog post date {#blog-post-date}
 
 Docusaurus will extract a `YYYY-MM-DD` date from many patterns such as `YYYY-MM-DD-my-blog-post-title.md` or `YYYY/MM/DD/my-blog-post-title.md`. This enables you to easily group blog posts by year, by month, or to use a flat structure.
 
 <details>
 <summary>Supported date extraction patterns</summary>
 
-| Pattern                          | Example                                     |
-| -------------------------------- | ------------------------------------------- |
-| Single file                      | `2021-05-28-my-blog-post-title.md`          |
-| MDX file                         | `2021-05-28-my-blog-post-title.mdx`         |
-| Single folder + `index.md`       | `2021-05-28-my-blog-post-title/index.md`    |
-| Folder named by date             | `2021-05-28/my-blog-post-title.md`          |
-| Nested folders by date           | `2021/05/28/my-blog-post-title.md`          |
-| Partially nested folders by date | `2021/05-28-my-blog-post-title.md`          |
-| Nested folders + `index.md`      | `2021/05/28/my-blog-post-title/index.md`    |
-| Date in the middle of path       | `category/2021/05-28-my-blog-post-title.md` |
+| Pattern | Example |
+| --- | --- |
+| Single file | `2021-05-28-my-blog-post-title.md` |
+| MDX file | `2021-05-28-my-blog-post-title.mdx` |
+| Single folder + `index.md` | `2021-05-28-my-blog-post-title/index.md` |
+| Folder named by date | `2021-05-28/my-blog-post-title.md` |
+| Nested folders by date | `2021/05/28/my-blog-post-title.md` |
+| Partially nested folders by date | `2021/05-28-my-blog-post-title.md` |
+| Nested folders + `index.md` | `2021/05/28/my-blog-post-title/index.md` |
+| Date in the middle of path | `category/2021/05-28-my-blog-post-title.md` |
 
 Docusaurus can extract the date from the posts using any of the naming patterns above. It is advisable to choose one pattern and apply it to all posts to avoid confusion.
 
@@ -193,11 +193,11 @@ date: 2021-09-13T18:00
 ---
 ```
 
-## 博客作者 {#blog-post-authors}
+## Blog post authors {#blog-post-authors}
 
 Use the `authors` front matter field to declare blog post authors. An author should have at least a `name` or an `image_url`. Docusaurus uses information like `url`, `email`, and `title`, but any other information is allowed.
 
-### 内联的作者 {#inline-authors}
+### Inline authors {#inline-authors}
 
 Blog post authors can be declared directly inside the front matter:
 
@@ -263,7 +263,7 @@ author_image_url: https://github.com/JoelMarcey.png
 
 :::
 
-### 全局的作者 {#global-authors}
+### Global authors {#global-authors}
 
 For regular blog post authors, it can be tedious to maintain authors' information inlined in each blog post.
 
@@ -380,7 +380,7 @@ An author, either declared through front matter or through the authors map, need
 
 :::
 
-## 阅读时间 {#reading-time}
+## Reading time {#reading-time}
 
 Docusaurus generates a reading time estimation for each blog post based on word count. We provide an option to customize this.
 
@@ -388,13 +388,13 @@ Docusaurus generates a reading time estimation for each blog post based on word 
 module.exports = {
   presets: [
     [
-      "@docusaurus/preset-classic",
+      '@docusaurus/preset-classic',
       {
         blog: {
           // highlight-start
           showReadingTime: true, // When set to false, the "x min read" won't be shown
-          readingTime: ({ content, frontMatter, defaultReadingTime }) =>
-            defaultReadingTime({ content, options: { wordsPerMinute: 300 } }),
+          readingTime: ({content, frontMatter, defaultReadingTime}) =>
+            defaultReadingTime({content, options: {wordsPerMinute: 300}}),
           // highlight-end
         },
       },
@@ -416,19 +416,21 @@ Use the callback for all your customization needs:
 <TabItem value="disable-per-post" label="Per-post disabling">
 ```
 
-**禁用阅读时间在一页:**
+**Disable reading time on one page:**
 
 ```js title="docusaurus.config.js"
 module.exports = {
   presets: [
     [
-      "@docusaurus/preset-classic",
+      '@docusaurus/preset-classic',
       {
         blog: {
           showReadingTime: true,
           // highlight-start
-          readingTime: ({ content, frontMatter, defaultReadingTime }) =>
-            frontMatter.hide_reading_time ? undefined : defaultReadingTime({ content }),
+          readingTime: ({content, frontMatter, defaultReadingTime}) =>
+            frontMatter.hide_reading_time
+              ? undefined
+              : defaultReadingTime({content}),
           // highlight-end
         },
       },
@@ -452,18 +454,18 @@ This page will no longer display the reading time stats!
 <TabItem value="passing-options" label="Passing options">
 ```
 
-**将选项传递给默认的读取时间函数:**
+**Pass options to the default reading time function:**
 
 ```js title="docusaurus.config.js"
 module.exports = {
   presets: [
     [
-      "@docusaurus/preset-classic",
+      '@docusaurus/preset-classic',
       {
         blog: {
           // highlight-start
-          readingTime: ({ content, defaultReadingTime }) =>
-            defaultReadingTime({ content, options: { wordsPerMinute: 100 } }),
+          readingTime: ({content, defaultReadingTime}) =>
+            defaultReadingTime({content, options: {wordsPerMinute: 100}}),
           // highlight-end
         },
       },
@@ -477,19 +479,19 @@ module.exports = {
 <TabItem value="using-custom-algo" label="Using custom algorithms">
 ```
 
-**使用自定义的阅读时间实现:**
+**Use a custom implementation of reading time:**
 
 ```js title="docusaurus.config.js"
-const myReadingTime = require("./myReadingTime");
+const myReadingTime = require('./myReadingTime');
 
 module.exports = {
   presets: [
     [
-      "@docusaurus/preset-classic",
+      '@docusaurus/preset-classic',
       {
         blog: {
           // highlight-next-line
-          readingTime: ({ content }) => myReadingTime(content),
+          readingTime: ({content}) => myReadingTime(content),
         },
       },
     ],
@@ -509,11 +511,11 @@ module.exports = {
 You can generate RSS / Atom / JSON feed by passing `feedOptions`. By default, RSS and Atom feeds are generated. To disable feed generation, set `feedOptions.type` to `null`.
 
 ```ts
-type FeedType = "rss" | "atom" | "json";
+type FeedType = 'rss' | 'atom' | 'json';
 
 type BlogOptions = {
   feedOptions?: {
-    type?: FeedType | "all" | FeedType[] | null;
+    type?: FeedType | 'all' | FeedType[] | null;
     title?: string;
     description?: string;
     copyright: string;
@@ -541,15 +543,15 @@ module.exports = {
   // ...
   presets: [
     [
-      "@docusaurus/preset-classic",
+      '@docusaurus/preset-classic',
       {
         blog: {
           // highlight-start
           feedOptions: {
-            type: "all",
+            type: 'all',
             copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc.`,
             createFeedItems: async (params) => {
-              const { blogPosts, defaultCreateFeedItems, ...rest } = params;
+              const {blogPosts, defaultCreateFeedItems, ...rest} = params;
               return defaultCreateFeedItems({
                 // keep only the 10 most recent blog posts in the feed
                 blogPosts: blogPosts.filter((item, index) => index < 10),
@@ -591,24 +593,24 @@ https://example.com/blog/feed.json
 </TabItem>
 </Tabs>
 
-## 高级的主题 {#advanced-topics}
+## Advanced topics {#advanced-topics}
 
-### Blog-only 模式 {#blog-only-mode}
+### Blog-only mode {#blog-only-mode}
 
-你可以运行你的 Docusaurus 2 网站，而不需要一个专门的登陆页面，取而代之的是你的博客帖子列表页面作为索引页面。将`routeBasePath`设置为`'/'`，以通过根路由`example.com/`而不是子路由`example.com/blog/`为博客提供服务。
+You can run your Docusaurus 2 site without a dedicated landing page and instead have your blog's post list page as the index page. Set the `routeBasePath` to be `'/'` to serve the blog through the root route `example.com/` instead of the subroute `example.com/blog/`.
 
 ```js title="docusaurus.config.js"
 module.exports = {
   // ...
   presets: [
     [
-      "@docusaurus/preset-classic",
+      '@docusaurus/preset-classic',
       {
         // highlight-next-line
         docs: false, // Optional: disable the docs plugin
         blog: {
           // highlight-next-line
-          routeBasePath: "/", // Serve the blog at the site's root
+          routeBasePath: '/', // Serve the blog at the site's root
           /* other blog options */
         },
       },
@@ -619,18 +621,17 @@ module.exports = {
 
 :::caution
 
-不要忘记删除现有的主页`./src/pages/index.js`，否则会有两个文件映射到相同的路由!
+Don't forget to delete the existing homepage at `./src/pages/index.js` or else there will be two files mapping to the same route!
 
 :::
 
 :::tip
 
-对于那些只想使用文档的用户，还有一个“仅限文档模式”。
-阅读[Docs-only 模式](./guides/docs/docs-introduction.mdx)获取详细说明或对`routeBasePath`的更详细解释。
+There's also a "Docs-only mode" for those who only want to use the docs. Read [Docs-only mode](./guides/docs/docs-introduction.mdx) for detailed instructions or a more elaborate explanation of `routeBasePath`.
 
 :::
 
-### 多个博客 {#multiple-blogs}
+### Multiple blogs {#multiple-blogs}
 
 By default, the classic theme assumes only one blog per website and hence includes only one instance of the blog plugin. If you would like to have multiple blogs on a single website, it's possible too! You can add another blog by specifying another blog plugin in the `plugins` option for `docusaurus.config.js`.
 
@@ -643,25 +644,25 @@ module.exports = {
   // ...
   plugins: [
     [
-      "@docusaurus/plugin-content-blog",
+      '@docusaurus/plugin-content-blog',
       {
         /**
          * Required for any multi-instance plugin
          */
-        id: "second-blog",
+        id: 'second-blog',
         /**
          * URL route for the blog section of your site.
          * *DO NOT* include a trailing slash.
          */
-        routeBasePath: "my-second-blog",
+        routeBasePath: 'my-second-blog',
         /**
          * Path to data on filesystem relative to site dir.
          */
-        path: "./my-second-blog",
+        path: './my-second-blog',
       },
     ],
   ],
 };
 ```
 
-例如，我们开设了第二个博客[在这里](/tests/blog).
+As an example, we host a second blog [here](/tests/blog).

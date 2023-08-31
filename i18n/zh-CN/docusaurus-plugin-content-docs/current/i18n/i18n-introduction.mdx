@@ -1,0 +1,137 @@
+---
+id: introduction
+slug: /i18n/introduction
+---
+
+# i18n - 介绍
+
+它的国际化([i18n](https://en.wikipedia.org/wiki/Internationalization_and_localization))支持翻译 Docusaurus 网站**很容易**.
+
+## 目标 {#goals}
+
+理解 Docusaurus i18n 支持背后的**设计决策**非常重要。
+
+要了解更多上下文，您可以阅读初始的[RFC](https://github.com/facebook/docusaurus/issues/3317)和[PR](https://github.com/facebook/docusaurus/pull/3325)。
+
+### i18n 目标 {#i18n-goals}
+
+Docusaurus i18n 系统的目标是:
+
+- **简单的**: 只需将翻译后的文件放在正确的文件系统位置
+- **灵活的翻译工作流程**: 使用 Git (monorepo, forks, 或 submodules), SaaS 软件, FTP
+- **灵活的部署选项**: 单域、多域或混合域
+- **模块化**: 允许插件作者提供 i18n 支持
+- **低开销的运行时**: 文档大部分是静态的，不需要大量的 JS 库或 polyfills
+- **可伸缩的构建时**: 允许独立构建和部署本地化站点
+- **本地化的资产**: 网站的图像可能包含需要翻译的文本
+- **没有耦合**: 不强制使用任何 SaaS，但集成是可能的
+- **易于与[Crowdin](https://crowdin.com/)一起使用**: 很多 Docusaurus v1 网站使用 Crowdin，应该能够迁移到 v2
+- **好的 SEO 默认设置**:我们为您设置了有用的 SEO 标题，如[`hreflang`](https://developers.google.com/search/docs/advanced/crawling/localized-versions)
+- **RTL 支持**: 支持从右向左阅读的区域设置(阿拉伯语、希伯来语等)，并且易于实现
+- **默认的翻译**: 经典主题标签为您翻译成[多种语言](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-theme-translations/locales)
+
+### i18n 非目标 {#i18n-non-goals}
+
+我们不提供支持:
+
+- **自动区域检测**: 固执己见，最好在[服务器(您的托管提供商)](../deployment.mdx)上完成。
+- **翻译 SaaS 软件**: 您有责任了解您选择的外部工具
+- **翻译 slugs**: 技术复杂，SEO 价值小
+
+## 翻译工作流程 {#translation-workflow}
+
+### 概述 {#overview}
+
+概述创建翻译的 Docusaurus 网站的工作流程:
+
+1. **配置**: 在[`docusaurus.config.js`](../api/docusaurus.config.js.mdx#i18n)中声明默认语言环境和可选语言环境
+2. **翻译**: 将翻译文件放在正确的文件系统位置
+3. **部署**: 使用单一或多域策略构建和部署您的站点
+
+### 翻译文件 {#translation-files}
+
+您将使用三种类型的翻译文件。
+
+#### Markdown 文件 {#markdown-files}
+
+这是你的 Docusaurus 网站的主要内容。
+
+Markdown 和 MDX 文档作为一个整体进行翻译，以完全保留翻译上下文，而不是将每个句子分割为一个单独的字符串。
+
+#### JSON 文件 {#json-files}
+
+JSON 用于翻译:
+
+- 你的 React 代码:`src/pages`中的独立 React 页面，或其他组件
+- 通过`themeConfig`提供的布局标签:navbar, footer
+- 通过插件选项提供的布局标签:文档侧边栏类别标签，博客侧边栏标题…
+
+使用的 JSON 格式称为**Chrome i18n**:
+
+```json
+{
+  "myTranslationKey1": {
+    "message": "Translated message 1",
+    "description": "myTranslationKey1 is used on the homepage"
+  },
+  "myTranslationKey2": {
+    "message": "Translated message 2",
+    "description": "myTranslationKey2 is used on the FAQ page"
+  }
+}
+```
+
+做出这样的选择有两个原因:
+
+- **描述属性**: 帮助翻译人员了解更多的上下文
+- **广泛的支持**: [Chrome 扩展](https://developer.chrome.com/docs/extensions/mv2/i18n-messages/), [Crowdin](https://support.crowdin.com/file-formats/chrome-json/), [Transifex](https://docs.transifex.com/formats/chrome-json), [Phrase](https://help.phrase.com/help/chrome-json-messages), [Applanga](https://www.applanga.com/docs/formats/chrome_i18n_json),等。
+
+#### 数据文件 {#data-files}
+
+有些插件可能会从整体本地化的外部数据文件中读取数据。例如，博客插件使用[`authors.yml`](../blog.mdx#global-authors)文件，可以通过在`i18n/[locale]/docusaurus-plugin-content-blog/authors.yml`下创建副本进行翻译。
+
+### 翻译文件位置 {#translation-files-location}
+
+翻译文件应该在正确的文件系统位置创建。
+
+每个区域设置和插件都有自己的`i18n`子文件夹:
+
+```
+website/i18n/[locale]/[pluginName]/...
+```
+
+:::note
+
+对于多实例插件，路径为`website/i18n/[locale]/[pluginName]-[pluginId]/...`。
+
+:::
+
+将一个非常简单的 Docusaurus 遗址翻译成法语会得到以下树状图:
+
+```bash
+website/i18n
+└── fr
+    ├── code.json  # Any text label present in the React code
+    │              # Includes text labels from the themes' code
+    ├── docusaurus-plugin-content-blog # translation data the blog plugin needs
+    │   └── 2020-01-01-hello.md
+    │
+    ├── docusaurus-plugin-content-docs # translation data the docs plugin needs
+    │   ├── current
+    │   │   ├── doc1.md
+    │   │   └── doc2.mdx
+    │   └── current.json
+    │
+    └── docusaurus-theme-classic # translation data the classic theme needs
+        ├── footer.json   # Text labels in your footer theme config
+        └── navbar.json   # Text labels in your navbar theme config
+```
+
+JSON 文件使用[`docusaurus write-translations`](../cli.mdx#docusaurus-write-translations-sitedir)CLI 命令初始化。每个插件都在相应的文件夹下提供自己的翻译内容，而`code.json`文件定义了 React 代码中使用的所有文本标签。
+
+每个内容插件或主题都是不同的，并且**定义了自己的翻译文件位置**:
+
+- [文档 i18n](../api/plugins/plugin-content-docs.mdx#i18n)
+- [博客 i18n](../api/plugins/plugin-content-blog.mdx#i18n)
+- [页面 i18n](../api/plugins/plugin-content-pages.mdx#i18n)
+- [主题 i18n](../api/themes/theme-configuration.mdx#i18n)

@@ -1,0 +1,219 @@
+---
+sidebar_label: 静态站点生成
+description: Docusaurus静态地将你的React代码渲染成HTML，允许更快的加载速度和更好的SEO。
+---
+
+# 静态站点生成 (SSG)
+
+在[体系结构](architecture.mdx)中，我们提到主题是在 Webpack 中运行的。
+但要注意:这并不意味着它总是可以访问浏览器全局变量!主题构建了两次:
+
+- 在服务器端渲染期间，主题在一个名为[React DOM Server](https://reactjs.org/docs/react-dom-server.html)的沙盒中编译。
+  你可以把它看作是一个`无头浏览器`，其中没有`window` 或 `document`，只有 React。SSR 生成静态 HTML 页面。
+- 在**客户端呈现**期间，主题被编译成最终在浏览器中执行的 JavaScript，因此它可以访问浏览器变量。
+
+:::info SSR or SSG?
+
+*服务器端渲染*和*静态站点生成*可以是不同的概念，但我们可以互换使用它们。
+
+严格地说，Docusaurus 是一个静态站点生成器，因为没有服务器端运行时—我们静态地呈现到部署在 CDN 上的 HTML 文件，而不是在每个请求上动态地预呈现。这与[Next.js](https://nextjs.org/)的工作模型不同。
+
+:::
+
+因此，虽然你可能知道不能访问 Node 全局变量，比如`process`(或者可以吗?)(#node-env))或`'fs'`模块，但你也不能自由访问浏览器全局变量。
+
+```jsx
+import React from "react";
+
+export default function WhereAmI() {
+  return <span>{window.location.href}</span>;
+}
+```
+
+这看起来像习惯的 React，但如果你运行`docusaurus build`，你会得到一个错误:
+
+```
+ReferenceError: window is not defined
+```
+
+这是因为在服务器端渲染期间，Docusaurus 应用程序实际上并不是在浏览器中运行的，而且它不知道什么是`window`。
+
+```mdx-code-block
+<details id="node-env">
+<summary>What about <code>process.env.NODE_ENV</code>?</summary>
+```
+
+`无节点全局变量`规则的一个例外是`process.env.NODE_ENV`。事实上，你可以在 React 中使用它，因为 Webpack 将这个变量作为全局变量注入:
+
+```jsx
+import React from "react";
+
+export default function expensiveComp() {
+  if (process.env.NODE_ENV === "development") {
+    return <>This component is not shown in development</>;
+  }
+  const res = someExpensiveOperationThatLastsALongTime();
+  return <>{res}</>;
+}
+```
+
+在 Webpack 构建过程中，`process.env.NODE_ENV`将被替换为`'development'` 或 `'production'`。在消除死代码后，您将获得不同的构建结果:
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+```mdx-code-block
+<Tabs>
+<TabItem value="Development">
+```
+
+```diff
+import React from 'react';
+
+export default function expensiveComp() {
+  // highlight-next-line
+  if ('development' === 'development') {
++   return <>This component is not shown in development</>;
+  }
+- const res = someExpensiveOperationThatLastsALongTime();
+- return <>{res}</>;
+}
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="Production">
+```
+
+```diff
+import React from 'react';
+
+export default function expensiveComp() {
+  // highlight-next-line
+- if ('production' === 'development') {
+-   return <>This component is not shown in development</>;
+- }
++ const res = someExpensiveOperationThatLastsALongTime();
++ return <>{res}</>;
+}
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+</details>
+```
+
+## 理解 SSR {#understanding-ssr}
+
+React is not just a dynamic UI runtime—it's also a templating engine. Because Docusaurus sites mostly contain static contents, it should be able to work without any JavaScript (which React runs in), but only plain HTML/CSS. And that's what server-side rendering offers: statically rendering your React code into HTML, without any dynamic content. An HTML file has no concept of client state (it's purely markup), hence it shouldn't rely on browser APIs.
+
+These HTML files are the first to arrive at the user's browser screen when a URL is visited (see [routing](routing.mdx)). Afterwards, the browser fetches and runs other JS code to provide the "dynamic" parts of your site—anything implemented with JavaScript. However, before that, the main content of your page is already visible, allowing faster loading.
+
+In CSR-only apps, all DOM elements are generated on client side with React, and the HTML file only ever contains one root element for React to mount DOM to; in SSR, React is already facing a fully built HTML page, and it only needs to correlate the DOM elements with the virtual DOM in its model. This step is called "hydration". After React has hydrated the static markup, the app starts to work as any normal React app.
+
+Note that Docusaurus is ultimately a single-page application, so static site generation is only an optimization (_progressive enhancement_, as it's called), but our functionality does not fully depend on those HTML files. This is contrary to site generators like [Jekyll](https://jekyllrb.com/) and [Docusaurus v1](https://v1.docusaurus.io/), where all files are statically transformed to markup, and interactiveness is added through external JavaScript linked with `<script>` tags. If you inspect the build output, you will still see JS assets under `build/assets/js`, which are, really, the core of Docusaurus.
+
+## 逃避的退路 {#escape-hatches}
+
+如果你想在屏幕上呈现任何依赖于浏览器 API 的动态内容，例如:
+
+- 我们的[live codeblock](../guides/markdown-features/markdown-features-code-blocks.mdx#interactive-code-editor)，它运行在浏览器的 JS 运行时中
+- 我们的[主题图像](../guides/markdown-features/markdown-features-assets.mdx#theme -images)检测用户的配色方案以显示不同的图像
+- 调试面板的 JSON 查看器，它使用`window`全局样式
+
+您可能需要避开 SSR，因为静态 HTML 在不知道客户端状态的情况下无法显示任何有用的内容。
+
+:::caution
+
+It is important for the first client-side render to produce the exact same DOM structure as server-side rendering, otherwise, React will correlate virtual DOM with the wrong DOM elements.
+
+Therefore, the naïve attempt of `if (typeof window !== 'undefined) {/* render something */}` won't work appropriately as a browser vs. server detection, because the first client render would instantly render different markup from the server-generated one.
+
+You can read more about this pitfall in [The Perils of Rehydration](https://www.joshwcomeau.com/react/the-perils-of-rehydration/).
+
+:::
+
+We provide several more reliable ways to escape SSR.
+
+### `<BrowserOnly>` {#browseronly}
+
+If you need to render some component in browser only (for example, because the component relies on browser specifics to be functional at all), one common approach is to wrap your component with [`<BrowserOnly>`](../docusaurus-core.mdx#browseronly) to make sure it's invisible during SSR and only rendered in CSR.
+
+```jsx
+import BrowserOnly from "@docusaurus/BrowserOnly";
+
+function MyComponent(props) {
+  return (
+    // highlight-start
+    <BrowserOnly fallback={<div>Loading...</div>}>
+      {() => {
+        const LibComponent = require("some-lib-that-accesses-window").LibComponent;
+        return <LibComponent {...props} />;
+      }}
+    </BrowserOnly>
+    // highlight-end
+  );
+}
+```
+
+It's important to realize that the children of `<BrowserOnly>` is not a JSX element, but a function that _returns_ an element. This is a design decision. Consider this code:
+
+```jsx
+import BrowserOnly from "@docusaurus/BrowserOnly";
+
+function MyComponent() {
+  return (
+    <BrowserOnly>
+      {/* highlight-start */}
+      {/* DON'T DO THIS - doesn't actually work */}
+      <span>page url = {window.location.href}</span>
+      {/* highlight-end */}
+    </BrowserOnly>
+  );
+}
+```
+
+While you may expect that `BrowserOnly` hides away the children during server-side rendering, it actually can't. When the React renderer tries to render this JSX tree, it does see the `{window.location.href}` variable as a node of this tree and tries to render it, although it's actually not used! Using a function ensures that we only let the renderer see the browser-only component when it's needed.
+
+### `useIsBrowser` {#useisbrowser}
+
+You can also use the `useIsBrowser()` hook to test if the component is currently in a browser environment. It returns `false` in SSR and `true` is CSR, after first client render. Use this hook if you only need to perform certain conditional operations on client-side, but not render an entirely different UI.
+
+```jsx
+import useIsBrowser from "@docusaurus/useIsBrowser";
+
+function MyComponent() {
+  const isBrowser = useIsBrowser();
+  const location = isBrowser ? window.location.href : "fetching location...";
+  return <span>{location}</span>;
+}
+```
+
+### `useEffect` {#useeffect}
+
+Lastly, you can put your logic in `useEffect()` to delay its execution until after first CSR. This is most appropriate if you are only performing side-effects but don't _get_ data from the client state.
+
+```jsx
+function MyComponent() {
+  useEffect(() => {
+    // Only logged in the browser console; nothing is logged during server-side rendering
+    console.log("I'm now in the browser");
+  }, []);
+  return <span>Some content...</span>;
+}
+```
+
+### `ExecutionEnvironment` {#executionenvironment}
+
+The [`ExecutionEnvironment`](../docusaurus-core.mdx#executionenvironment) namespace contains several values, and `canUseDOM` is an effective way to detect browser environment.
+
+Beware that it essentially checked `typeof window !== 'undefined'` under the hood, so you should not use it for rendering-related logic, but only imperative code, like reacting to user input by sending web requests, or dynamically importing libraries, where DOM isn't updated at all.
+
+```js title="a-client-module.js"
+import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
+
+if (ExecutionEnvironment.canUseDOM) {
+  document.title = "I'm loaded!";
+}
+```

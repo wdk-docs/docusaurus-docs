@@ -1,0 +1,194 @@
+---
+description: Docusaurus的设计是很容易安装的，可以让你的网站快速启动和运行。
+slug: /
+---
+
+# 介绍
+
+⚡️ Docusaurus 将帮助你发布一个**漂亮的文档网站在任何时间**。
+
+💸 建立一个定制的技术栈是昂贵的。相反，专注于你的内容，只写 Markdown 文件。
+
+💥 准备好了吗?使用高级功能，如版本控制，i18n，搜索和主题自定义。
+
+💅 查看**[最佳 Docusaurus 网站](/showcase?tags=favorite)**获取灵感，并阅读一些**[推荐](https://twitter.com/sebastienlorber/timelines/1392048416872706049)**)。
+
+🧐 Docusaurus 是一个静态站点生成器。它构建了一个具有快速客户端导航的单页应用程序，利用 React 的全部功能使您的站点具有交互性。它提供了开箱即用的文档功能，但可以用来创建任何类型的网站(个人网站、产品、博客、营销登陆页面等)。
+
+![](/img/slash-introducing.svg)
+
+## 快速通道 ⏱️ {#fast-track}
+
+在**5 分钟**玩懂 Docusaurus !
+
+创建一个新的 Docusaurus 网站，并遵循非常短的嵌入式教程。
+
+安装[Node.js](https://nodejs.org/en/download/)并创建一个新的 Docusaurus 站点:
+
+```bash
+npx create-docusaurus@latest my-website classic
+```
+
+启动站点:
+
+```bash
+cd my-website
+npx docusaurus start
+```
+
+打开[`http://localhost:3000`](http://localhost:3000)并遵循教程。
+
+:::tip
+
+使用**[docusaurus.new](https://docusaurus.new)**立即在浏览器中测试 Docusaurus !
+
+或者在线阅读**[5 分钟教程](https://tutorial.docusaurus.io)**。
+
+:::
+
+## Docusaurus: 简化文档
+
+在[阿尔及利亚社区活动](https://www.algolia.com/)的演讲中，[元开源团队](https://opensource.facebook.com/)分享了 Docusaurus 的简要介绍。他们涵盖了如何开始项目，启用插件，以及设置文档和博客等功能。
+
+{/* cSpell:ignore Yhyx Sksg */}
+
+```mdx-code-block
+import LiteYouTubeEmbed from 'react-lite-youtube-embed';
+
+<div className="video-container">
+  <LiteYouTubeEmbed
+    id="Yhyx7otSksg"
+    params="autoplay=1&autohide=1&showinfo=0&rel=0"
+    title="Docusaurus: Documentation Made Easy"
+    poster="maxresdefault"
+    webp
+  />
+</div>
+```
+
+## 从 v1 迁移 {#migrating-from-v1}
+
+Docusaurus v2 完全重写了 Docusaurus v1，利用了一个完全现代化的工具链。在[v2 正式发布](https://docusaurus.io/blog/2022/08/01/announcing-docusaurus-2.0)之后，我们强烈建议您**使用 Docusaurus v2 而不是 Docusaurus v1**，因为 Docusaurus v1 已被弃用。
+
+[许多用户](/showcase)已经在使用 Docusaurus v2 ([trends](https://www.npmtrends.com/docusaurus-vs-@docusaurus/core))。
+
+**使用 Docusaurus v2 原因:**
+
+- :white_check_mark: 您需要一个现代的 Jamstack 文档站点
+- :white_check_mark: 您需要一个带有客户端路由的单页应用程序(SPA)
+- :white_check_mark: 你想要 React 和 MDX 的全部功能
+- :white_check_mark: 您不需要支持 IE11
+
+**使用[Docusaurus v1](https://v1.docusaurus.io/):**
+
+- :x: 您不希望使用单页面应用程序(SPA)
+- :x: 你需要支持 IE11(…)你呢?IE[已经寿终正终](https://docs.microsoft.com/en-us/lifecycle/products/internet-explorer-11)，不再得到官方支持)
+
+对于正在寻求升级到 v2 的现有 v1 用户，您可以遵循我们的[迁移指南](./migration/migration-overview.mdx)。
+
+## 特性 {#features}
+
+Docusaurus 的构建高度关注开发人员和贡献者的体验。
+
+- ⚛️ **用 💚 和 React 构建**:
+  - 用 React 扩展和定制
+  - 通过提供自己的 React 组件，可以完全控制站点的浏览体验
+- **可插入的**:
+  - 用一个基本模板引导你的网站，然后使用高级功能和插件
+  - 开源你的插件与社区分享
+- ✂️ **开发人员的经验**:
+  - 现在就开始写文档吧
+  - 通用配置入口点，使其更易于贡献者维护
+  - 热重新加载与闪电般的快速增量构建的变化
+  - 基于路由的代码和数据分割
+  - 轻松发布到 GitHub Pages, netflix, Vercel 和其他部署服务
+
+我们的共同目标是帮助您的用户快速找到他们需要的东西，并更好地了解您的产品。我们将分享我们的最佳实践，以帮助您建立正确和良好的文档网站。
+
+- 🎯 **SEO 友好的**:
+  - HTML 文件是为每个可能的路径静态生成的。
+  - 特定于页面的搜索引擎优化，帮助您的用户直接找到与他们手头问题相关的官方文档。
+- 📝 **由 MDX 驱动**:
+  - 通过嵌入在 Markdown 中的 JSX 和 React 编写交互式组件。
+  - 在实时编辑器中分享你的代码，让你的用户当场爱上你的产品。
+- 🔍 **搜索**: 你的整个网站是可搜索的。
+- 💾 **文档版本管理**: 帮助您保持文档与项目版本同步。
+- 🌍 **国际化 (i18n)**: 翻译您的网站在多个地区。
+
+《Docusaurus 2》的诞生是为了让你的所有用户都能轻松上手，而且速度快如闪电。
+
+- ⚡️ **闪电般的**. Docusaurus 2 遵循[PRPL 模式](https://developers.google.com/web/fundamentals/performance/prpl-pattern/)，确保您的内容加载速度极快。
+- 🦖 **可访问的**. 注意可访问性，使您的网站对所有用户都能平等访问。
+
+## 设计原则 {#design-principles}
+
+- **要学的不多**. Docusaurus 应该很容易学习和使用，因为 API 非常小。大多数事情仍然可以由用户实现，即使他们需要更多的代码和更多的时间来编写。没有抽象总比有错误的抽象要好，我们不希望用户不得不绕过错误的抽象。必讲-[最小 API 表面积](https://www.youtube.com/watch?v=4anAwXYqLG8)。
+- **直观的**. 用户在查看 Docusaurus 项目目录或添加新功能时不会感到不知所措。它应该看起来直观，易于使用他们熟悉的方法进行构建。
+- **分层体系结构**. 我们的堆栈的每一层(内容/主题/样式)之间的关注点的分离应该是清晰的——良好的抽象和模块化。
+- **合理的默认值**. 常见的和流行的性能优化和配置将为用户完成，但他们可以选择覆盖它们。
+- **没有供应商锁定**. 用户不需要使用默认插件或 CSS，尽管他们被强烈鼓励这样做。某些核心基础设施(如 React Loadable 和 React Router)不能被交换，因为我们对它们进行了默认的性能优化，但对更高级的却没有。Markdown 引擎、CSS 框架、CSS 方法和其他架构的选择将完全取决于用户。
+
+我们相信，作为开发人员，了解库的工作原理有助于我们更好地使用它。因此，我们致力于解释 Docusaurus 的架构和各种组件，希望阅读它的用户能够更深入地了解这个工具，甚至更熟练地使用它。
+
+## 与其他工具的比较 {#comparison-with-other-tools}
+
+在所有静态站点生成器中，Docusaurus 对文档站点有着独特的关注，并且具有许多开箱即用的特性。
+
+我们还研究了其他主要的静态站点生成器，并希望分享我们对比较的见解，希望能帮助您在棱柱形选择中导航。
+
+### Gatsby {#gatsby}
+
+[Gatsby](https://www.gatsbyjs.com/)包含了很多特性，拥有丰富的插件生态系统，并且能够做 Docusaurus 所做的一切。当然，这是以更高的学习曲线为代价的。盖茨比在很多方面都做得很好，适合建立很多类型的网站。另一方面，Docusaurus 试图把一件事做得非常好——成为写作和发布内容的最佳工具。
+
+GraphQL 也是 Gatsby 的核心，尽管您不一定需要 GraphQL 来构建 Gatsby 站点。在大多数情况下，当构建静态网站时，您不需要 GraphQL 提供的灵活性。
+
+《Docusaurus 2》的许多方面都受到了《盖茨比》的启发，这是一个很好的选择。
+
+[Docz](https://github.com/pedronauck/docz)是一个盖茨比主题，用于构建文档网站。目前它的特征不如 Docusaurus。
+
+### Next.js {#nextjs}
+
+[Next.js](https://nextjs.org/)是另一个非常流行的混合 React 框架。它可以帮助您构建一个良好的文档网站，但它并不固执于文档用例，并且需要更多的工作来实现 Docusaurus 提供的开箱即用功能。
+
+[Nextra](https://github.com/shuding/nextra)是一个建立在 Next.js 之上的静态站点生成器。目前它的特征不如 Docusaurus。
+
+### VuePress {#vuepress}
+
+[VuePress](https://vuepress.vuejs.org/)与 Docusaurus 有很多相似之处——两者都着重于以内容为中心的网站，并提供定制的开箱即用的文档功能。然而，vepress 是由 Vue 驱动的，而 Docusaurus 是由 React 驱动的。如果你想要一个基于 vue 的解决方案，vepress 将是一个不错的选择。
+
+### MkDocs {#mkdocs}
+
+[MkDocs](https://www.mkdocs.org/)是一个流行的 Python 静态站点生成器，其价值主张类似于 Docusaurus。
+
+如果你不需要单页应用程序，也不打算利用 React，这是一个不错的选择。
+
+[MkDocs 的材料](https://squidfunk.github.io/mkdocs-material/)是一个美丽的主题。
+
+### Docsify {#docsify}
+
+[Docsify](https://docsify.js.org/)可以很容易地创建一个文档网站，但不是一个静态站点生成器，也不是 SEO 友好。
+
+### GitBook {#gitbook}
+
+[GitBook](https://www.gitbook.com/)有一个非常干净的设计，已经被许多开源项目使用。随着它的焦点从开源工具转向商业产品，它的许多需求不再适合开源项目文档站点的需要。因此，许多人转向其他产品。你可以在这里读到 Redux 转向 Docusaurus 的消息(https://github.com/reduxjs/redux/issues/3161)。
+
+目前，GitBook 只对开源和非营利团队免费。Docusaurus 对每个人都是免费的。
+
+### Jekyll {#jekyll}
+
+[Jekyll](https://github.com/jekyll/jekyll)是最成熟的静态网站生成器之一，也是一个非常好用的工具——事实上，在 Docusaurus 之前，大多数 Facebook 的开源网站都是建立在 Jekyll 之上的!入门非常简单。我们希望带来与使用 Jekyll 构建静态站点类似的开发体验。
+
+与静态生成的 HTML 和使用`<script />`标签添加的交互性相比，Docusaurus 网站是 React 应用程序。使用现代 JavaScript 生态系统工具，我们希望在文档站点的性能、资产构建管道和优化以及易于设置方面建立新的标准。
+
+## 待通知 {#staying-informed}
+
+- [GitHub](https://github.com/facebook/docusaurus)
+- [Twitter](https://twitter.com/docusaurus)
+- [Blog](/blog)
+- [Discord](https://discord.gg/docusaurus)
+
+## 缺少什么? {#something-missing}
+
+如果您发现文档中的问题或对如何改进文档或项目有建议，请为我们[提交问题](https://github.com/facebook/docusaurus)，或发送提及[@docusaurus](https://twitter.com/docusaurus) Twitter 帐户的 tweet。
+
+对于新的功能请求，你可以在我们的[功能请求板(Canny)](/feature-requests)上创建一个帖子，这是一个方便的工具，可以绘制路线图，并允许通过投票进行排序，这给了核心团队一个更好的指标，哪些功能是高需求的，相比之下，GitHub 问题更难分类。避免为新功能(特别是大型功能)发出 Pull Request，因为有人可能已经在开发它，或者将成为我们路线图的一部分。先跟我们谈谈!

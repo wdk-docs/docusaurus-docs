@@ -123,13 +123,11 @@ async function ChangelogPlugin(context, options) {
     configureWebpack(...args) {
       const config = blogPlugin.configureWebpack(...args);
       const pluginDataDirRoot = path.join(context.generatedFilesDir, "changelog-plugin", "default");
-      console.warn({ pluginDataDirRoot });
-      // 将元数据路径重定向到我们的文件夹
+      // Redirect the metadata path to our folder
       const mdxLoader = config.module.rules[0].use[0];
-      console.warn({ mdxLoader });
       mdxLoader.options.metadataPath = (mdxPath) => {
-        // 注意，每个MDX的元数据路径必须与来自createData的路径相同/同步。
-        console.warn({ mdxPath });
+        // Note that metadataPath must be the same/in-sync as
+        // the path from createData for each MDX.
         const aliasedPath = aliasedSitePath(mdxPath, context.siteDir);
         return path.join(pluginDataDirRoot, `${docuHash(aliasedPath)}.json`);
       };

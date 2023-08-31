@@ -6,38 +6,38 @@ image: ./img/social-card.png
 date: 2023-03-23
 ---
 
-我们很高兴地宣布**Docusaurus 2.4**。
+We are happy to announce **Docusaurus 2.4**.
 
-升级应该很容易:正如我们的[发布过程文档](/community/release-process)中所解释的那样，次要版本尊重[语义版本控制](https://semver.org/)。
+The upgrade should be easy: as explained in our [release process documentation](/community/release-process), minor versions respect [Semantic Versioning](https://semver.org/).
 
 ![Docusaurus blog post social card](./img/social-card.png)
 
 <!--truncate-->
 
-import BrowserWindow from "@site/src/components/BrowserWindow";
-import IframeWindow from "@site/src/components/BrowserWindow/IframeWindow";
-import ErrorBoundaryTestButton from "@site/src/components/ErrorBoundaryTestButton";
+import BrowserWindow from '@site/src/components/BrowserWindow';
+import IframeWindow from '@site/src/components/BrowserWindow/IframeWindow';
+import ErrorBoundaryTestButton from '@site/src/components/ErrorBoundaryTestButton';
 
-## 突出了
+## Highlights
 
-### 侧边栏项目说明
+### Sidebar item description
 
 In [#8236](https://github.com/facebook/docusaurus/pull/8236), we made it possible to provide a new `description` attribute for docs sidebar items of type `link` and `category`.
 
 ```tsx title="sidebars.js"
 [
   {
-    type: "link",
-    label: "Link with description",
-    href: "https://docusaurus.io",
+    type: 'link',
+    label: 'Link with description',
+    href: 'https://docusaurus.io',
     // highlight-next-line
-    description: "Some link description",
+    description: 'Some link description',
   },
   {
-    type: "category",
-    label: "Category with description",
+    type: 'category',
+    label: 'Category with description',
     // highlight-next-line
-    description: "Some category description",
+    description: 'Some category description',
     items: [],
   },
 ];
@@ -47,7 +47,7 @@ These descriptions will be used in category generated index pages.
 
 ![Show sidebar category generated index with custom descriptions](./img/sidebar-item-description.jpg)
 
-### 主题查询字符串
+### Theme Query String
 
 In [#8708](https://github.com/facebook/docusaurus/pull/8708), we added the possibility to force Docusaurus to initialize itself in `light` or `dark` mode through a new `docusaurus-theme` query-string parameter.
 
@@ -56,7 +56,7 @@ This is useful to ensure a consistent theme when embedding an existing Docusauru
 <IframeWindow url="/docs/?docusaurus-theme=light" />
 <IframeWindow url="/docs/?docusaurus-theme=dark" />
 
-### 备注 plugin npm2yarn 升级
+### Remark plugin npm2yarn upgrade
 
 In [#8690](https://github.com/facebook/docusaurus/pull/8690), we upgraded our Remark plugin [@docusaurus/remark-plugin-npm2yarn](https://github.com/facebook/docusaurus/tree/main/packages/docusaurus-remark-plugin-npm2yarn) with many conversion bug fixes, first-class support for pnpm, and the ability to register custom converters producing new tabs.
 
@@ -80,7 +80,7 @@ npm run myCustomScript -- --some-arg
 
 </BrowserWindow>
 
-### gtag 支持多个跟踪 IDs
+### gtag support for multiple tracking IDs
 
 In [#8620](https://github.com/facebook/docusaurus/pull/8620) we added support for the [@docusaurus/plugin-google-gtag](/docs/api/plugins/@docusaurus/plugin-google-gtag) plugin to declare multiple tracking IDs.
 
@@ -88,14 +88,14 @@ In [#8620](https://github.com/facebook/docusaurus/pull/8620) we added support fo
 module.exports = {
   presets: [
     [
-      "@docusaurus/preset-classic",
+      '@docusaurus/preset-classic',
       {
         gtag: {
           trackingID: [
             // highlight-next-line
-            "G-<YOUR-NEW-GA4-ID>",
+            'G-<YOUR-NEW-GA4-ID>',
             // highlight-next-line
-            "UA-<YOUR-OLD-UA-ID>",
+            'UA-<YOUR-OLD-UA-ID>',
           ],
         },
       },
@@ -114,7 +114,7 @@ To preserve the continuity of your analytics, we temporarily recommend that you 
 
 :::
 
-### 开发人员的经验
+### Developer Experience
 
 In [#8736](https://github.com/facebook/docusaurus/pull/8736), we improved how we render error messages and added initial support to render the full causal chain of an error (see [ES2022 Error Cause](https://h3manth.com/ES2022/#error-cause)).
 
@@ -128,7 +128,7 @@ In [#8735](https://github.com/facebook/docusaurus/pull/8735) we also made navbar
 
 ![Docusaurus navbar error message screenshot](./img/navbar-error.jpg)
 
-### 翻译
+### Translations
 
 We made it possible to translate some new elements:
 
@@ -146,7 +146,7 @@ Completing theme translations is an [ongoing effort](https://github.com/facebook
 
 :::
 
-## 其他的变化
+## Other changes
 
 Other notable changes include:
 

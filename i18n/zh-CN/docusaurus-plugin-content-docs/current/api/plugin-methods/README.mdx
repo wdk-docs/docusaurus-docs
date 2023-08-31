@@ -1,0 +1,146 @@
+# 插件方法参考
+
+:::caution
+
+这部分工作还在进行中。锚链接甚至 url 都不能保证是稳定的。
+
+:::
+
+插件 APIs 由主题和插件共享-主题就像插件一样加载。
+
+## 插件模块 {#plugin-module}
+
+每个插件都是作为模块导入的。该模块预计有以下成员:
+
+- **默认导出**: 插件的构造函数。
+- **Named exports**: 在插件初始化之前调用的[静态方法](./static-methods.mdx)。
+
+## 插件的构造函数 {#plugin-constructor}
+
+插件模块的默认导出是一个签名为`(context: LoadContext, options: PluginOptions) => Plugin | Promise<Plugin>`的构造函数。
+
+### `context` {#context}
+
+`context`是插件无关的，相同的对象将被传递到 Docusaurus 网站使用的所有插件中。`context`对象包含以下字段:
+
+```ts
+type LoadContext = {
+  siteDir: string;
+  generatedFilesDir: string;
+  siteConfig: DocusaurusConfig;
+  outDir: string;
+  baseUrl: string;
+};
+```
+
+### `options` {#options}
+
+`options`是[使用插件时的第二个可选参数](../../using-plugins.mdx# configuration -plugins)。`options`是特定于插件的，由用户在`docusaurus.config.js`中使用它们时指定。如果导出了[`validateOptions`](./static-methods.mdx#validateOptions)函数，`options`将被预先验证和规范化。
+
+或者，如果预设包含插件，那么预设将负责将正确的选项传递给插件。这是由各个插件来定义它采用什么选项。
+
+## 例子 {#example}
+
+这是一个假定插件实现的心理模型。
+
+```js
+// A JavaScript function that returns an object.
+// `context` is provided by Docusaurus. Example: siteConfig can be accessed from context.
+// `opts` is the user-defined options.
+async function myPlugin(context, opts) {
+  return {
+    // A compulsory field used as the namespace for directories to cache
+    // the intermediate data for each plugin.
+    // If you're writing your own local plugin, you will want it to
+    // be unique in order not to potentially conflict with imported plugins.
+    // A good way will be to add your own project name within.
+    name: "docusaurus-my-project-cool-plugin",
+
+    async loadContent() {
+      // The loadContent hook is executed after siteConfig and env has been loaded.
+      // You can return a JavaScript object that will be passed to contentLoaded hook.
+    },
+
+    async contentLoaded({ content, actions }) {
+      // The contentLoaded hook is done after loadContent hook is done.
+      // `actions` are set of functional API provided by Docusaurus (e.g. addRoute)
+    },
+
+    async postBuild(props) {
+      // After docusaurus <build> finish.
+    },
+
+    // TODO
+    async postStart(props) {
+      // docusaurus <start> finish
+    },
+
+    // TODO
+    afterDevServer(app, server) {
+      // https://webpack.js.org/configuration/dev-server/#devserverbefore
+    },
+
+    // TODO
+    beforeDevServer(app, server) {
+      // https://webpack.js.org/configuration/dev-server/#devserverafter
+    },
+
+    configureWebpack(config, isServer, utils, content) {
+      // Modify internal webpack config. If returned value is an Object, it
+      // will be merged into the final config using webpack-merge;
+      // If the returned value is a function, it will receive the config as the 1st argument and an isServer flag as the 2nd argument.
+    },
+
+    getPathsToWatch() {
+      // Paths to watch.
+    },
+
+    getThemePath() {
+      // Returns the path to the directory where the theme components can
+      // be found.
+    },
+
+    getClientModules() {
+      // Return an array of paths to the modules that are to be imported
+      // in the client bundle. These modules are imported globally before
+      // React even renders the initial UI.
+    },
+
+    extendCli(cli) {
+      // Register an extra command to enhance the CLI of Docusaurus
+    },
+
+    injectHtmlTags({ content }) {
+      // Inject head and/or body HTML tags.
+    },
+
+    async getTranslationFiles({ content }) {
+      // Return translation files
+    },
+
+    translateContent({ content, translationFiles }) {
+      // translate the plugin content here
+    },
+
+    translateThemeConfig({ themeConfig, translationFiles }) {
+      // translate the site themeConfig here
+    },
+
+    async getDefaultCodeTranslationMessages() {
+      // return default theme translations here
+    },
+  };
+}
+
+myPlugin.validateOptions = ({ options, validate }) => {
+  const validatedOptions = validate(myValidationSchema, options);
+  return validatedOptions;
+};
+
+myPlugin.validateThemeConfig = ({ themeConfig, validate }) => {
+  const validatedThemeConfig = validate(myValidationSchema, options);
+  return validatedThemeConfig;
+};
+
+module.exports = myPlugin;
+```

@@ -1,0 +1,92 @@
+---
+sidebar_position: 8
+slug: /api/plugins/@docusaurus/plugin-ideal-image
+---
+
+# 📦 plugin-ideal-image
+
+import APITable from "@site/src/components/APITable";
+
+Docusaurus 插件生成一个几乎理想的图像(响应，延迟加载，低质量占位符)。
+
+:::info
+
+默认情况下，该插件在开发中处于非活动状态，因此您可以随时查看全尺寸图像。如果您想调试理想的图像行为，您可以将[`disableInDev`](#disableInDev)选项设置为`false`。
+
+:::
+
+## 安装 {#installation}
+
+```bash npm2yarn
+npm install --save @docusaurus/plugin-ideal-image
+```
+
+## 使用 {#usage}
+
+这个插件只支持 PNG 和 JPG 格式。
+
+```jsx
+import Image from '@theme/IdealImage';
+import thumbnail from './path/to/img.png';
+
+// your React code
+<Image img={thumbnail} />
+
+// or
+<Image img={require('./path/to/img.png')} />
+```
+
+:::caution
+
+这个插件注册了一个[Webpack loader](https://webpack.js.org/loaders/)来改变 imported/require 的图像的类型:
+
+- 之前: `string`
+- 之后: `{preSrc: string, src: import("@theme/IdealImage").SrcImage}`
+
+:::
+
+## 配置 {#configuration}
+
+接受字段:
+
+```mdx-code-block
+<APITable>
+```
+
+| Option         | 类型       | 默认                                          | 描述                                                                                                                                                                                                                                   |
+| -------------- | ---------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`         | `string`   | `ideal-img/[name].[hash:hex:7].[width].[ext]` | Filename template for output files.                                                                                                                                                                                                    |
+| `sizes`        | `number[]` | _original size_                               | Specify all widths you want to use. If a specified size exceeds the original image's width, the latter will be used (i.e. images won't be scaled up).                                                                                  |
+| `size`         | `number`   | _original size_                               | Specify one width you want to use; if the specified size exceeds the original image's width, the latter will be used (i.e. images won't be scaled up)                                                                                  |
+| `min`          | `number`   |                                               | As an alternative to manually specifying `sizes`, you can specify `min`, `max` and `steps`, and the sizes will be generated for you.                                                                                                   |
+| `max`          | `number`   |                                               | See `min` above                                                                                                                                                                                                                        |
+| `steps`        | `number`   | `4`                                           | Configure the number of images generated between `min` and `max` (inclusive)                                                                                                                                                           |
+| `quality`      | `number`   | `85`                                          | JPEG compression quality                                                                                                                                                                                                               |
+| `disableInDev` | `boolean`  | `true`                                        | You can test ideal image behavior in dev mode by setting this to `false`. **Tip**: use [network throttling](https://www.browserstack.com/guide/how-to-perform-network-throttling-in-chrome) in your browser to simulate slow networks. |
+
+```mdx-code-block
+</APITable>
+```
+
+### 示例配置 {#ex-config}
+
+下面是一个配置示例:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      "@docusaurus/plugin-ideal-image",
+      // highlight-start
+      {
+        quality: 70,
+        max: 1030, // max resized image's size.
+        min: 640, // min resized image's size. if original is lower, use that size.
+        steps: 2, // the max number of images generated between min and max (inclusive)
+        disableInDev: false,
+      },
+      // highlight-end
+    ],
+  ],
+};
+```

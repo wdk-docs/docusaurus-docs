@@ -1,0 +1,213 @@
+---
+id: multi-instance
+description: 在一个Docusaurus网站上使用多个docs插件实例。
+slug: /docs-multi-instance
+---
+
+# 文档多实例
+
+`@docusaurus/plugin-content-docs`插件可以支持[多实例](../../using-plugins.mdx#multi-instance-plugins-and-plugin-ids)。
+
+:::note
+
+此特性仅对[版本化文档](./versioning.mdx)有用。建议在阅读此页之前熟悉文档版本控制。如果你只想要[多个侧边栏](./sidebar/multiple-sidebars.mdx)，你可以在一个插件中完成。
+
+:::
+
+## 用例 {#use-cases}
+
+有时候，你希望 Docusaurus 网站能够承载两组不同的文档(或者更多)。
+
+这些文档甚至可能有不同的版本控制/发布生命周期。
+
+### 移动 SDKs 文档 {#mobile-sdks-documentation}
+
+如果你构建一个跨平台的移动 SDK，你可能有 2 个文档:
+
+- Android SDK 文档 (`v1.0`, `v1.1`)
+- iOS SDK 文档 (`v1.0`, `v2.0`)
+
+在这种情况下，您可以为每个移动 SDK 文档使用不同的 docs 插件实例。
+
+:::caution
+
+如果每个文档实例都非常大，您应该创建 2 个不同的 Docusaurus 站点。
+
+如果有人编辑了 iOS 文档，那么重新构建所有内容(包括未更改的整个 Android 文档)是否真的有用?
+
+:::
+
+### 版本和未版本文档 {#versioned-and-unversioned-doc}
+
+有时，您希望对某些文档进行版本控制，而其他文档则更`全局`，对它们进行版本控制感觉毫无用处。
+
+我们在 Docusaurus 网站上使用了这种模式:
+
+- [/docs/\*](/docs) 节是有版本的
+- [/community/\*](/community/support) 节未进行版本控制
+
+## 设置 {#setup}
+
+假设你有两个文档:
+
+- Product: 一些关于你的产品的版本文档
+- Community: 一些关于你产品周围社区的未版本文档
+
+在这种情况下，您应该在站点配置中使用相同的插件两次。
+
+:::caution
+
+`@docusaurus/preset-classic`已经为你包含了一个 docs 插件实例!
+
+:::
+
+使用预设时:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  presets: [
+    [
+      "@docusaurus/preset-classic",
+      {
+        docs: {
+          // highlight-start
+          // id: 'product', // omitted => default instance
+          // highlight-end
+          path: "product",
+          routeBasePath: "product",
+          sidebarPath: require.resolve("./sidebarsProduct.js"),
+          // ... other options
+        },
+      },
+    ],
+  ],
+  plugins: [
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        // highlight-start
+        id: "community",
+        // highlight-end
+        path: "community",
+        routeBasePath: "community",
+        sidebarPath: require.resolve("./sidebarsCommunity.js"),
+        // ... other options
+      },
+    ],
+  ],
+};
+```
+
+不使用预设时:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  plugins: [
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        // highlight-start
+        // id: 'product', // omitted => default instance
+        // highlight-end
+        path: "product",
+        routeBasePath: "product",
+        sidebarPath: require.resolve("./sidebarsProduct.js"),
+        // ... other options
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        // highlight-start
+        id: "community",
+        // highlight-end
+        path: "community",
+        routeBasePath: "community",
+        sidebarPath: require.resolve("./sidebarsCommunity.js"),
+        // ... other options
+      },
+    ],
+  ],
+};
+```
+
+别忘了给插件实例分配一个唯一的`id`属性。
+
+:::note
+
+我们认为`product`实例是最重要的一个，并通过不分配任何 ID 使其成为`默认`实例。
+
+:::
+
+## 版本化路径 {#versioned-paths}
+
+每个插件实例都将版本文档存储在不同的文件夹中。
+
+默认的插件实例将使用这些路径:
+
+- `website/versions.json`
+- `website/versioned_docs`
+- `website/versioned_sidebars`
+
+其他插件实例(带有`id`属性)将使用这些路径:
+
+- `website/[pluginId]_versions.json`
+- `website/[pluginId]_versioned_docs`
+- `website/[pluginId]_versioned_sidebars`
+
+:::tip
+
+你可以省略一个 docs 插件实例的`id`属性(默认为`default`)。
+
+实例路径将更简单，并且与单实例设置向后兼容。
+
+:::
+
+## 标记新版本 {#tagging-new-versions}
+
+每个插件实例都有自己的 CLI 命令来标记新版本。如果您执行以下命令，将显示它们:
+
+```bash npm2yarn
+npm run docusaurus -- --help
+```
+
+要对 product/default docs 插件实例进行版本化:
+
+```bash npm2yarn
+npm run docusaurus docs:version 1.0.0
+```
+
+要 non-default/community docs 插件实例:
+
+```bash npm2yarn
+npm run docusaurus docs:version:community 1.0.0
+```
+
+## 文档导航栏项 {#docs-navbar-items}
+
+每个文档相关的[主题导航栏项](../../api/themes/theme-configuration.mdx#navbar)都有一个可选的`docsPluginId`属性。
+
+例如，如果你想为每个移动 SDK (iOS 和 Android)设置一个版本下拉菜单，你可以这样做:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  themeConfig: {
+    navbar: {
+      items: [
+        {
+          type: "docsVersionDropdown",
+          // highlight-start
+          docsPluginId: "ios",
+          // highlight-end
+        },
+        {
+          type: "docsVersionDropdown",
+          // highlight-start
+          docsPluginId: "android",
+          // highlight-end
+        },
+      ],
+    },
+  },
+};
+```

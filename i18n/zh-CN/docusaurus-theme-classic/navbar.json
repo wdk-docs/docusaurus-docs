@@ -1,0 +1,30 @@
+{
+  "title": {
+    "message": "文档龙",
+    "description": "The title in the navbar"
+  },
+  "item.label.Docs": {
+    "message": "文档",
+    "description": "Navbar item with label Docs"
+  },
+  "item.label.API": {
+    "message": "API",
+    "description": "Navbar item with label API"
+  },
+  "item.label.Blog": {
+    "message": "博客",
+    "description": "Navbar item with label Blog"
+  },
+  "item.label.Showcase": {
+    "message": "展示",
+    "description": "Navbar item with label Showcase"
+  },
+  "item.label.Community": {
+    "message": "社区",
+    "description": "Navbar item with label Community"
+  },
+  "item.label.Debug": {
+    "message": "调试",
+    "description": "Navbar item with label Debug"
+  }
+}

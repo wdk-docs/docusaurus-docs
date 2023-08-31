@@ -1,0 +1,141 @@
+---
+slug: /creating-pages
+sidebar_label: 页面
+---
+
+# 创建页面
+
+在本节中，我们将学习如何在 Docusaurus 中创建页面。
+
+`@docusaurus/plugin-content-pages`插件使您能够创建**一次性独立页面**，如展示页面，游乐场页面或支持页面。你可以使用 React 组件，或者 Markdown。
+
+:::note
+
+页面没有侧边栏，只有[docs](./docs/docs-introduction.mdx) do.
+
+:::
+
+:::info
+
+查看[Pages Plugin API 参考文档](./../api/plugins/plugin-content-pages.mdx)以获取详尽的选项列表。
+
+:::
+
+## 添加 React 页面 {#add-a-react-page}
+
+React 被用作创建页面的 UI 库。每个页面组件都应该导出一个 React 组件，你可以利用 React 的表现力来构建丰富的交互式内容。
+
+创建文件 `/src/pages/helloReact.js`:
+
+```jsx title="/src/pages/helloReact.js"
+import React from "react";
+import Layout from "@theme/Layout";
+
+export default function Hello() {
+  return (
+    <Layout title="Hello" description="Hello React Page">
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "50vh",
+          fontSize: "20px",
+        }}
+      >
+        <p>
+          Edit <code>pages/helloReact.js</code> and save to reload.
+        </p>
+      </div>
+    </Layout>
+  );
+}
+```
+
+保存文件后，开发服务器将自动重新加载更改。现在打开[`http://localhost:3000/helloReact`](http://localhost:3000/helloReact)，您将看到刚刚创建的新页面。
+
+每个页面都没有任何样式。如果你想让导航栏和/或页脚出现，你需要从`@theme/Layout`中导入`Layout`组件，并将内容包装在该组件中。
+
+:::tip
+
+你也可以用`.tsx`扩展名(`helloReact.tsx`)来创建 TypeScript 页面。
+
+:::
+
+## 添加 Markdown 页面 {#add-a-markdown-page}
+
+创建文件 `/src/pages/helloMarkdown.md`:
+
+```md title="/src/pages/helloMarkdown.md"
+---
+title: my hello page title
+description: my hello page description
+hide_table_of_contents: true
+---
+
+# Hello
+
+How are you?
+```
+
+以同样的方式，将在[`http://localhost:3000/helloMarkdown`](http://localhost:3000/helloMarkdown)创建一个页面。
+
+Markdown 页面不如 React 页面灵活，因为它总是使用主题布局。
+
+这是一个[Markdown 页面示例](/examples/markdownPageExample).
+
+:::tip
+
+你也可以在 Markdown 页面中使用 React 的全部功能，参考[MDX](https://mdxjs.com/)文档。
+
+:::
+
+## 路由 {#routing}
+
+如果您熟悉其他静态站点生成器(如 Jekyll 和 Next)，那么您会对这种路由方法感到熟悉。你在`/src/pages/`目录下创建的任何 JavaScript 文件都会自动转换为网站页面，遵循`/src/pages/`目录层次结构。例如:
+
+- `/src/pages/index.js` → `[baseUrl]`
+- `/src/pages/foo.js` → `[baseUrl]/foo`
+- `/src/pages/foo/test.js` → `[baseUrl]/foo/test`
+- `/src/pages/foo/index.js` → `[baseUrl]/foo/`
+
+在这个基于组件的开发时代，鼓励将样式、标记和行为一起放置到组件中。每个页面都是一个组件，如果您需要使用自己的样式自定义页面设计，我们建议将您的样式与页面组件共同放置在其单独的目录中。例如，要创建一个`支持`页面，您可以执行以下操作之一:
+
+- 添加一个`/src/pages/support.js`文件
+- 创建一个`/src/pages/support/`目录和`/src/pages/support/index.js`文件。
+
+后者是首选，因为它的好处是允许您将与该页相关的文件放在该目录中。例如，一个 CSS 模块文件(`styles.module.css`)的样式只能在"Support"页面上使用。
+
+:::note
+
+这只是一个推荐的目录结构，您仍然需要在组件模块中手动导入 CSS 模块文件(`support/index.js`).
+
+:::
+
+默认情况下，任何以`_`开头的 Markdown 或 JavaScript 文件都将被忽略，并且不会为该文件创建路由(请参阅`exclude`选项)。
+
+```bash
+my-website
+├── src
+│   └── pages
+│       ├── styles.module.css
+│       ├── index.js
+│       ├── _ignored.js
+│       ├── _ignored-folder
+│       │   ├── Component1.js
+│       │   └── Component2.js
+│       └── support
+│           ├── index.js
+│           └── styles.module.css
+.
+```
+
+:::caution
+
+`src/pages/`目录下的所有 JavaScript/TypeScript 文件都会有相应的网站路径生成。如果你想在该目录中创建可重用的组件，使用`exclude`选项(默认情况下，以`_`为前缀的文件、测试文件(`.test.js`)和`__tests__`目录中的文件不会被转换为页面)。
+
+:::
+
+### 重复的路线 {#duplicate-routes}
+
+您可能会意外地创建多个页面，这些页面旨在通过同一路由访问。当这种情况发生时，Docusaurus 会在运行`yarn start`或`yarn build`时警告你重复的路由，但网站仍然会成功构建。最后创建的页面将可以访问，但它将覆盖其他冲突的页面。要解决这个问题，您应该修改或删除任何冲突的路由。

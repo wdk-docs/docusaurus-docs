@@ -1,0 +1,78 @@
+{
+  "version.label": {
+    "message": "Canary 🚧",
+    "description": "The label for version current"
+  },
+  "sidebar.docs.category.Getting Started": {
+    "message": "开始",
+    "description": "The label for category Getting Started in sidebar docs"
+  },
+  "sidebar.docs.category.Guides": {
+    "message": "指南",
+    "description": "The label for category Guides in sidebar docs"
+  },
+  "sidebar.docs.category.Guides.link.generated-index.title": {
+    "message": "Docusaurus 指南",
+    "description": "The generated-index page title for category Guides in sidebar docs"
+  },
+  "sidebar.docs.category.Guides.link.generated-index.description": {
+    "message": "让我们来了解一下最重要的Docusaurus概念吧!",
+    "description": "The generated-index page description for category Guides in sidebar docs"
+  },
+  "sidebar.docs.category.Docs": {
+    "message": "文档",
+    "description": "The label for category Docs in sidebar docs"
+  },
+  "sidebar.docs.category.Sidebar": {
+    "message": "侧边栏",
+    "description": "The label for category Sidebar in sidebar docs"
+  },
+  "sidebar.docs.category.Markdown Features": {
+    "message": "Markdown 特性",
+    "description": "The label for category Markdown Features in sidebar docs"
+  },
+  "sidebar.docs.category.Internationalization": {
+    "message": "国际化",
+    "description": "The label for category Internationalization in sidebar docs"
+  },
+  "sidebar.docs.category.Advanced Guides": {
+    "message": "先进的指导",
+    "description": "The label for category Advanced Guides in sidebar docs"
+  },
+  "sidebar.docs.category.Migrating from v1 to v2": {
+    "message": "从v1迁移到v2",
+    "description": "The label for category Migrating from v1 to v2 in sidebar docs"
+  },
+  "sidebar.docs.doc.Tutorial": {
+    "message": "教程",
+    "description": "The label for the doc item Tutorial in sidebar docs, linking to the doc i18n/tutorial"
+  },
+  "sidebar.docs.doc.Using Git": {
+    "message": "使用 Git",
+    "description": "The label for the doc item Using Git in sidebar docs, linking to the doc i18n/git"
+  },
+  "sidebar.docs.doc.Using Crowdin": {
+    "message": "使用 Crowdin",
+    "description": "The label for the doc item Using Crowdin in sidebar docs, linking to the doc i18n/crowdin"
+  },
+  "sidebar.api.category.Plugin method references": {
+    "message": "插件方法参考",
+    "description": "The label for category Plugin method references in sidebar api"
+  },
+  "sidebar.api.category.Plugins": {
+    "message": "插件",
+    "description": "The label for category Plugins in sidebar api"
+  },
+  "sidebar.api.category.Themes": {
+    "message": "主题",
+    "description": "The label for category Themes in sidebar api"
+  },
+  "sidebar.api.category.Miscellaneous": {
+    "message": "杂项",
+    "description": "The label for category Miscellaneous in sidebar api"
+  },
+  "sidebar.api.category.📦 eslint-plugin": {
+    "message": "📦 eslint-plugin",
+    "description": "The label for category 📦 eslint-plugin in sidebar api"
+  }
+}

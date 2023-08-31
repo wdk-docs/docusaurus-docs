@@ -6,26 +6,26 @@ slug: /api/docusaurus-config
 
 # `docusaurus.config.js`
 
-import APITable from "@site/src/components/APITable";
+import APITable from '@site/src/components/APITable';
 
 :::info
 
-示例请参考入门[**配置**](../configuration.mdx)。
+Refer to the Getting Started [**Configuration**](../configuration.mdx) for examples.
 
 :::
 
-## 概述 {#overview}
+## Overview {#overview}
 
-`docusaurus.config.js`包含站点的配置，并放置在站点的根目录中。
+`docusaurus.config.js` contains configurations for your site and is placed in the root directory of your site.
 
-该文件使用[**CommonJS**](https://flaviocopes.com/commonjs/)模块系统在 Node.js 中运行，并且应该导出一个站点配置对象，或者创建它的函数。
+This file is run in Node.js using the [**CommonJS**](https://flaviocopes.com/commonjs/) module system, and should export a site configuration object, or a function that creates it.
 
-例子:
+Examples:
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  title: "Docusaurus",
-  url: "https://docusaurus.io",
+  title: 'Docusaurus',
+  url: 'https://docusaurus.io',
   // your site config ...
 };
 ```
@@ -33,8 +33,8 @@ module.exports = {
 ```js title="docusaurus.config.js"
 module.exports = async function createConfigAsync() {
   return {
-    title: "Docusaurus",
-    url: "https://docusaurus.io",
+    title: 'Docusaurus',
+    url: 'https://docusaurus.io',
     // your site config ...
   };
 };
@@ -42,21 +42,21 @@ module.exports = async function createConfigAsync() {
 
 :::tip
 
-请参阅[**声明`docusaurus.config.js`的语法**](../configuration.mdx#syntax-to-declare-docusaurus-config)以获取更详尽的示例和解释列表。
+Refer to [**Syntax to declare `docusaurus.config.js`**](../configuration.mdx#syntax-to-declare-docusaurus-config) for a more exhaustive list of examples and explanations.
 
 :::
 
-## 必填字段 {#required-fields}
+## Required fields {#required-fields}
 
 ### `title` {#title}
 
 - Type: `string`
 
-你网站的标题。将用于元数据和浏览器选项卡标题。
+Title for your website. Will be used in metadata and as browser tab title.
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  title: "Docusaurus",
+  title: 'Docusaurus',
 };
 ```
 
@@ -64,14 +64,11 @@ module.exports = {
 
 - Type: `string`
 
-您网站的 URL。
-这也可以被认为是顶级主机名。
-例如, `https://facebook.github.io`是`https://facebook.github.io/metro/`的 URL, 和`https://docusaurus.io`是`https://docusaurus.io`的 URL。
-该字段与[`baseUrl`](#baseUrl)字段相关。
+URL for your website. This can also be considered the top-level hostname. For example, `https://facebook.github.io` is the URL of https://facebook.github.io/metro/, and `https://docusaurus.io` is the URL for https://docusaurus.io. This field is related to the [`baseUrl`](#baseUrl) field.
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  url: "https://docusaurus.io",
+  url: 'https://docusaurus.io',
 };
 ```
 
@@ -79,26 +76,25 @@ module.exports = {
 
 - Type: `string`
 
-您网站的基础 URL。可以认为是主机之后的路径。例如，`/metro/`是`https://facebook.github.io/metro/`的基础 URL。
-对于没有路径的 url, baseUrl 应该设置为`/`。该字段与[`url`](#url)字段相关。总是有前后斜杠。
+Base URL for your site. Can be considered as the path after the host. For example, `/metro/` is the base URL of https://facebook.github.io/metro/. For URLs that have no path, the baseUrl should be set to `/`. This field is related to the [`url`](#url) field. Always has both leading and trailing slash.
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  baseUrl: "/",
+  baseUrl: '/',
 };
 ```
 
-## 可选字段 {#optional-fields}
+## Optional fields {#optional-fields}
 
 ### `favicon` {#favicon}
 
 - Type: `string | undefined`
 
-路径到您的网站图标;必须是可以在链接的 href 中使用的 URL。例如，如果你的 favicon 在`static/img/favicon.ico`中:
+Path to your site favicon; must be a URL that can be used in link's href. For example, if your favicon is in `static/img/favicon.ico`:
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  favicon: "/img/favicon.ico",
+  favicon: '/img/favicon.ico',
 };
 ```
 
@@ -106,17 +102,17 @@ module.exports = {
 
 - Type: `boolean | undefined`
 
-允许自定义 URLs/links 末尾是否有斜杠，以及如何生成静态 HTML 文件:
+Allow to customize the presence/absence of a trailing slash at the end of URLs/links, and how static HTML files are generated:
 
-- `undefined` (默认的): 保持 url 不变， 并为`/docs/myDoc.md`生成`/docs/myDoc/index.html`
-- `true`: 在 URLs/links 后面加上斜杠， 并为`/docs/myDoc.md`生成`/docs/myDoc/index.html`
-- `false`: 删除 URLs/links 后面的斜杠, 并为`/docs/myDoc.md`生成`/docs/myDoc.html`
+- `undefined` (default): keeps URLs untouched, and emit `/docs/myDoc/index.html` for `/docs/myDoc.md`
+- `true`: add trailing slashes to URLs/links, and emit `/docs/myDoc/index.html` for `/docs/myDoc.md`
+- `false`: remove trailing slashes from URLs/links, and emit `/docs/myDoc.html` for `/docs/myDoc.md`
 
 :::tip
 
-每个静态托管提供商提供的静态文件都不同(这种行为甚至可能随着时间的推移而改变)。
+Each static hosting provider serves static files differently (this behavior may even change over time).
 
-请参考[部署指南](../deployment.mdx)和[slorber/trailing-slash-guide](https://github.com/slorber/trailing-slash-guide)来选择适当的设置。
+Refer to the [deployment guide](../deployment.mdx) and [slorber/trailing-slash-guide](https://github.com/slorber/trailing-slash-guide) to choose the appropriate setting.
 
 :::
 
@@ -124,32 +120,32 @@ module.exports = {
 
 - Type: `Object`
 
-用于[本地化您的站点](../i18n/i18n-introduction.mdx)的 i18n 配置对象.
+The i18n configuration object to [localize your site](../i18n/i18n-introduction.mdx).
 
-例子:
+Example:
 
 {/* cSpell:ignore فارسی */}
 
 ```js title="docusaurus.config.js"
 module.exports = {
   i18n: {
-    defaultLocale: "en",
-    locales: ["en", "fa"],
-    path: "i18n",
+    defaultLocale: 'en',
+    locales: ['en', 'fa'],
+    path: 'i18n',
     localeConfigs: {
       en: {
-        label: "English",
-        direction: "ltr",
-        htmlLang: "en-US",
-        calendar: "gregory",
-        path: "en",
+        label: 'English',
+        direction: 'ltr',
+        htmlLang: 'en-US',
+        calendar: 'gregory',
+        path: 'en',
       },
       fa: {
-        label: "فارسی",
-        direction: "rtl",
-        htmlLang: "fa-IR",
-        calendar: "persian",
-        path: "fa",
+        label: 'فارسی',
+        direction: 'rtl',
+        htmlLang: 'fa-IR',
+        calendar: 'persian',
+        path: 'fa',
       },
     },
   },
@@ -170,9 +166,9 @@ module.exports = {
 
 - Type: `boolean`
 
-这个选项添加`<meta name="robots" content="noindex, nofollow">`到每个页面，告诉搜索引擎避免索引您的网站(更多信息[在这里](https://moz.com/learn/seo/robots-meta-directives))。
+This option adds `<meta name="robots" content="noindex, nofollow">` to every page to tell search engines to avoid indexing your site (more information [here](https://moz.com/learn/seo/robots-meta-directives)).
 
-例子:
+Example:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -184,13 +180,13 @@ module.exports = {
 
 - Type: `'ignore' | 'log' | 'warn' | 'throw'`
 
-当 Docusaurus 发现任何断裂链接时的行为。
+The behavior of Docusaurus when it detects any broken link.
 
-默认情况下，它会抛出一个错误，以确保您永远不会发送任何损坏的链接，但如果需要，您可以降低此安全性。
+By default, it throws an error, to ensure you never ship any broken link, but you can lower this security if needed.
 
 :::note
 
-断开链接检测仅适用于生产构建(`docusaurus build`)。
+The broken links detection is only available for a production build (`docusaurus build`).
 
 :::
 
@@ -198,27 +194,28 @@ module.exports = {
 
 - Type: `'ignore' | 'log' | 'warn' | 'throw'`
 
-当 Docusaurus 检测到任何断开的 Markdown 链接时的行为。
+The behavior of Docusaurus when it detects any broken Markdown link.
 
-默认情况下，它会打印一个警告，让您知道断开的 Markdown 链接，但您可以根据需要更改此安全性。
+By default, it prints a warning, to let you know about your broken Markdown link, but you can change this security if needed.
 
 ### `onDuplicateRoutes` {#onDuplicateRoutes}
 
 - Type: `'ignore' | 'log' | 'warn' | 'throw'`
 
-Docusaurus 在检测到任何[重复路由](/guides/creating-pages.mdx#duplicate-routes)时的行为。
+The behavior of Docusaurus when it detects any [duplicate routes](/guides/creating-pages.mdx#duplicate-routes).
 
-默认情况下，它会在运行`yarn start`或`yarn build`后显示警告。
+By default, it displays a warning after you run `yarn start` or `yarn build`.
 
 ### `tagline` {#tagline}
 
 - Type: `string`
 
-你网站的标语。
+The tagline for your website.
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  tagline: "Docusaurus makes it easy to maintain Open Source documentation websites.",
+  tagline:
+    'Docusaurus makes it easy to maintain Open Source documentation websites.',
 };
 ```
 
@@ -226,12 +223,12 @@ module.exports = {
 
 - Type: `string`
 
-拥有存储库的 GitHub 用户或组织。如果您不使用`docusaurus deploy`命令，则不需要此命令。
+The GitHub user or organization that owns the repository. You don't need this if you are not using the `docusaurus deploy` command.
 
 ```js title="docusaurus.config.js"
 module.exports = {
   // Docusaurus' organization is facebook
-  organizationName: "facebook",
+  organizationName: 'facebook',
 };
 ```
 
@@ -239,11 +236,11 @@ module.exports = {
 
 - Type: `string`
 
-GitHub 存储库的名称。如果您不使用`docusaurus deploy`命令，则不需要此命令。
+The name of the GitHub repository. You don't need this if you are not using the `docusaurus deploy` command.
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  projectName: "docusaurus",
+  projectName: 'docusaurus',
 };
 ```
 
@@ -251,11 +248,11 @@ module.exports = {
 
 - Type: `string`
 
-将静态文件部署到的分支的名称。如果您不使用`docusaurus deploy`命令，则不需要此命令。
+The name of the branch to deploy the static files to. You don't need this if you are not using the `docusaurus deploy` command.
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  deploymentBranch: "gh-pages",
+  deploymentBranch: 'gh-pages',
 };
 ```
 
@@ -263,11 +260,11 @@ module.exports = {
 
 - Type: `string`
 
-服务器的主机名。如果您正在使用 GitHub Enterprise，则非常有用。如果您不使用`docusaurus deploy`命令，则不需要此命令。
+The hostname of your server. Useful if you are using GitHub Enterprise. You don't need this if you are not using the `docusaurus deploy` command.
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  githubHost: "github.com",
+  githubHost: 'github.com',
 };
 ```
 
@@ -275,11 +272,11 @@ module.exports = {
 
 - Type: `string`
 
-服务器的端口。如果您正在使用 GitHub Enterprise，则非常有用。如果您不使用`docusaurus deploy`命令，则不需要此命令。
+The port of your server. Useful if you are using GitHub Enterprise. You don't need this if you are not using the `docusaurus deploy` command.
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  githubPort: "22",
+  githubPort: '22',
 };
 ```
 
@@ -287,9 +284,9 @@ module.exports = {
 
 - Type: `Object`
 
-[主题配置](./themes/theme-configuration.mdx)对象，用于自定义站点 UI，如导航栏和页脚。
+The [theme configuration](./themes/theme-configuration.mdx) object to customize your site UI like navbar and footer.
 
-例子:
+Example:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -301,46 +298,46 @@ module.exports = {
       },
     },
     colorMode: {
-      defaultMode: "light",
+      defaultMode: 'light',
       disableSwitch: false,
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: "Site Title",
+      title: 'Site Title',
       logo: {
-        alt: "Site Logo",
-        src: "img/logo.svg",
+        alt: 'Site Logo',
+        src: 'img/logo.svg',
         width: 32,
         height: 32,
       },
       items: [
         {
-          to: "docs/docusaurus.config.js",
-          activeBasePath: "docs",
-          label: "docusaurus.config.js",
-          position: "left",
+          to: 'docs/docusaurus.config.js',
+          activeBasePath: 'docs',
+          label: 'docusaurus.config.js',
+          position: 'left',
         },
         // ... other links
       ],
     },
     footer: {
-      style: "dark",
+      style: 'dark',
       links: [
         {
-          title: "Docs",
+          title: 'Docs',
           items: [
             {
-              label: "Docs",
-              to: "docs/doc1",
+              label: 'Docs',
+              to: 'docs/doc1',
             },
           ],
         },
         // ... other links
       ],
       logo: {
-        alt: "Meta Open Source Logo",
-        src: "img/meta_oss_logo.png",
-        href: "https://opensource.fb.com",
+        alt: 'Meta Open Source Logo',
+        src: 'img/meta_oss_logo.png',
+        href: 'https://opensource.fb.com',
         width: 160,
         height: 51,
       },
@@ -358,16 +355,16 @@ module.exports = {
 type PluginConfig = string | [string, any] | PluginModule | [PluginModule, any];
 ```
 
-请参阅[插件方法参考](./plugin-methods/README.mdx)了解`PluginModule`的形状。
+See [plugin method references](./plugin-methods/README.mdx) for the shape of a `PluginModule`.
 
 ```js title="docusaurus.config.js"
 module.exports = {
   plugins: [
-    "docusaurus-plugin-awesome",
-    ["docusuarus-plugin-confetti", { fancy: false }],
+    'docusaurus-plugin-awesome',
+    ['docusuarus-plugin-confetti', {fancy: false}],
     () => ({
       postBuild() {
-        console.log("Build finished");
+        console.log('Build finished');
       },
     }),
   ],
@@ -380,7 +377,7 @@ module.exports = {
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  themes: ["@docusaurus/theme-classic"],
+  themes: ['@docusaurus/theme-classic'],
 };
 ```
 
@@ -400,12 +397,15 @@ module.exports = {
 
 ### `markdown` {#markdown}
 
-全局 Docusaurus Markdown 配置。
+The global Docusaurus Markdown config.
 
 - Type: `MarkdownConfig`
 
 ```ts
-type MarkdownPreprocessor = (args: { filePath: string; fileContent: string }) => string;
+type MarkdownPreprocessor = (args: {
+  filePath: string;
+  fileContent: string;
+}) => string;
 
 type MDX1CompatOptions =
   | boolean
@@ -416,22 +416,22 @@ type MDX1CompatOptions =
     };
 
 type MarkdownConfig = {
-  format: "mdx" | "md" | "detect";
+  format: 'mdx' | 'md' | 'detect';
   mermaid: boolean;
   preprocessor?: MarkdownPreprocessor;
   mdx1Compat: MDX1CompatOptions;
 };
 ```
 
-例子:
+Example:
 
 ```js title="docusaurus.config.js"
 module.exports = {
   markdown: {
-    format: "mdx",
+    format: 'mdx',
     mermaid: true,
-    preprocessor: ({ filePath, fileContent }) => {
-      return fileContent.replaceAll("{{MY_VAR}}", "MY_VALUE");
+    preprocessor: ({filePath, fileContent}) => {
+      return fileContent.replaceAll('{{MY_VAR}}', 'MY_VALUE');
     },
     mdx1Compat: {
       comments: true,
@@ -446,12 +446,12 @@ module.exports = {
 <APITable>
 ```
 
-| 名字           | 类型                        | 默认                                                    | 描述                                                                                                                                                                                           |
-| -------------- | --------------------------- | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `format`       | `'mdx' \| 'md' \| 'detect'` | `'mdx'`                                                 | The default parser format to use for Markdown content. Using 'detect' will select the appropriate format automatically based on file extensions: `.md` vs `.mdx`.                              |
-| `mermaid`      | `boolean`                   | `false`                                                 | When `true`, allows Docusaurus to render Markdown code blocks with `mermaid` language as Mermaid diagrams.                                                                                     |
-| `preprocessor` | `MarkdownPreprocessor`      | `undefined`                                             | Gives you the ability to alter the Markdown content string before parsing. Use it as a last-resort escape hatch or workaround: it is almost always better to implement a Remark/Rehype plugin. |
-| `mdx1Compat`   | `MDX1CompatOptions`         | `{comments: true, admonitions: true, headingIds: true}` | Compatibility options to make it easier to upgrade to Docusaurus v3+. See the [MDX 2 PR for details](https://github.com/facebook/docusaurus/pull/8288).                                        |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `format` | `'mdx' \| 'md' \| 'detect'` | `'mdx'` | The default parser format to use for Markdown content. Using 'detect' will select the appropriate format automatically based on file extensions: `.md` vs `.mdx`. |
+| `mermaid` | `boolean` | `false` | When `true`, allows Docusaurus to render Markdown code blocks with `mermaid` language as Mermaid diagrams. |
+| `preprocessor` | `MarkdownPreprocessor` | `undefined` | Gives you the ability to alter the Markdown content string before parsing. Use it as a last-resort escape hatch or workaround: it is almost always better to implement a Remark/Rehype plugin. |
+| `mdx1Compat` | `MDX1CompatOptions` | `{comments: true, admonitions: true, headingIds: true}` | Compatibility options to make it easier to upgrade to Docusaurus v3+. See the [MDX 2 PR for details](https://github.com/facebook/docusaurus/pull/8288). |
 
 ```mdx-code-block
 </APITable>
@@ -459,20 +459,20 @@ module.exports = {
 
 ### `customFields` {#customFields}
 
-Docusaurus 保护`docusaurus.config.js`不受未知字段的影响。要添加自定义字段，请在`customFields`上定义它。
+Docusaurus guards `docusaurus.config.js` from unknown fields. To add a custom field, define it on `customFields`.
 
 - Type: `Object`
 
 ```js title="docusaurus.config.js"
 module.exports = {
   customFields: {
-    admin: "endi",
-    superman: "lol",
+    admin: 'endi',
+    superman: 'lol',
   },
 };
 ```
 
-尝试在配置中添加未知字段将导致构建时出现错误:
+Attempting to add unknown fields in the config will lead to errors during build time:
 
 ```bash
 Error: The field(s) 'foo', 'bar' are not recognized in docusaurus.config.js
@@ -480,61 +480,60 @@ Error: The field(s) 'foo', 'bar' are not recognized in docusaurus.config.js
 
 ### `staticDirectories` {#staticDirectories}
 
-相对于站点目录或绝对路径的路径数组。这些路径下的文件将按原样复制到构建输出中。
+An array of paths, relative to the site's directory or absolute. Files under these paths will be copied to the build output as-is.
 
 - Type: `string[]`
 
-例子:
+Example:
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  staticDirectories: ["static"],
+  staticDirectories: ['static'],
 };
 ```
 
 ### `headTags` {#headTags}
 
-将插入到 HTML `<head>`中的标记数组。这些值必须是包含两个属性的对象;`tagName`和`attributes`。`tagName`必须是一个字符串，用于确定要创建的标记;如`"link"`。
-`attributes`必须是一个属性-值映射。
+An array of tags that will be inserted in the HTML `<head>`. The values must be objects that contain two properties; `tagName` and `attributes`. `tagName` must be a string that determines the tag being created; eg `"link"`. `attributes` must be an attribute-value map.
 
 - Type: `{ tagName: string; attributes: Object; }[]`
 
-例子:
+Example:
 
 ```js title="docusaurus.config.js"
 module.exports = {
   headTags: [
     {
-      tagName: "link",
+      tagName: 'link',
       attributes: {
-        rel: "icon",
-        href: "/img/docusaurus.png",
+        rel: 'icon',
+        href: '/img/docusaurus.png',
       },
     },
   ],
 };
 ```
 
-这将在生成的 HTML 中变成`<link rel="icon" href="img/docusaurus.png" />`。
+This would become `<link rel="icon" href="img/docusaurus.png" />` in the generated HTML.
 
 ### `scripts` {#scripts}
 
-要加载的脚本数组。这些值可以是字符串，也可以是属性-值映射的普通对象。`<script>`标签将被插入到 HTML `<head>`中。如果你使用一个普通对象，唯一必需的属性是`src`，任何其他属性都是允许的(每个属性都应该有布尔/字符串值)。
+An array of scripts to load. The values can be either strings or plain objects of attribute-value maps. The `<script>` tags will be inserted in the HTML `<head>`. If you use a plain object, the only required attribute is `src`, and any other attributes are permitted (each one should have boolean/string values).
 
-注意，这里添加的`<script>`是渲染阻塞的，所以你可能想在对象中添加`async: true`/`defer: true`。
+Note that `<script>` added here are render-blocking, so you might want to add `async: true`/`defer: true` to the objects.
 
 - Type: `(string | Object)[]`
 
-例子:
+Example:
 
 ```js title="docusaurus.config.js"
 module.exports = {
   scripts: [
     // String format.
-    "https://docusaurus.io/script.js",
+    'https://docusaurus.io/script.js',
     // Object format.
     {
-      src: "https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js",
+      src: 'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js',
       async: true,
     },
   ],
@@ -543,20 +542,20 @@ module.exports = {
 
 ### `stylesheets` {#stylesheets}
 
-要加载的 CSS 源数组。这些值可以是字符串，也可以是属性-值映射的普通对象。`<link>`标签将被插入到 HTML `<head>`中。如果你使用一个对象，唯一必需的属性是`href`，任何其他属性都是允许的(每个属性都应该有布尔/字符串值)。
+An array of CSS sources to load. The values can be either strings or plain objects of attribute-value maps. The `<link>` tags will be inserted in the HTML `<head>`. If you use an object, the only required attribute is `href`, and any other attributes are permitted (each one should have boolean/string values).
 
 - Type: `(string | Object)[]`
 
-例子:
+Example:
 
 ```js title="docusaurus.config.js"
 module.exports = {
   stylesheets: [
     // String format.
-    "https://docusaurus.io/style.css",
+    'https://docusaurus.io/style.css',
     // Object format.
     {
-      href: "http://mydomain.com/style.css",
+      href: 'http://mydomain.com/style.css',
     },
   ],
 };
@@ -564,29 +563,32 @@ module.exports = {
 
 :::info
 
-默认情况下，`<link>`标签将具有`rel="stylesheet"`，但您可以显式地添加自定义`rel`值来注入任何类型的`<link>`标签，不一定是样式表。
+By default, the `<link>` tags will have `rel="stylesheet"`, but you can explicitly add a custom `rel` value to inject any kind of `<link>` tag, not necessarily stylesheets.
 
 :::
 
 ### `clientModules` {#clientModules}
 
-一个[客户端模块](../advanced/client.mdx#client-modules)数组全局加载到您的站点。
+An array of [client modules](../advanced/client.mdx#client-modules) to load globally on your site.
 
-例子:
+Example:
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  clientModules: [require.resolve("./mySiteGlobalJs.js"), require.resolve("./mySiteGlobalCss.css")],
+  clientModules: [
+    require.resolve('./mySiteGlobalJs.js'),
+    require.resolve('./mySiteGlobalCss.css'),
+  ],
 };
 ```
 
 ### `ssrTemplate` {#ssrTemplate}
 
-用[Eta 的语法](https://eta.js.org/docs/syntax#syntax-overview)编写的 HTML 模板，用于呈现应用程序。这可以用来在`body`标签上设置自定义属性，额外的`meta`标签，自定义`viewport`等。请注意，Docusaurus 将依赖于模板的正确结构来正常运行，一旦你定制了它，你就必须确保你的模板符合上游的要求。
+An HTML template written in [Eta's syntax](https://eta.js.org/docs/syntax#syntax-overview) that will be used to render your application. This can be used to set custom attributes on the `body` tags, additional `meta` tags, customize the `viewport`, etc. Please note that Docusaurus will rely on the template to be correctly structured in order to function properly, once you do customize it, you will have to make sure that your template is compliant with the requirements from upstream.
 
 - Type: `string`
 
-例子:
+Example:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -624,13 +626,13 @@ module.exports = {
 
 - Type: `string`
 
-将在生成的`<title>`标记中用作标题分隔符。
+Will be used as title delimiter in the generated `<title>` tag.
 
-例子:
+Example:
 
 ```js title="docusaurus.config.js"
 module.exports = {
-  titleDelimiter: "🦖", // Defaults to `|`
+  titleDelimiter: '🦖', // Defaults to `|`
 };
 ```
 
@@ -638,9 +640,9 @@ module.exports = {
 
 - Type: `boolean`
 
-启用后，将显示一个横幅，以防您的网站无法加载其 CSS 或 JavaScript 文件，这是一个非常常见的问题，通常与网站配置中的错误`baseUrl`有关。
+When enabled, will show a banner in case your site can't load its CSS or JavaScript files, which is a very common issue, often related to a wrong `baseUrl` in site config.
 
-例子:
+Example:
 
 ```js title="docusaurus.config.js"
 module.exports = {
@@ -648,12 +650,12 @@ module.exports = {
 };
 ```
 
-![一个示例基础URL问题横幅。样式非常原始，因为样式表无法加载。文本显示“您的Docusaurus网站无法正常加载…… 当前配置的baseUrl = / (default value); 我们建议尝试baseUrl = /build/](/img/baseUrlIssueBanner.png)
+![A sample base URL issue banner. The style is very raw since the stylesheets failed to load. The text says "Your Docusaurus site did not load properly... Current configured baseUrl = / (default value); We suggest trying baseUrl = /build/](/img/baseUrlIssueBanner.png)
 
 :::caution
 
-这个横幅需要内联 CSS/JS，以防所有的资产加载失败，由于错误的基础 URL。
+This banner needs to inline CSS / JS in case all asset loading fails due to wrong base URL.
 
-如果您有严格的[内容安全策略](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)，您应该禁用它。
+If you have a strict [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP), you should rather disable it.
 
 :::

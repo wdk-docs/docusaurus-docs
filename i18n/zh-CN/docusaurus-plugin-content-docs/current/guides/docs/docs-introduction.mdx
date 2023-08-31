@@ -1,0 +1,119 @@
+---
+id: introduction
+sidebar_label: Introduction
+slug: /docs-introduction
+---
+
+# 文档简介
+
+docs 特性为用户提供了一种分层格式组织 Markdown 文件的方法。
+
+:::info
+
+查看[Docs Plugin API 参考文档](./../../api/plugins/plugin-content-docs.mdx)以获取详尽的选项列表。
+
+:::
+
+您的网站的文档由四个级别组织，从最低到最高:
+
+1. 个人页面。
+2. 侧栏。
+3. 版本。
+4. 插件实例。
+
+本指南将按顺序介绍它们:从[如何配置单个页面](./docs-create-doc.mdx)，到[如何创建一个或多个侧边栏](./sidebar/index.mdx)，到[如何创建和管理版本](./versioning.mdx)，再到[如何使用多个 docs 插件实例](./docs-multi-instance.mdx)。
+
+## 仅文档模式 {#docs-only-mode}
+
+一个刚初始化的 Docusaurus 网站有以下结构:
+
+```
+example.com/                                -> generated from `src/pages/index.js`
+
+example.com/docs/intro                      -> generated from `docs/intro.md`
+example.com/docs/tutorial-basics/...        -> generated from `docs/tutorial-basics/...`
+...
+
+example.com/blog/2021/08/26/welcome         -> generated from `blog/2021-08-26-welcome/index.md`
+example.com/blog/2021/08/01/mdx-blog-post   -> generated from `blog/2021-08-01-mdx-blog-post.mdx`
+...
+```
+
+所有文档都将在子路由`docs/`下提供。但是，如果你的站点只有文档，或者你想把文档放在根目录，那该怎么办呢?
+
+假设您的配置中有以下内容:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    "@docusaurus/preset-classic",
+    {
+      docs: {
+        /* docs plugin options */
+      },
+      blog: {
+        /* blog plugin options */
+      },
+      // ...
+    },
+  ],
+};
+```
+
+要进入 docs-only 模式，将其更改为:
+
+```js title="docusaurus.config.js"
+module.exports = {
+  // ...
+  presets: [
+    "@docusaurus/preset-classic",
+    {
+      docs: {
+        // highlight-next-line
+        routeBasePath: "/", // Serve the docs at the site's root
+        /* other docs plugin options */
+      },
+      // highlight-next-line
+      blog: false, // Optional: disable the blog plugin
+      // ...
+    },
+  ],
+};
+```
+
+请注意，你**不一定要放弃使用博客**或其他插件;
+`routeBasePath: '/'`所做的是，而不是通过`https://example.com/docs/some-doc`提供文档，
+它们现在位于站点根: `https://example.com/some-doc`.
+如果启用了博客，仍然可以通过`blog/`子路由访问该博客。
+
+不要忘记在根(`https://example.com/`)添加一些首页内容:
+
+```md title="docs/intro.md"
+---
+# highlight-next-line
+slug: /
+---
+
+This page will be the home page when users visit https://example.com/.
+```
+
+:::caution
+
+如果你在文档中添加了`slug: /`作为主页，你应该删除现有的主页`./src/pages/index.js`，否则会有两个文件映射到相同的路由!
+
+:::
+
+现在，网站的结构将是这样的:
+
+```
+example.com/                       -> generated from `docs/intro.md`
+example.com/tutorial-basics/...    -> generated from `docs/tutorial-basics/...`
+...
+```
+
+:::tip
+
+对于那些只想使用 Docusaurus 2 的博客功能的人来说，还有一个`仅博客模式`。您可以使用上述相同的方法。按照[Blog-only 模式](../../blog.mdx#blog-only-mode)的设置说明操作。
+
+:::

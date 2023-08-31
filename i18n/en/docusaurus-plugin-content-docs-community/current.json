@@ -1,0 +1,22 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.community.link.更新日志": {
+    "message": "更新日志",
+    "description": "The label for link 更新日志 in sidebar community, linking to /changelog"
+  },
+  "sidebar.community.link.展示": {
+    "message": "展示",
+    "description": "The label for link 展示 in sidebar community, linking to /showcase"
+  },
+  "sidebar.community.link.特性请求": {
+    "message": "特性请求",
+    "description": "The label for link 特性请求 in sidebar community, linking to /feature-requests"
+  },
+  "sidebar.community.link.在Discord上与我们聊天": {
+    "message": "在Discord上与我们聊天",
+    "description": "The label for link 在Discord上与我们聊天 in sidebar community, linking to https://discord.gg/docusaurus"
+  }
+}

@@ -1,0 +1,110 @@
+# 金丝雀的版本
+
+```mdx-code-block
+import {
+  VersionsProvider,
+  CanaryVersion,
+  StableVersion,
+  InsertIfCanaryVersionUnknown,
+  InsertIfCanaryVersionKnown,
+  PackageJSONDiff,
+  PublishTime,
+} from "@site/src/components/Versions";
+
+<VersionsProvider>
+```
+
+Docusaurus 有一个释放金丝雀的系统。
+
+它允许你在合并到 Docusaurus 的[下一个版本](./5-release-process.mdx#next-version)时测试新的未发布的特性。
+
+这是一个给维护者反馈的好方法，确保新实现的功能按预期工作。
+
+:::note
+
+在生产环境中使用金丝雀版本似乎有风险，但在实践中却并非如此。
+
+金丝雀版本通过了所有自动化测试，并由 Docusaurus 站点本身在生产环境中使用。
+
+:::
+
+```mdx-code-block
+<InsertIfCanaryVersionUnknown>
+```
+
+:::caution
+
+下面显示的金丝雀版本可能不是最新的。请到[npm 页面](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions)找到实际的版本名称。
+
+:::
+
+```mdx-code-block
+</InsertIfCanaryVersionUnknown>
+<InsertIfCanaryVersionKnown>
+```
+
+:::tip
+
+The canary version shown below is directly fetched from npm and **is up-to-date**. You can directly use these numbers in your package.json.
+
+:::
+
+```mdx-code-block
+</InsertIfCanaryVersionKnown>
+```
+
+## 金丝雀 npm dist 标签
+
+For any code-related commit on `main`, the continuous integration will publish a canary release under the `@canary` npm dist tag. It generally takes up to 10 minutes.
+
+You can see on [npm](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions) the current dist tags:
+
+- `latest`: stable releases (Current: <StableVersion />)
+- `canary`: canary releases (<CanaryVersion />)
+
+:::tip
+
+Make sure to use the latest canary release and check the publication date (sometimes the publish process fails). <PublishTime />
+
+:::
+
+:::note
+
+Canary versions follow the naming convention `0.0.0-commitNumber`.
+
+:::
+
+## 使用金丝雀释放器
+
+Take the latest version published under the [canary npm dist tag](https://www.npmjs.com/package/@docusaurus/core?activeTab=versions) (<CanaryVersion />).
+
+Use it for all the `@docusaurus/*` dependencies in your `package.json`:
+
+```mdx-code-block
+<PackageJSONDiff />
+```
+
+Then, install the dependencies again and start your site:
+
+```bash npm2yarn
+npm install
+npm start
+```
+
+You can also upgrade the `@docusaurus/*` packages with command line:
+
+```bash npm2yarn
+npm install --save-exact @docusaurus/core@canary @docusaurus/preset-classic@canary
+```
+
+:::caution
+
+Make sure to include all the `@docusaurus/*` packages.
+
+For canary releases, prefer using an exact version instead of a semver range (avoid the `^` prefix).
+
+:::
+
+```mdx-code-block
+</VersionsProvider>
+```

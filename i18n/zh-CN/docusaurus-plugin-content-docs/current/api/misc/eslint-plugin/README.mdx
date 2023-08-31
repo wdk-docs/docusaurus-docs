@@ -1,0 +1,71 @@
+---
+sidebar_position: 1
+slug: /api/misc/@docusaurus/eslint-plugin
+---
+
+# 📦 eslint-plugin
+
+[ESLint](https://eslint.org/)是一个静态分析代码并报告问题或通过编辑器提示和命令行建议最佳实践的工具。Docusaurus 提供了一个 ESLint 插件来执行最佳 Docusaurus 实践。
+
+## 安装
+
+```bash npm2yarn
+npm install --save-dev @docusaurus/eslint-plugin
+```
+
+## 使用
+
+### 推荐配置
+
+将`plugin:@docusaurus/recommended`添加到`.eslintrc`配置文件的`extends`部分:
+
+```json title=".eslintrc"
+{
+  "extends": ["plugin:@docusaurus/recommended"]
+}
+```
+
+这将启用`@docusaurus` eslint 插件并使用`recommended`配置。请参阅下面的[支持的规则](#supported-rules)以获得将启用的规则列表。
+
+### 手动配置
+
+对于更细粒度的控制，你也可以手动启用插件并直接配置你想要使用的规则:
+
+```json title=".eslintrc"
+{
+  "plugins": ["@docusaurus"],
+  "rules": {
+    "@docusaurus/string-literal-i18n-messages": "error",
+    "@docusaurus/no-untranslated-text": "warn"
+  }
+}
+```
+
+## 支持配置
+
+- Recommended:推荐的规则集，大多数 Docusaurus 网站应该从。
+- All: **所有**规则启用。这将在次要版本之间发生变化，因此如果您想避免意外的破坏性更改，则不应该使用此方法。
+
+## 支持规则
+
+| 名字                                                                             | 描述                                            |     |
+| -------------------------------------------------------------------------------- | ----------------------------------------------- | --- |
+| [`@docusaurus/no-untranslated-text`](./no-untranslated-text.mdx)                 | 强制 JSX 中的文本标签由翻译调用包装             |     |
+| [`@docusaurus/string-literal-i18n-messages`](./string-literal-i18n-messages.mdx) | 强制在纯文本标签上调用 translate api            | ✅  |
+| [`@docusaurus/no-html-links`](./no-html-links.mdx)                               | 确保使用@docusaurus/Link 而不是`<a>`标记        | ✅  |
+| [`@docusaurus/prefer-docusaurus-heading`](./prefer-docusaurus-heading.mdx)       | 确保使用@theme/Heading 而不是`<hn>`标签作为标题 | ✅  |
+
+✅ = recommended
+
+## 示例配置
+
+下面是一个配置示例:
+
+```js title=".eslintrc.js"
+module.exports = {
+  extends: ["plugin:@docusaurus/recommended"],
+  rules: {
+    "@docusaurus/no-untranslated-text": ["warn", { ignoredStrings: ["·", "—", "×"] }],
+  },
+};
+```

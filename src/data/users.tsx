@@ -7,8 +7,8 @@
 
 /* eslint-disable global-require */
 
-import { translate } from "@docusaurus/Translate";
-import { sortBy } from "@site/src/utils/jsUtils";
+import {translate} from '@docusaurus/Translate';
+import {sortBy} from '@site/src/utils/jsUtils';
 
 /*
  * ADD YOUR SITE TO THE DOCUSAURUS SHOWCASE
@@ -40,30 +40,30 @@ import { sortBy } from "@site/src/utils/jsUtils";
 // We'll remove inappropriate tags, but it's less likely that we add tags.
 export type TagType =
   // DO NOT USE THIS TAG: we choose sites to add to favorites
-  | "favorite"
+  | 'favorite'
   // For open-source sites, a link to the source code is required.
   // The source should be the *website's* source, not the project's source!
-  | "opensource"
-  | "product"
+  | 'opensource'
+  | 'product'
   // Feel free to add the 'design' tag as long as there's _some_ level of
   // CSS/swizzling.
-  | "design"
+  | 'design'
   // Site must have more than one locale.
-  | "i18n"
-  | "versioning"
+  | 'i18n'
+  | 'versioning'
   // Large sites are defined as those with > 200 pages, excluding versions.
-  | "large"
-  | "meta"
-  | "personal"
+  | 'large'
+  | 'meta'
+  | 'personal'
   // Right-to-left direction.
-  | "rtl";
+  | 'rtl';
 
 // Add sites to this list
 // prettier-ignore
 const Users: User[] = [
   {
     title: 'AgileTs',
-    description: '响应式应用的全局状态和逻辑框架',
+    description: 'Global State and Logic Framework for reactive Applications',
     preview: require('./showcase/agilets.png'),
     website: 'https://agile-ts.org/',
     source: 'https://github.com/agile-ts/documentation',
@@ -71,7 +71,7 @@ const Users: User[] = [
   },
   {
     title: 'AI-Speaker',
-    description: '本地，可靠，快速和私人音频和物联网门。',
+    description: 'Local, reliable, fast and private Audio and IoT gate.',
     preview: require('./showcase/aispeaker.png'),
     website: 'https://ai-speaker.com/',
     source: 'https://github.com/sviete/AIS-WWW',
@@ -80,7 +80,7 @@ const Users: User[] = [
   {
     title: 'Aide Jeune',
     description:
-      '法国Discord服务器，帮助那些被欺负或自我感觉不好的年轻人',
+      'French Discord server that helps young people who have been bullied or feel bad about themselves',
     preview: require('./showcase/aide_jeune.png'),
     website: 'https://aidejeune.fr',
     source: null,
@@ -88,7 +88,7 @@ const Users: User[] = [
   },
   {
     title: "Akara's blog",
-    description: '个人前端学习博客',
+    description: 'Personal frontend blog for learning',
     preview: require('./showcase/akara-blog.png'),
     website: 'https://messiahhh.github.io/blog/',
     source: 'https://github.com/messiahhh/blog',
@@ -97,7 +97,7 @@ const Users: User[] = [
   {
     title: 'Algolia DocSearch',
     description:
-      '最好的搜索体验的文档，集成在几分钟内，免费',
+      'The best search experience for docs, integrates in minutes, for free',
     preview: require('./showcase/algolia.png'),
     website: 'https://docsearch.algolia.com/',
     source: 'https://github.com/algolia/docsearch/tree/main/packages/website',
@@ -106,7 +106,7 @@ const Users: User[] = [
   {
     title: 'Apache APISIX',
     description:
-      '一个动态、实时、高性能的云原生API网关',
+      'A Dynamic, Real-Time, High-Performance Cloud-Native API Gateway',
     preview: require('./showcase/apache-apisix.png'),
     website: 'https://apisix.apache.org/',
     source: 'https://github.com/apache/apisix-website',
@@ -114,7 +114,7 @@ const Users: User[] = [
   },
   {
     title: 'Apex FP',
-    description: '用于Salesforce Apex的函数式编程库',
+    description: 'Functional programming library for Salesforce Apex',
     preview: require('./showcase/apexfp.png'),
     website: 'https://www.apexfp.org',
     source: 'https://github.com/ipavlic/apex-fp/tree/master/website',
@@ -123,7 +123,7 @@ const Users: User[] = [
   {
     title: 'Astronomer',
     description:
-      '企业级的Apache气流框架。生产就绪的气流环境，只需点击几下',
+      'Enterprise-grade framework for Apache Airflow. Production-ready Airflow environments with just a few clicks',
     preview: require('./showcase/astronomer.png'),
     website: 'https://docs.astronomer.io',
     source: 'https://github.com/astronomer/docs',
@@ -132,7 +132,7 @@ const Users: User[] = [
   {
     title: 'AttoBot',
     description:
-      '一个多用途的不和机器人与许多功能和API集成，将增强您的不和体验。',
+      'A multi-purpose Discord bot with many features and API integrations that will enhance your Discord experience.',
     preview: require('./showcase/attobot.png'),
     website: 'https://attobot.xyz',
     source: 'https://github.com/attobot-discord/website',
@@ -141,7 +141,7 @@ const Users: User[] = [
   {
     title: 'Avana Wallet',
     description:
-      'Solana区块链非托管钱包，将您连接到Web3 dapps, DeFi, GameFi和NFT市场。',
+      'Solana blockchain non-custodial wallet that connects you to Web3 dapps, DeFi, GameFi and NFT marketplaces.',
     preview: require('./showcase/avana-wallet.png'),
     website: 'https://docs.avanawallet.com/',
     source: null,
@@ -150,7 +150,7 @@ const Users: User[] = [
   {
     title: 'AvN Gateway',
     description:
-      'AvN网关API是与Aventus网络区块链交互的最快方式。',
+      'The AvN Gateway API is the fastest way to interact with the Aventus Network Blockchain.',
     preview: require('./showcase/aventus.png'),
     website: 'https://aventus-network-services.github.io/avn-gateway-docs/',
     source: null,
@@ -159,7 +159,7 @@ const Users: User[] = [
   {
     title: 'Awe framework',
     description:
-      '敬畏框架，快速构建轻量级和功能性网站',
+      'Awe framework, Build light-weight and functional websites quickly',
     preview: require('./showcase/awe-framework.png'),
     website: 'https://docs.aweframework.com/',
     source: 'https://gitlab.com/aweframework/awe/-/tree/develop/website',
@@ -167,7 +167,7 @@ const Users: User[] = [
   },
   {
     title: 'Axioms',
-    description: 'Axioms开发人员中心和文档门户',
+    description: 'Axioms Developer Hub and Documentation Portal',
     preview: require('./showcase/axioms.png'),
     website: 'https://axioms.io/',
     source: 'https://github.com/axioms-io/developer',
@@ -176,7 +176,7 @@ const Users: User[] = [
   {
     title: 'Bandwidth',
     description:
-      '为您的应用程序添加强大的通信功能，从唯一的API平台与它自己的第一层运营商网络。',
+      'Add powerful communications capabilities to your app from the only API platform with it’s own tier-1 carrier network.',
     preview: require('./showcase/bandwidth.png'),
     website: 'https://dev.bandwidth.com/',
     source: 'https://github.com/Bandwidth/api-docs',
@@ -184,7 +184,7 @@ const Users: User[] = [
   },
   {
     title: 'Benthos',
-    description: '用于普通任务的流处理器',
+    description: 'A stream processor for mundane tasks',
     preview: require('./showcase/benthos.png'),
     website: 'https://benthos.dev/',
     source: 'https://github.com/Jeffail/benthos/tree/main/website',
@@ -192,7 +192,7 @@ const Users: User[] = [
   },
   {
     title: 'Blink Shell',
-    description: '一个专业的，桌面级的iOS终端',
+    description: 'A professional, desktop grade terminal for iOS',
     preview: require('./showcase/blinkshell.png'),
     website: 'https://docs.blink.sh/',
     source: 'https://github.com/blinksh/docs',
@@ -200,7 +200,7 @@ const Users: User[] = [
   },
   {
     title: 'johnnyreilly.com',
-    description: '约翰·赖利的博客 ❤️🌻',
+    description: 'The blog of John Reilly ❤️🌻',
     preview: require('./showcase/johnnyreilly.png'),
     website: 'https://johnnyreilly.com/',
     source: 'https://github.com/johnnyreilly/blog.johnnyreilly.com',
@@ -209,7 +209,7 @@ const Users: User[] = [
   {
     title: 'Blog Matheus Brunelli',
     description:
-      '软件开发，职业，书籍提示和大量的JavaScript!',
+      'Desenvolvimento de software, carreira, dicas de livros e muito JavaScript!',
     preview: require('./showcase/blogmatheusbrunelli.png'),
     website: 'https://mrbrunelli.github.io/blog/',
     source: 'https://github.com/mrbrunelli/blog',
@@ -510,7 +510,7 @@ const Users: User[] = [
   },
   {
     title: 'Dyte',
-    description: '最开发者友好的实时视频SDK',
+    description: 'The most developer friendly live video SDK',
     preview: require('./showcase/dyte.png'),
     website: 'https://docs.dyte.io',
     source: 'https://github.com/dyte-in/docs',
@@ -558,7 +558,7 @@ const Users: User[] = [
   {
     title: 'Eightshift',
     description:
-      '所有工具，你需要开始建立一个现代WordPress项目，使用所有最新的开发工具。',
+      'All the tools you need to start building a modern WordPress project, using all the latest development tools.',
     preview: require('./showcase/eightshift-docs.png'),
     website: 'https://infinum.github.io/eightshift-docs/',
     source: 'https://github.com/infinum/eightshift-docs',
@@ -805,7 +805,8 @@ const Users: User[] = [
   },
   {
     title: 'Hasura',
-    description: '从您的数据创建GraphQL API的最快方式，具有授权、实时订阅等功能，并且免费。',
+    description:
+      'The fastest way to create a GraphQL API from your data with authorization, real-time subscriptions, and more for free.',
     preview: require('./showcase/hasura.png'),
     website: 'https://hasura.io/docs/',
     source: 'https://github.com/hasura/graphql-engine/tree/master/docs',
@@ -3052,95 +3053,102 @@ export type Tag = {
   color: string;
 };
 
-export const Tags: { [type in TagType]: Tag } = {
+export const Tags: {[type in TagType]: Tag} = {
   favorite: {
-    label: translate({ message: "最喜欢的" }),
+    label: translate({message: 'Favorite'}),
     description: translate({
-      message: "我们最喜欢的龙类网站，你一定要去看看!",
-      id: "showcase.tag.favorite.description",
+      message:
+        'Our favorite Docusaurus sites that you must absolutely check out!',
+      id: 'showcase.tag.favorite.description',
     }),
-    color: "#e9669e",
+    color: '#e9669e',
   },
 
   opensource: {
-    label: translate({ message: "开源" }),
+    label: translate({message: 'Open-Source'}),
     description: translate({
-      message: "开源的Docusaurus网站可以提供有用的灵感!",
-      id: "showcase.tag.opensource.description",
+      message: 'Open-Source Docusaurus sites can be useful for inspiration!',
+      id: 'showcase.tag.opensource.description',
     }),
-    color: "#39ca30",
+    color: '#39ca30',
   },
 
   product: {
-    label: translate({ message: "产品" }),
+    label: translate({message: 'Product'}),
     description: translate({
-      message: "与Docusaurus网站相关的一种商业产品!",
-      id: "showcase.tag.product.description",
+      message: 'Docusaurus sites associated to a commercial product!',
+      id: 'showcase.tag.product.description',
     }),
-    color: "#dfd545",
+    color: '#dfd545',
   },
 
   design: {
-    label: translate({ message: "设计" }),
+    label: translate({message: 'Design'}),
     description: translate({
-      message: "美丽的Docusaurus网站，从最初的模板中脱颖而出!",
-      id: "showcase.tag.design.description",
+      message:
+        'Beautiful Docusaurus sites, polished and standing out from the initial template!',
+      id: 'showcase.tag.design.description',
     }),
-    color: "#a44fb7",
+    color: '#a44fb7',
   },
 
   i18n: {
-    label: translate({ message: "I18n" }),
+    label: translate({message: 'I18n'}),
     description: translate({
-      message: "翻译的Docusaurus网站使用国际化支持超过1个语言环境。",
-      id: "showcase.tag.i18n.description",
+      message:
+        'Translated Docusaurus sites using the internationalization support with more than 1 locale.',
+      id: 'showcase.tag.i18n.description',
     }),
-    color: "#127f82",
+    color: '#127f82',
   },
 
   versioning: {
-    label: translate({ message: "版本控制" }),
+    label: translate({message: 'Versioning'}),
     description: translate({
-      message: "Docusaurus网站使用docs插件的版本控制功能来管理多个版本。",
-      id: "showcase.tag.versioning.description",
+      message:
+        'Docusaurus sites using the versioning feature of the docs plugin to manage multiple versions.',
+      id: 'showcase.tag.versioning.description',
     }),
-    color: "#fe6829",
+    color: '#fe6829',
   },
 
   large: {
-    label: translate({ message: "大" }),
+    label: translate({message: 'Large'}),
     description: translate({
-      message: "非常大的Docusaurus网站，包含的页面比一般的要多!",
-      id: "showcase.tag.large.description",
+      message:
+        'Very large Docusaurus sites, including many more pages than the average!',
+      id: 'showcase.tag.large.description',
     }),
-    color: "#8c2f00",
+    color: '#8c2f00',
   },
 
   meta: {
-    label: translate({ message: "元" }),
+    label: translate({message: 'Meta'}),
     description: translate({
-      message: "Meta(以前的Facebook)项目的Docusaurus网站",
-      id: "showcase.tag.meta.description",
+      message: 'Docusaurus sites of Meta (formerly Facebook) projects',
+      id: 'showcase.tag.meta.description',
     }),
-    color: "#4267b2", // Facebook blue
+    color: '#4267b2', // Facebook blue
   },
 
   personal: {
-    label: translate({ message: "个人" }),
+    label: translate({message: 'Personal'}),
     description: translate({
-      message: "用Docusaurus建立的个人网站、博客和数字花园",
-      id: "showcase.tag.personal.description",
+      message:
+        'Personal websites, blogs and digital gardens built with Docusaurus',
+      id: 'showcase.tag.personal.description',
     }),
-    color: "#14cfc3",
+    color: '#14cfc3',
   },
 
   rtl: {
-    label: translate({ message: "RTL 方向" }),
+    label: translate({message: 'RTL Direction'}),
     description: translate({
-      message: "Docusaurus网站使用从右到左的阅读方向支持。",
-      id: "showcase.tag.rtl.description",
+      message:
+        'Docusaurus sites using the right-to-left reading direction support.',
+      id: 'showcase.tag.rtl.description',
     }),
-    color: "#ffcfc3",
+    color: '#ffcfc3',
   },
 };
 
@@ -3150,7 +3158,7 @@ function sortUsers() {
   // Sort by site name
   result = sortBy(result, (user) => user.title.toLowerCase());
   // Sort by favorite tag, favorites first
-  result = sortBy(result, (user) => !user.tags.includes("favorite"));
+  result = sortBy(result, (user) => !user.tags.includes('favorite'));
   return result;
 }
 

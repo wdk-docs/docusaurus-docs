@@ -5,17 +5,17 @@ slug: /api/plugins/@docusaurus/plugin-content-blog
 
 # 📦 plugin-content-blog
 
-import APITable from "@site/src/components/APITable";
+import APITable from '@site/src/components/APITable';
 
-提供[Blog](blog.mdx)特性，是 Docusaurus 的默认博客插件。
+Provides the [Blog](blog.mdx) feature and is the default blog plugin for Docusaurus.
 
-:::caution 一些功能仅用于生产
+:::caution some features production only
 
-[feed 特性](../../blog.mdx#feed)通过提取构建输出来工作，并且**仅在生产**中有效。
+The [feed feature](../../blog.mdx#feed) works by extracting the build output, and is **only active in production**.
 
 :::
 
-## 安装 {#installation}
+## Installation {#installation}
 
 ```bash npm2yarn
 npm install --save @docusaurus/plugin-content-blog
@@ -23,57 +23,57 @@ npm install --save @docusaurus/plugin-content-blog
 
 :::tip
 
-如果你使用预设的`@docusaurus/preset-classic`，你不需要将这个插件作为依赖项安装。
+If you use the preset `@docusaurus/preset-classic`, you don't need to install this plugin as a dependency.
 
-你可以通过[预设选项](#ex-config-preset)来配置这个插件。
+You can configure this plugin through the [preset options](#ex-config-preset).
 
 :::
 
-## 配置 {#configuration}
+## Configuration {#configuration}
 
-接受字段:
+Accepted fields:
 
 ```mdx-code-block
 <APITable>
 ```
 
-| 名字                          | 类型                                                                                                              | 默认                                                       | 描述                                                                                                                                                                                                        |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `path`                        | `string`                                                                                                          | `'blog'`                                                   | Path to the blog content directory on the file system, relative to site dir.                                                                                                                                |
-| `editUrl`                     | <code>string \| <a href="#EditUrlFn">EditUrlFn</a></code>                                                         | `undefined`                                                | Base URL to edit your site. The final URL is computed by `editUrl + relativePostPath`. Using a function allows more nuanced control for each file. Omitting this variable entirely will disable edit links. |
-| `editLocalizedFiles`          | `boolean`                                                                                                         | `false`                                                    | The edit URL will target the localized file, instead of the original unlocalized file. Ignored when `editUrl` is a function.                                                                                |
-| `blogTitle`                   | `string`                                                                                                          | `'Blog'`                                                   | Blog page title for better SEO.                                                                                                                                                                             |
-| `blogDescription`             | `string`                                                                                                          | `'Blog'`                                                   | Blog page meta description for better SEO.                                                                                                                                                                  |
-| `blogSidebarCount`            | <code>number \| 'ALL'</code>                                                                                      | `5`                                                        | Number of blog post elements to show in the blog sidebar. `'ALL'` to show all blog posts; `0` to disable.                                                                                                   |
-| `blogSidebarTitle`            | `string`                                                                                                          | `'Recent posts'`                                           | Title of the blog sidebar.                                                                                                                                                                                  |
-| `routeBasePath`               | `string`                                                                                                          | `'blog'`                                                   | URL route for the blog section of your site. **DO NOT** include a trailing slash. Use `/` to put the blog at root path.                                                                                     |
-| `tagsBasePath`                | `string`                                                                                                          | `'tags'`                                                   | URL route for the tags section of your blog. Will be appended to `routeBasePath`. **DO NOT** include a trailing slash.                                                                                      |
-| `archiveBasePath`             | <code>string \| null</code>                                                                                       | `'archive'`                                                | URL route for the archive section of your blog. Will be appended to `routeBasePath`. **DO NOT** include a trailing slash. Use `null` to disable generation of archive.                                      |
-| `include`                     | `string[]`                                                                                                        | `['**/*.{md,mdx}']`                                        | Array of glob patterns matching Markdown files to be built, relative to the content path.                                                                                                                   |
-| `exclude`                     | `string[]`                                                                                                        | _See example configuration_                                | Array of glob patterns matching Markdown files to be excluded. Serves as refinement based on the `include` option.                                                                                          |
-| `postsPerPage`                | <code>number \| 'ALL'</code>                                                                                      | `10`                                                       | Number of posts to show per page in the listing page. Use `'ALL'` to display all posts on one listing page.                                                                                                 |
-| `blogListComponent`           | `string`                                                                                                          | `'@theme/BlogListPage'`                                    | Root component of the blog listing page.                                                                                                                                                                    |
-| `blogPostComponent`           | `string`                                                                                                          | `'@theme/BlogPostPage'`                                    | Root component of each blog post page.                                                                                                                                                                      |
-| `blogTagsListComponent`       | `string`                                                                                                          | `'@theme/BlogTagsListPage'`                                | Root component of the tags list page.                                                                                                                                                                       |
-| `blogTagsPostsComponent`      | `string`                                                                                                          | `'@theme/BlogTagsPostsPage'`                               | Root component of the "posts containing tag" page.                                                                                                                                                          |
-| `blogArchiveComponent`        | `string`                                                                                                          | `'@theme/BlogArchivePage'`                                 | Root component of the blog archive page.                                                                                                                                                                    |
-| `remarkPlugins`               | `any[]`                                                                                                           | `[]`                                                       | Remark plugins passed to MDX.                                                                                                                                                                               |
-| `rehypePlugins`               | `any[]`                                                                                                           | `[]`                                                       | Rehype plugins passed to MDX.                                                                                                                                                                               |
-| `beforeDefaultRemarkPlugins`  | `any[]`                                                                                                           | `[]`                                                       | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins.                                                                                                                           |
-| `beforeDefaultRehypePlugins`  | `any[]`                                                                                                           | `[]`                                                       | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins.                                                                                                                           |
-| `truncateMarker`              | `RegExp`                                                                                                          | `/<!--\s*truncate\s*-->/` \| `\{\/\*\s*truncate\s*\*\/\}/` | Truncate marker marking where the summary ends.                                                                                                                                                             |
-| `showReadingTime`             | `boolean`                                                                                                         | `true`                                                     | Show estimated reading time for the blog post.                                                                                                                                                              |
-| `readingTime`                 | `ReadingTimeFn`                                                                                                   | The default reading time                                   | A callback to customize the reading time number displayed.                                                                                                                                                  |
-| `authorsMapPath`              | `string`                                                                                                          | `'authors.yml'`                                            | Path to the authors map file, relative to the blog content directory.                                                                                                                                       |
-| `feedOptions`                 | _See below_                                                                                                       | `{type: ['rss', 'atom']}`                                  | Blog feed.                                                                                                                                                                                                  |
-| `feedOptions.type`            | <code><a href="#FeedType">FeedType</a> \| <a href="#FeedType">FeedType</a>[] \| 'all' \| null</code>              | **Required**                                               | 类型 of feed to be generated. Use `null` to disable generation.                                                                                                                                             |
-| `feedOptions.createFeedItems` | <code><a href="#CreateFeedItemsFn">CreateFeedItemsFn</a> \| undefined</code>                                      | `undefined`                                                | An optional function which can be used to transform and / or filter the items in the feed.                                                                                                                  |
-| `feedOptions.limit`           | `number \| null \| false`                                                                                         | `20`                                                       | Limits the feed to the specified number of posts, `false` or `null` for all entries. Defaults to `20`.                                                                                                      |
-| `feedOptions.title`           | `string`                                                                                                          | `siteConfig.title`                                         | Title of the feed.                                                                                                                                                                                          |
-| `feedOptions.description`     | `string`                                                                                                          | <code>\`$\{siteConfig.title} Blog\`</code>                 | 描述 of the feed.                                                                                                                                                                                           |
-| `feedOptions.copyright`       | `string`                                                                                                          | `undefined`                                                | Copyright message.                                                                                                                                                                                          |
-| `feedOptions.language`        | `string` (See [documentation](http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes) for possible values) | `undefined`                                                | Language metadata of the feed.                                                                                                                                                                              |
-| `sortPosts`                   | <code>'descending' \| 'ascending' </code>                                                                         | `'descending'`                                             | Governs the direction of blog post sorting.                                                                                                                                                                 |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `path` | `string` | `'blog'` | Path to the blog content directory on the file system, relative to site dir. |
+| `editUrl` | <code>string \| <a href="#EditUrlFn">EditUrlFn</a></code> | `undefined` | Base URL to edit your site. The final URL is computed by `editUrl + relativePostPath`. Using a function allows more nuanced control for each file. Omitting this variable entirely will disable edit links. |
+| `editLocalizedFiles` | `boolean` | `false` | The edit URL will target the localized file, instead of the original unlocalized file. Ignored when `editUrl` is a function. |
+| `blogTitle` | `string` | `'Blog'` | Blog page title for better SEO. |
+| `blogDescription` | `string` | `'Blog'` | Blog page meta description for better SEO. |
+| `blogSidebarCount` | <code>number \| 'ALL'</code> | `5` | Number of blog post elements to show in the blog sidebar. `'ALL'` to show all blog posts; `0` to disable. |
+| `blogSidebarTitle` | `string` | `'Recent posts'` | Title of the blog sidebar. |
+| `routeBasePath` | `string` | `'blog'` | URL route for the blog section of your site. **DO NOT** include a trailing slash. Use `/` to put the blog at root path. |
+| `tagsBasePath` | `string` | `'tags'` | URL route for the tags section of your blog. Will be appended to `routeBasePath`. **DO NOT** include a trailing slash. |
+| `archiveBasePath` | <code>string \| null</code> | `'archive'` | URL route for the archive section of your blog. Will be appended to `routeBasePath`. **DO NOT** include a trailing slash. Use `null` to disable generation of archive. |
+| `include` | `string[]` | `['**/*.{md,mdx}']` | Array of glob patterns matching Markdown files to be built, relative to the content path. |
+| `exclude` | `string[]` | _See example configuration_ | Array of glob patterns matching Markdown files to be excluded. Serves as refinement based on the `include` option. |
+| `postsPerPage` | <code>number \| 'ALL'</code> | `10` | Number of posts to show per page in the listing page. Use `'ALL'` to display all posts on one listing page. |
+| `blogListComponent` | `string` | `'@theme/BlogListPage'` | Root component of the blog listing page. |
+| `blogPostComponent` | `string` | `'@theme/BlogPostPage'` | Root component of each blog post page. |
+| `blogTagsListComponent` | `string` | `'@theme/BlogTagsListPage'` | Root component of the tags list page. |
+| `blogTagsPostsComponent` | `string` | `'@theme/BlogTagsPostsPage'` | Root component of the "posts containing tag" page. |
+| `blogArchiveComponent` | `string` | `'@theme/BlogArchivePage'` | Root component of the blog archive page. |
+| `remarkPlugins` | `any[]` | `[]` | Remark plugins passed to MDX. |
+| `rehypePlugins` | `any[]` | `[]` | Rehype plugins passed to MDX. |
+| `beforeDefaultRemarkPlugins` | `any[]` | `[]` | Custom Remark plugins passed to MDX before the default Docusaurus Remark plugins. |
+| `beforeDefaultRehypePlugins` | `any[]` | `[]` | Custom Rehype plugins passed to MDX before the default Docusaurus Rehype plugins. |
+| `truncateMarker` | `RegExp` | `/<!--\s*truncate\s*-->/` \| `\{\/\*\s*truncate\s*\*\/\}/` | Truncate marker marking where the summary ends. |
+| `showReadingTime` | `boolean` | `true` | Show estimated reading time for the blog post. |
+| `readingTime` | `ReadingTimeFn` | The default reading time | A callback to customize the reading time number displayed. |
+| `authorsMapPath` | `string` | `'authors.yml'` | Path to the authors map file, relative to the blog content directory. |
+| `feedOptions` | _See below_ | `{type: ['rss', 'atom']}` | Blog feed. |
+| `feedOptions.type` | <code><a href="#FeedType">FeedType</a> \| <a href="#FeedType">FeedType</a>[] \| 'all' \| null</code> | **Required** | Type of feed to be generated. Use `null` to disable generation. |
+| `feedOptions.createFeedItems` | <code><a href="#CreateFeedItemsFn">CreateFeedItemsFn</a> \| undefined</code> | `undefined` | An optional function which can be used to transform and / or filter the items in the feed. |
+| `feedOptions.limit` | `number \| null \| false` | `20` | Limits the feed to the specified number of posts, `false` or `null` for all entries. Defaults to `20`. |
+| `feedOptions.title` | `string` | `siteConfig.title` | Title of the feed. |
+| `feedOptions.description` | `string` | <code>\`$\{siteConfig.title} Blog\`</code> | Description of the feed. |
+| `feedOptions.copyright` | `string` | `undefined` | Copyright message. |
+| `feedOptions.language` | `string` (See [documentation](http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes) for possible values) | `undefined` | Language metadata of the feed. |
+| `sortPosts` | <code>'descending' \| 'ascending' </code> | `'descending'` | Governs the direction of blog post sorting. |
 
 ```mdx-code-block
 </APITable>
@@ -116,7 +116,7 @@ type ReadingTimeFn = (params: {
 #### `FeedType` {#FeedType}
 
 ```ts
-type FeedType = "rss" | "atom" | "json";
+type FeedType = 'rss' | 'atom' | 'json';
 ```
 
 #### `CreateFeedItemsFn` {#CreateFeedItemsFn}
@@ -130,13 +130,13 @@ type CreateFeedItemsFn = (params: {
 }) => Promise<BlogFeedItem[]>;
 ```
 
-### 示例配置 {#ex-config}
+### Example configuration {#ex-config}
 
-您可以通过预设选项或插件选项来配置这个插件。
+You can configure this plugin through preset options or plugin options.
 
 :::tip
 
-大多数 Docusaurus 用户通过预设选项配置这个插件。
+Most Docusaurus users configure this plugin through the preset options.
 
 :::
 
@@ -145,39 +145,44 @@ type CreateFeedItemsFn = (params: {
 // Plugin Options: @docusaurus/plugin-content-blog
 
 const config = {
-  path: "blog",
+  path: 'blog',
   // Simple use-case: string editUrl
   // editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
   // Advanced use-case: functional editUrl
-  editUrl: ({ locale, blogDirPath, blogPath, permalink }) =>
+  editUrl: ({locale, blogDirPath, blogPath, permalink}) =>
     `https://github.com/facebook/docusaurus/edit/main/website/${blogDirPath}/${blogPath}`,
   editLocalizedFiles: false,
-  blogTitle: "Blog title",
-  blogDescription: "Blog",
+  blogTitle: 'Blog title',
+  blogDescription: 'Blog',
   blogSidebarCount: 5,
-  blogSidebarTitle: "All our posts",
-  routeBasePath: "blog",
-  include: ["**/*.{md,mdx}"],
-  exclude: ["**/_*.{js,jsx,ts,tsx,md,mdx}", "**/_*/**", "**/*.test.{js,jsx,ts,tsx}", "**/__tests__/**"],
+  blogSidebarTitle: 'All our posts',
+  routeBasePath: 'blog',
+  include: ['**/*.{md,mdx}'],
+  exclude: [
+    '**/_*.{js,jsx,ts,tsx,md,mdx}',
+    '**/_*/**',
+    '**/*.test.{js,jsx,ts,tsx}',
+    '**/__tests__/**',
+  ],
   postsPerPage: 10,
-  blogListComponent: "@theme/BlogListPage",
-  blogPostComponent: "@theme/BlogPostPage",
-  blogTagsListComponent: "@theme/BlogTagsListPage",
-  blogTagsPostsComponent: "@theme/BlogTagsPostsPage",
-  remarkPlugins: [require("remark-math")],
+  blogListComponent: '@theme/BlogListPage',
+  blogPostComponent: '@theme/BlogPostPage',
+  blogTagsListComponent: '@theme/BlogTagsListPage',
+  blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
+  remarkPlugins: [require('remark-math')],
   rehypePlugins: [],
   beforeDefaultRemarkPlugins: [],
   beforeDefaultRehypePlugins: [],
   truncateMarker: /<!--\s*(truncate)\s*-->/,
   showReadingTime: true,
   feedOptions: {
-    type: "",
-    title: "",
-    description: "",
-    copyright: "",
+    type: '',
+    title: '',
+    description: '',
+    copyright: '',
     language: undefined,
     createFeedItems: async (params) => {
-      const { blogPosts, defaultCreateFeedItems, ...rest } = params;
+      const {blogPosts, defaultCreateFeedItems, ...rest} = params;
       return defaultCreateFeedItems({
         // keep only the 10 most recent blog posts in the feed
         blogPosts: blogPosts.filter((item, index) => index < 10),
@@ -188,42 +193,42 @@ const config = {
 };
 ```
 
-## Markdown 元数据 {#markdown-front-matter}
+## Markdown front matter {#markdown-front-matter}
 
-Markdown 文档可以使用以下 Markdown [页前](../../guides/markdown-features/markdown-features-intro.mdx#front-matter)元数据字段，在两边用一行`---`括起来。
+Markdown documents can use the following Markdown [front matter](../../guides/markdown-features/markdown-features-intro.mdx#front-matter) metadata fields, enclosed by a line `---` on either side.
 
-接受字段:
+Accepted fields:
 
 ```mdx-code-block
 <APITable>
 ```
 
-| 名字                     | 类型       | 默认                               | 描述                                                                                                                                                                                                                                                |
-| ------------------------ | ---------- | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `authors`                | `Authors`  | `undefined`                        | List of blog post authors (or unique author). Read the [`authors` guide](../../blog.mdx#blog-post-authors) for more explanations. Prefer `authors` over the `author_*` front matter fields, even for single author blog posts.                      |
-| `author`                 | `string`   | `undefined`                        | ⚠️ Prefer using `authors`. The blog post author's name.                                                                                                                                                                                             |
-| `author_url`             | `string`   | `undefined`                        | ⚠️ Prefer using `authors`. The URL that the author's name will be linked to. This could be a GitHub, Twitter, Facebook profile URL, etc.                                                                                                            |
-| `author_image_url`       | `string`   | `undefined`                        | ⚠️ Prefer using `authors`. The URL to the author's thumbnail image.                                                                                                                                                                                 |
-| `author_title`           | `string`   | `undefined`                        | ⚠️ Prefer using `authors`. A description of the author.                                                                                                                                                                                             |
-| `title`                  | `string`   | Markdown title                     | The blog post title.                                                                                                                                                                                                                                |
-| `date`                   | `string`   | File name or file creation time    | The blog post creation date. If not specified, this can be extracted from the file or folder name, e.g, `2021-04-15-blog-post.mdx`, `2021-04-15-blog-post/index.mdx`, `2021/04/15/blog-post.mdx`. Otherwise, it is the Markdown file creation time. |
-| `tags`                   | `Tag[]`    | `undefined`                        | A list of strings or objects of two string fields `label` and `permalink` to tag to your post.                                                                                                                                                      |
-| `draft`                  | `boolean`  | `false`                            | Draft blog posts will only be available during development.                                                                                                                                                                                         |
-| `unlisted`               | `boolean`  | `false`                            | Unlisted blog posts will be available in both development and production. They will be "hidden" in production, not indexed, excluded from sitemaps, and can only be accessed by users having a direct link.                                         |
-| `hide_table_of_contents` | `boolean`  | `false`                            | Whether to hide the table of contents to the right.                                                                                                                                                                                                 |
-| `toc_min_heading_level`  | `number`   | `2`                                | The minimum heading level shown in the table of contents. Must be between 2 and 6 and lower or equal to the max value.                                                                                                                              |
-| `toc_max_heading_level`  | `number`   | `3`                                | The max heading level shown in the table of contents. Must be between 2 and 6.                                                                                                                                                                      |
-| `keywords`               | `string[]` | `undefined`                        | Keywords meta tag, which will become the `<meta name="keywords" content="keyword1,keyword2,..."/>` in `<head>`, used by search engines.                                                                                                             |
-| `description`            | `string`   | The first line of Markdown content | The description of your document, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines.                                                       |
-| `image`                  | `string`   | `undefined`                        | Cover or thumbnail image that will be used when displaying the link to your post.                                                                                                                                                                   |
-| `slug`                   | `string`   | File path                          | Allows to customize the blog post URL (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-blog-post`, `slug: /my/path/to/blog/post`, slug: `/`.                                                                                       |
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `authors` | `Authors` | `undefined` | List of blog post authors (or unique author). Read the [`authors` guide](../../blog.mdx#blog-post-authors) for more explanations. Prefer `authors` over the `author_*` front matter fields, even for single author blog posts. |
+| `author` | `string` | `undefined` | ⚠️ Prefer using `authors`. The blog post author's name. |
+| `author_url` | `string` | `undefined` | ⚠️ Prefer using `authors`. The URL that the author's name will be linked to. This could be a GitHub, Twitter, Facebook profile URL, etc. |
+| `author_image_url` | `string` | `undefined` | ⚠️ Prefer using `authors`. The URL to the author's thumbnail image. |
+| `author_title` | `string` | `undefined` | ⚠️ Prefer using `authors`. A description of the author. |
+| `title` | `string` | Markdown title | The blog post title. |
+| `date` | `string` | File name or file creation time | The blog post creation date. If not specified, this can be extracted from the file or folder name, e.g, `2021-04-15-blog-post.mdx`, `2021-04-15-blog-post/index.mdx`, `2021/04/15/blog-post.mdx`. Otherwise, it is the Markdown file creation time. |
+| `tags` | `Tag[]` | `undefined` | A list of strings or objects of two string fields `label` and `permalink` to tag to your post. |
+| `draft` | `boolean` | `false` | Draft blog posts will only be available during development. |
+| `unlisted` | `boolean` | `false` | Unlisted blog posts will be available in both development and production. They will be "hidden" in production, not indexed, excluded from sitemaps, and can only be accessed by users having a direct link. |
+| `hide_table_of_contents` | `boolean` | `false` | Whether to hide the table of contents to the right. |
+| `toc_min_heading_level` | `number` | `2` | The minimum heading level shown in the table of contents. Must be between 2 and 6 and lower or equal to the max value. |
+| `toc_max_heading_level` | `number` | `3` | The max heading level shown in the table of contents. Must be between 2 and 6. |
+| `keywords` | `string[]` | `undefined` | Keywords meta tag, which will become the `<meta name="keywords" content="keyword1,keyword2,..."/>` in `<head>`, used by search engines. |
+| `description` | `string` | The first line of Markdown content | The description of your document, which will become the `<meta name="description" content="..."/>` and `<meta property="og:description" content="..."/>` in `<head>`, used by search engines. |
+| `image` | `string` | `undefined` | Cover or thumbnail image that will be used when displaying the link to your post. |
+| `slug` | `string` | File path | Allows to customize the blog post URL (`/<routeBasePath>/<slug>`). Support multiple patterns: `slug: my-blog-post`, `slug: /my/path/to/blog/post`, slug: `/`. |
 
 ```mdx-code-block
 </APITable>
 ```
 
 ```ts
-type Tag = string | { label: string; permalink: string };
+type Tag = string | {label: string; permalink: string};
 
 // An author key references an author from the global plugin authors.yml file
 type AuthorKey = string;
@@ -240,7 +245,7 @@ type Author = {
 type Authors = AuthorKey | Author | (AuthorKey | Author)[];
 ```
 
-例子:
+Example:
 
 ```md
 ---
@@ -265,14 +270,14 @@ A Markdown blog post
 
 Read the [i18n introduction](../../i18n/i18n-introduction.mdx) first.
 
-### 翻译文件位置 {#translation-files-location}
+### Translation files location {#translation-files-location}
 
 - **Base path**: `website/i18n/[locale]/docusaurus-plugin-content-blog`
 - **Multi-instance path**: `website/i18n/[locale]/docusaurus-plugin-content-blog-[pluginId]`
 - **JSON files**: extracted with [`docusaurus write-translations`](../../cli.mdx#docusaurus-write-translations-sitedir)
 - **Markdown files**: `website/i18n/[locale]/docusaurus-plugin-content-blog`
 
-### 示例文件系统结构 {#example-file-system-structure}
+### Example file-system structure {#example-file-system-structure}
 
 ```bash
 website/i18n/[locale]/docusaurus-plugin-content-blog

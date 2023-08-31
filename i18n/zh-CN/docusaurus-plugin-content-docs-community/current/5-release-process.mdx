@@ -1,0 +1,209 @@
+# 发布过程
+
+让我们看看 Docusaurus 是如何处理**版本控制、发布和重大变更的**。
+
+:::info
+
+这个主题对于可能难以升级的高度定制的站点尤其重要。
+
+:::
+
+## 语义版本控制 {#semantic-versioning}
+
+Docusaurus 的版本控制基于`major.minor.patch` 方案，并尊重[语义版本控制](https://semver.org/)。
+
+尊重语义版本控制很重要，原因有很多:
+
+- 它保证了简单的小版本升级，只要你只使用[公共 API](/community/release-process#public-api-surface)
+- 它遵循前端生态系统惯例
+- 新的主版本是一个彻底记录破坏性更改的机会
+- 一个新的主要/次要版本是一个通过博客文章交流新特性的机会
+
+:::note
+
+Releasing Docusaurus 2.0 took a very long time. From now on, Docusaurus will **release new major versions more regularly**. In practice, you can expect a new major version every 2–4 months.
+
+[Major version numbers are not sacred](https://tom.preston-werner.com/2022/05/23/major-version-numbers-are-not-sacred.html), but we still group breaking changes together and avoid releasing major versions too often.
+
+:::
+
+### 主要版本 {#major-versions}
+
+The `major` version number is incremented on **every breaking change**.
+
+Whenever a new major version is released, we publish:
+
+- a blog post with feature highlights, major bug fixes, **breaking changes, and upgrade instructions**.
+- an exhaustive changelog entry
+
+:::tip
+
+Read our [public API surface](#public-api-surface) section to clearly understand what we consider as a breaking change.
+
+:::
+
+### 小版本 {#minor-versions}
+
+The `minor` version number is incremented on every significant retro-compatible change.
+
+Whenever a new minor version is released, we publish:
+
+- a blog post with a list of feature highlights and major bug fixes
+- an exhaustive changelog entry
+
+:::tip
+
+If you only use our [public API surface](#public-api-surface), you should be able to upgrade in no time!
+
+:::
+
+### 补丁版本 {#patch-versions}
+
+The `patch` version number is incremented on bugfixes releases.
+
+Whenever a new patch version is released, we publish:
+
+- an exhaustive changelog entry
+
+## 版本 {#versions}
+
+```mdx-code-block
+import {
+  StableMajorVersion,
+  NextMajorVersion,
+  StableMajorBranchLink,
+  NextMajorBranchLink,
+} from "@site/src/components/Versions";
+```
+
+Docusaurus 团队通常同时开发两个主要版本:
+
+- **Docusaurus <StableMajorVersion/>**: **稳定**版本， 在<StableMajorBranchLink/>分支上
+- **Docusaurus <NextMajorVersion/>**: **下一个**版本， 在<NextMajorBranchLink/>分支上
+
+:::note
+
+<StableMajorBranchLink />
+分支是在发布第一个v
+<StableMajorVersion />
+候选版本之前创建的。
+
+:::
+
+### 稳定的版本 {#stable-version}
+
+The stable version (v<StableMajorVersion/>, on <StableMajorBranchLink/>) is recommended for most Docusaurus users.
+
+We regularly backport retro-compatible features, bug and security fixes from <NextMajorBranchLink/> to <StableMajorBranchLink/> with `git cherry-pick` to make them available to those not ready for the next version.
+
+:::info
+
+After a new stable version has been released, the former stable version will continue to receive support only for **major security issues** for **3 months**. Otherwise, all features will be frozen and non-critical bugs will not be fixed.
+
+It is recommended to upgrade within that time frame to the new stable version.
+
+:::
+
+### 下一个版本 {#next-version}
+
+The next version (v<NextMajorVersion/>, on <NextMajorBranchLink/>) is the version the Docusaurus team is currently working on.
+
+The <NextMajorBranchLink/> branch is the **default target branch** for all pull requests, including core team and external contributions.
+
+This version is recommended for **early adopters** that want to use the latest Docusaurus features as soon as possible. It is also a good way to help us by reporting bugs and giving some feedback.
+
+There are 3 ways to use the next version:
+
+- with an `alpha`, `beta` or `rc` pre-release
+- with the `@next` npm dist tag for the latest pre-release
+- with a [canary release](./4-canary.mdx) for the very latest features
+
+:::tip
+
+The next version passes all our automated tests and is used by the Docusaurus site itself. It is relatively safe: don't be afraid to give it a try.
+
+:::
+
+:::caution
+
+Breaking changes can happen on the next version: detailed upgrade instructions are available in the changelog and pull requests.
+
+At the `beta` and `rc` (release candidate) phases, we avoid introducing major breaking changes.
+
+:::
+
+## 公共 API 接口 {#public-api-surface}
+
+Docusaurus commits to respecting Semantic Versioning. This means that whenever changes occur in Docusaurus public APIs and break backward compatibility, we will increment the `major` version number.
+
+:::tip
+
+Docusaurus guarantees public API retro-compatibility across `minor` versions. Unless you use internal APIs, `minor` version upgrades should be easy.
+
+:::
+
+We will outline what accounts as the public API surface.
+
+### 核心公共 API {#core-public-api}
+
+✅ 我们的公共 API 包括:
+
+- Docusaurus 配置
+- Docusaurus 客户端 APIs
+- Docusaurus CLI
+- Preset 选项
+- Plugin 选项
+- Plugin 生命周期 APIs
+- Theme 配置
+- 核心插件路由组件属性
+- `@docusaurus/types` TypeScript 类型
+  - 我们仍然保留了使类型更严格的自由(这可能会破坏类型检查)。
+
+:::tip
+
+对于非主题 API，任何有文档的 API 都被认为是公开的(并且将是稳定的);任何未记录的 API 都被认为是内部的。
+
+:::
+
+API 是`稳定的`意味着如果你在没有任何其他更改的情况下增加了 Docusaurus 安装的补丁或小版本，运行`Docusaurus start`或`Docusaurus build`应该不会抛出错误。
+
+### 主题化公共 API {#theming-public-api}
+
+Docusaurus 有一个非常灵活的主题系统:
+
+- 您可以使用自定义 CSS
+- 你可以[swizzle](/docs/swizzling)任何 React 主题组件
+
+该系统还隐式地创建了一个非常大的 API 界面。为了能够快速移动并改进 Docusaurus，我们不能保证向后兼容。
+
+✅ 我们的公共主题 API 包括:
+
+- [主题类名称](/docs/styling-layout#theme-class-names)
+- [Infima](/docs/styling-layout#styling-your-site-with-infima)类名和 CSS 变量
+- React 组件[可以安全搅拌](/docs/swizzling#what-is-safe-to-swizzle)
+- 主题用户体验
+- 浏览器支持
+
+:::tip
+
+You may not be able to achieve your site customization through this public API.
+
+In this case, please [report your customization use case](https://github.com/facebook/docusaurus/discussions/5468) and we will figure out how to expand our public API.
+
+:::
+
+❌ Our public theming API **excludes**:
+
+- The DOM structure
+- CSS module class names with a hash suffix (usually targeted with `[class*='myClassName']` selectors)
+- React components that are [unsafe or forbidden to swizzle](/docs/swizzling#what-is-safe-to-swizzle)
+- React components that import from `@docusaurus/theme-common/internal`
+- The exact visual appearance of the theme
+
+:::note
+
+When [swizzling](/docs/swizzling) safe components, you might encounter components that import undocumented APIs from `@docusaurus/theme-common` (without the `/internal` subpath).
+
+We still maintain retro-compatibility on those APIs (hence they are marked as "safe"), but we don't encourage a direct usage.
+
+:::
